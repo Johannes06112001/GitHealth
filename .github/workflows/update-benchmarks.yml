@@ -1,0 +1,26 @@
+name: Update benchmark data
+
+on:
+  schedule:
+    - cron: "15 3 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python -m pip install --upgrade pip requests
+      - run: python collect_data.py --n 100
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Update daily benchmark data"
+          file_pattern: data/benchmarks.json data/top100_repos.json
