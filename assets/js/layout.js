@@ -1,7 +1,7 @@
 (() => {
   const THEME_KEY = 'gitSuccessTheme';
 
-  const NAV_ITEMS = [
+  const FALLBACK_NAV_ITEMS = [
     { href: 'top100.html', label: 'Top-100-Vergleichsgruppe' },
     { href: 'index.html', label: 'Repository Analyzer' },
     { href: 'docs.html', label: 'Metrik-Dokumentation' },
@@ -14,16 +14,34 @@
     return fileName || 'index.html';
   }
 
-  function isSubPage() {
+  function isTeamSubPage() {
     return window.location.pathname.includes('/team/');
   }
 
   function prefixPath(href) {
-    return isSubPage() ? `../${href}` : href;
+    return isTeamSubPage() ? `../${href}` : href;
   }
 
-  function buildNavigation(activePage) {
-    return NAV_ITEMS
+  function navigationJsonPath() {
+    return isTeamSubPage() ? '../assets/data/navigation.json' : 'assets/data/navigation.json';
+  }
+
+  async function loadNavigationItems() {
+    try {
+      const response = await fetch(navigationJsonPath(), { cache: 'no-cache' });
+      if (!response.ok) throw new Error('Navigation JSON konnte nicht geladen werden.');
+
+      const items = await response.json();
+      if (!Array.isArray(items) || !items.length) throw new Error('Navigation JSON ist leer oder ungültig.');
+
+      return items.filter(item => item && item.href && item.label);
+    } catch (error) {
+      return FALLBACK_NAV_ITEMS;
+    }
+  }
+
+  function buildNavigation(items, activePage) {
+    return items
       .map(item => {
         const isActive = item.href === activePage;
         const className = isActive ? ' class="active"' : '';
@@ -32,14 +50,13 @@
       .join('');
   }
 
-  function ensureHeader() {
+  async function ensureHeader() {
     const nav = document.getElementById('mainNav') || document.querySelector('.nav');
     if (!nav) return;
 
     const activePage = currentFileName();
-    const themeButton = document.getElementById('themeBtn') || nav.querySelector('button');
-
-    nav.innerHTML = `${buildNavigation(activePage)}<button id="themeBtn" type="button">${themeButton?.textContent || 'Dark Mode'}</button>`;
+    const items = await loadNavigationItems();
+    nav.innerHTML = `${buildNavigation(items, activePage)}<button id="themeBtn" type="button">Dark Mode</button>`;
   }
 
   function initTheme() {
@@ -79,8 +96,8 @@
     });
   }
 
-  function initLayout() {
-    ensureHeader();
+  async function initLayout() {
+    await ensureHeader();
     initTheme();
     initMobileMenu();
   }
