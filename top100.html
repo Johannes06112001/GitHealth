@@ -1,216 +1,37 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>GitSuccess | Top-100-Vergleichsgruppe</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-      :root{--primary:#5B50D6;--card:#fff;--soft:#F1F5F9;--border:#E2E8F0;--muted:#64748B;--text:#1E293B;--shadow:0 18px 48px rgba(15,23,42,.07)}
-      body.dark{--card:#1F2937;--soft:#374151;--border:#374151;--muted:#9CA3AF;--text:#F3F4F6;--shadow:0 20px 54px rgba(0,0,0,.30)}
-      *{box-sizing:border-box;margin:0;padding:0}
-      body{font-family:Poppins,system-ui,sans-serif;background:linear-gradient(180deg,#F8FAFB 0%,#EEF2F7 100%);color:var(--text);min-height:100vh}
-      body.dark{background:#111827}
-      .shell{width:min(1160px,100%);margin:auto;padding:18px 18px 56px}
-      .topbar{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px;position:sticky;top:10px;z-index:100;background:rgba(248,250,251,.82);backdrop-filter:blur(18px);border:1px solid rgba(226,232,240,.78);border-radius:22px;padding:8px 10px;box-shadow:0 14px 36px rgba(15,23,42,.06)}
-      body.dark .topbar{background:rgba(17,24,39,.84);border-color:rgba(55,65,81,.85)}
-      .brand{display:flex;align-items:center;gap:10px;font-weight:700}
-      .logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--primary),#8177ff);display:grid;place-items:center;color:#fff}
-      .mobile-head{display:contents}
-      .menu-toggle{display:none;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:12px;padding:9px 11px;font-size:18px;line-height:1;cursor:pointer}
-      .nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-      .nav a,.nav button{border:1px solid var(--border);background:rgba(255,255,255,.86);color:var(--text);border-radius:999px;padding:9px 13px;text-decoration:none;font-size:12px;cursor:pointer;font-family:inherit}
-      .dark .nav a,.dark .nav button{background:rgba(31,41,55,.86)}
-      .nav a.active{background:var(--primary);border-color:var(--primary);color:white}
-      .hero{text-align:center;max-width:820px;margin:0 auto 20px}
-      .hero h1{font-size:clamp(30px,4.2vw,48px);letter-spacing:-.045em;line-height:1.08}
-      .hero p{color:var(--muted);font-size:14px;margin-top:10px}
-      .card{background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);padding:20px}
-      .dark .card{background:rgba(31,41,55,.94)}
-      .hint,.status{font-size:12px;color:var(--muted);line-height:1.55}
-      .note{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:13px;color:var(--muted);font-size:13px;margin-top:12px}
-      .filters{display:grid;grid-template-columns:1.5fr repeat(3,1fr) auto;gap:10px;align-items:end;margin:18px 0}
-      label{display:block;font-size:12px;font-weight:600;margin-bottom:7px}
-      input,select{width:100%;border:1px solid var(--border);background:#F8FAFC;color:var(--text);border-radius:13px;padding:11px 12px;outline:none;font-family:inherit}
-      .dark input,.dark select{background:#111827}
-      button,.btn{border:0;background:var(--primary);color:#fff;border-radius:13px;padding:11px 14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;font-size:12px;font-family:inherit}
-      .table-wrap{overflow:auto;margin-top:12px;border-radius:16px;border:1px solid var(--border)}
-      table{width:100%;border-collapse:collapse;font-size:13px;min-width:860px;background:var(--card)}
-      th,td{border-bottom:1px solid var(--border);padding:11px 8px;text-align:left;vertical-align:top}
-      th{font-size:11px;color:var(--muted);text-transform:uppercase}
-      .repo-name{font-weight:700}.muted{color:var(--muted);font-size:12px}
-      .mobile-list{display:none}.repo-mobile{border:1px solid var(--border);background:var(--soft);border-radius:18px;padding:14px;margin-top:12px}
-      .dark .repo-mobile{background:#111827}.repo-mobile-head{display:flex;justify-content:space-between;gap:12px}
-      .repo-mobile h3{font-size:14px;line-height:1.25;word-break:break-word}.rank{font-size:11px;color:var(--muted);font-weight:700;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:4px 8px;white-space:nowrap}
-      .repo-mobile p{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}
-      .meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}
-      .meta div{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:8px}
-      .meta span{display:block;font-size:10px;color:var(--muted);font-weight:600}.meta b{display:block;font-size:12px;margin-top:2px}
-      .mobile-action{display:flex;justify-content:flex-end;margin-top:12px}.empty{padding:18px;border:1px dashed var(--border);border-radius:16px;color:var(--muted);font-size:13px;margin-top:12px}
-      .footer{margin-top:24px;text-align:center;color:var(--muted);font-size:12px}
-      @media(max-width:900px){.shell{padding:12px 12px 40px}.topbar{align-items:stretch;flex-direction:column;gap:10px;border-radius:18px}.mobile-head{display:flex;justify-content:space-between;align-items:center;width:100%;gap:12px}.menu-toggle{display:inline-flex;align-items:center;justify-content:center}.nav{display:none;width:100%;grid-template-columns:1fr;gap:7px}.nav.open{display:grid}.nav a,.nav button{text-align:center;padding:10px 12px;font-size:12px}.hero{text-align:left;margin:8px 0 16px}.hero h1{font-size:28px;letter-spacing:-.03em}.hero p{font-size:13px}.card{padding:14px;border-radius:18px}.filters{grid-template-columns:1fr;gap:11px}.filters button{width:100%}.table-wrap{display:none}.mobile-list{display:block}.note{font-size:12px}.status{margin-top:8px}}
-      @media(max-width:420px){.meta{grid-template-columns:1fr}.repo-mobile-head{flex-direction:column}.mobile-action .btn{width:100%;text-align:center}}
-    </style>
-  </head>
-
-  <body>
-    <div class="shell">
-      <div class="topbar">
-        <div class="mobile-head">
-          <div class="brand"><div class="logo">⌘</div><span>GitSuccess</span></div>
-          <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav">☰</button>
-        </div>
-        <nav id="mainNav" class="nav">
-          <a class="active" href="top100.html">Top-100-Vergleichsgruppe</a>
-          <a href="index.html">Repository Analyzer</a>
-          <a href="docs.html">Metrik-Dokumentation</a>
-          <a href="api-guide.html">REST-API Guide</a>
-          <a href="about.html">Team</a>
-          <button id="themeBtn" type="button">Dark Mode</button>
-        </nav>
-      </div>
-
-      <section class="hero">
-        <h1>Top-100-Vergleichsgruppe</h1>
-        <p>Öffentliche GitHub-Repositories als Vergleichsgrundlage für die Repository-Health-Analyse.</p>
-      </section>
-
-      <section class="card">
-        <h2>Zusammensetzung der Vergleichsgruppe</h2>
-        <p class="hint">Die Liste basiert auf öffentlichen GitHub-Repositories und wird nach Anzahl der Stars sortiert. Stars sind ein Reichweitenindikator, jedoch kein alleiniger Qualitätsnachweis.</p>
-        <div class="note"><b>Kriterien:</b> öffentliche Repositories · Sortierung nach Stars · maximal 100 Treffer · tägliche Aktualisierung im lokalen Browser-Cache.</div>
-        <div class="filters">
-          <div><label for="filter">Suche</label><input id="filter" placeholder="Repository, Beschreibung oder Sprache"></div>
-          <div><label for="languageFilter">Sprache</label><select id="languageFilter"><option value="">Alle Sprachen</option></select></div>
-          <div><label for="starsFilter">Stars</label><select id="starsFilter"><option value="0">Alle</option><option value="100000">ab 100K</option><option value="250000">ab 250K</option><option value="500000">ab 500K</option></select></div>
-          <div><label for="licenseFilter">Lizenz</label><select id="licenseFilter"><option value="">Alle Lizenzen</option></select></div>
-          <button id="refreshBtn" type="button">Aktualisieren</button>
-        </div>
-        <div id="status" class="status">Top-100-Liste wird vorbereitet.</div>
-        <div id="content"></div>
-      </section>
-
-      <footer class="footer">GitSuccess · Vergleichsdaten auf Basis öffentlich verfügbarer GitHub-Informationen.</footer>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>OpenGitHealth | Top-100-Vergleichsgruppe</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary:#5B50D6;--card:#fff;--soft:#F1F5F9;--border:#E2E8F0;--muted:#64748B;--text:#1E293B;--shadow:0 18px 48px rgba(15,23,42,.07)}
+    body.dark{--card:#1F2937;--soft:#374151;--border:#374151;--muted:#9CA3AF;--text:#F3F4F6;--shadow:0 20px 54px rgba(0,0,0,.30)}
+    *{box-sizing:border-box;margin:0;padding:0}body{font-family:Poppins,system-ui,sans-serif;background:linear-gradient(180deg,#F8FAFB 0%,#EEF2F7 100%);color:var(--text);min-height:100vh}body.dark{background:#111827}.shell{width:min(1160px,100%);margin:auto;padding:18px 18px 56px}.topbar{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px;position:sticky;top:10px;z-index:100;background:rgba(248,250,251,.82);backdrop-filter:blur(18px);border:1px solid rgba(226,232,240,.78);border-radius:22px;padding:8px 10px;box-shadow:0 14px 36px rgba(15,23,42,.06)}body.dark .topbar{background:rgba(17,24,39,.84);border-color:rgba(55,65,81,.85)}.brand{display:flex;align-items:center;gap:10px;font-weight:700}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--primary),#8177ff);display:grid;place-items:center;color:#fff}.mobile-head{display:contents}.menu-toggle{display:none;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:12px;padding:9px 11px;font-size:18px;line-height:1;cursor:pointer}.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.nav a,.nav button{border:1px solid var(--border);background:rgba(255,255,255,.86);color:var(--text);border-radius:999px;padding:9px 13px;text-decoration:none;font-size:12px;cursor:pointer;font-family:inherit}.dark .nav a,.dark .nav button{background:rgba(31,41,55,.86)}.nav a.active{background:var(--primary);border-color:var(--primary);color:white}.hero{text-align:center;max-width:820px;margin:0 auto 20px}.hero h1{font-size:clamp(30px,4.2vw,48px);letter-spacing:-.045em;line-height:1.08}.hero p{color:var(--muted);font-size:14px;margin-top:10px}.card{background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow);padding:20px}.dark .card{background:rgba(31,41,55,.94)}.hint,.status{font-size:12px;color:var(--muted);line-height:1.55}.note{background:var(--soft);border:1px solid var(--border);border-radius:16px;padding:13px;color:var(--muted);font-size:13px;margin-top:12px}.filters{display:grid;grid-template-columns:1.5fr repeat(3,1fr) auto;gap:10px;align-items:end;margin:18px 0}label{display:block;font-size:12px;font-weight:600;margin-bottom:7px}input,select{width:100%;border:1px solid var(--border);background:#F8FAFC;color:var(--text);border-radius:13px;padding:11px 12px;outline:none;font-family:inherit}.dark input,.dark select{background:#111827}button,.btn{border:0;background:var(--primary);color:#fff;border-radius:13px;padding:11px 14px;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;font-size:12px;font-family:inherit}.table-wrap{overflow:auto;margin-top:12px;border-radius:16px;border:1px solid var(--border)}table{width:100%;border-collapse:collapse;font-size:13px;min-width:860px;background:var(--card)}th,td{border-bottom:1px solid var(--border);padding:11px 8px;text-align:left;vertical-align:top}th{font-size:11px;color:var(--muted);text-transform:uppercase}.repo-name{font-weight:700}.muted{color:var(--muted);font-size:12px}.mobile-list{display:none}.repo-mobile{border:1px solid var(--border);background:var(--soft);border-radius:18px;padding:14px;margin-top:12px}.dark .repo-mobile{background:#111827}.repo-mobile-head{display:flex;justify-content:space-between;gap:12px}.repo-mobile h3{font-size:14px;line-height:1.25;word-break:break-word}.rank{font-size:11px;color:var(--muted);font-weight:700;background:var(--card);border:1px solid var(--border);border-radius:999px;padding:4px 8px;white-space:nowrap}.repo-mobile p{font-size:12px;color:var(--muted);line-height:1.45;margin-top:8px}.meta{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px}.meta div{border:1px solid var(--border);border-radius:12px;background:var(--card);padding:8px}.meta span{display:block;font-size:10px;color:var(--muted);font-weight:600}.meta b{display:block;font-size:12px;margin-top:2px}.mobile-action{display:flex;justify-content:flex-end;margin-top:12px}.empty{padding:18px;border:1px dashed var(--border);border-radius:16px;color:var(--muted);font-size:13px;margin-top:12px}.footer{margin-top:24px;text-align:center;color:var(--muted);font-size:12px}@media(max-width:900px){.shell{padding:12px 12px 40px}.topbar{align-items:stretch;flex-direction:column;gap:10px;border-radius:18px}.mobile-head{display:flex;justify-content:space-between;align-items:center;width:100%;gap:12px}.menu-toggle{display:inline-flex;align-items:center;justify-content:center}.nav{display:none;width:100%;grid-template-columns:1fr;gap:7px}.nav.open{display:grid}.nav a,.nav button{text-align:center;padding:10px 12px;font-size:12px}.hero{text-align:left;margin:8px 0 16px}.hero h1{font-size:28px;letter-spacing:-.03em}.hero p{font-size:13px}.card{padding:14px;border-radius:18px}.filters{grid-template-columns:1fr;gap:11px}.filters button{width:100%}.table-wrap{display:none}.mobile-list{display:block}.note{font-size:12px}.status{margin-top:8px}}@media(max-width:420px){.meta{grid-template-columns:1fr}.repo-mobile-head{flex-direction:column}.mobile-action .btn{width:100%;text-align:center}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div class="mobile-head"><div class="brand"><div class="logo">⌘</div><span>OpenGitHealth</span></div><button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav">☰</button></div>
+      <nav id="mainNav" class="nav"></nav>
     </div>
-
-    <script>
-      const THEME_KEY = 'gitSuccessTheme';
-      const API = 'https://api.github.com';
-      let repos = [];
-
-      const $ = id => document.getElementById(id);
-      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-      const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(1) + 'M' : n >= 1e3 ? (n / 1e3).toFixed(1) + 'K' : String(n ?? '—');
-      const today = () => new Date().toISOString().slice(0, 10);
-
-      function initTheme() {
-        const button = $('themeBtn');
-        if (localStorage.getItem(THEME_KEY) === 'dark') document.body.classList.add('dark');
-        if (button) button.textContent = document.body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
-        button?.addEventListener('click', () => {
-          const isDark = document.body.classList.toggle('dark');
-          localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
-          button.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-        });
-      }
-
-      function initMenu() {
-        const toggle = $('menuToggle');
-        const navigation = $('mainNav');
-        if (!toggle || !navigation) return;
-        toggle.addEventListener('click', () => {
-          const isOpen = navigation.classList.toggle('open');
-          toggle.setAttribute('aria-expanded', String(isOpen));
-          toggle.textContent = isOpen ? '×' : '☰';
-        });
-        navigation.querySelectorAll('a').forEach(link => link.addEventListener('click', () => {
-          navigation.classList.remove('open');
-          toggle.setAttribute('aria-expanded', 'false');
-          toggle.textContent = '☰';
-        }));
-      }
-
-      function tokenHeaders() {
-        const token = localStorage.getItem('gitSuccessToken') || '';
-        const headers = {'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
-        if (token) headers.Authorization = 'Bearer ' + token;
-        return headers;
-      }
-
-      async function loadTop100(force = false) {
-        $('status').textContent = 'Top-100-Liste wird geladen.';
-        if (!force) {
-          const cached = localStorage.getItem('gitSuccessTop100');
-          if (cached) {
-            try {
-              const cache = JSON.parse(cached);
-              if (cache.date === today() && Array.isArray(cache.items)) {
-                repos = cache.items;
-                setupFilters();
-                render();
-                $('status').textContent = 'Top-100-Liste aus lokalem Tagescache geladen.';
-                return;
-              }
-            } catch (error) {}
-          }
-        }
-
-        try {
-          const response = await fetch(`${API}/search/repositories?q=stars:%3E1&sort=stars&order=desc&per_page=100`, {headers: tokenHeaders()});
-          if (!response.ok) throw new Error('Top-100-Liste konnte nicht geladen werden. Bitte Token prüfen oder später erneut versuchen.');
-          const data = await response.json();
-          repos = data.items || [];
-          localStorage.setItem('gitSuccessTop100', JSON.stringify({date: today(), items: repos}));
-          setupFilters();
-          render();
-          $('status').textContent = 'Top-100-Liste wurde aktualisiert.';
-        } catch (error) {
-          $('status').textContent = error.message;
-        }
-      }
-
-      function setupFilters() {
-        const languages = [...new Set(repos.map(repo => repo.language).filter(Boolean))].sort();
-        $('languageFilter').innerHTML = '<option value="">Alle Sprachen</option>' + languages.map(language => `<option value="${esc(language)}">${esc(language)}</option>`).join('');
-
-        const licenses = [...new Set(repos.map(repo => repo.license?.spdx_id || repo.license?.name).filter(Boolean))].sort();
-        $('licenseFilter').innerHTML = '<option value="">Alle Lizenzen</option>' + licenses.map(license => `<option value="${esc(license)}">${esc(license)}</option>`).join('');
-      }
-
-      function getFiltered() {
-        const query = $('filter').value.toLowerCase();
-        const language = $('languageFilter').value;
-        const minimumStars = Number($('starsFilter').value || 0);
-        const license = $('licenseFilter').value;
-
-        return repos.filter(repo => {
-          const searchable = `${repo.full_name} ${repo.description || ''} ${repo.language || ''}`.toLowerCase();
-          const repoLicense = repo.license?.spdx_id || repo.license?.name || '';
-          return (!query || searchable.includes(query)) && (!language || repo.language === language) && ((repo.stargazers_count || 0) >= minimumStars) && (!license || repoLicense === license);
-        });
-      }
-
-      function render() {
-        const list = getFiltered();
-        if (!list.length) {
-          $('content').innerHTML = '<div class="empty">Keine Repositories für die aktuelle Filterauswahl gefunden.</div>';
-          return;
-        }
-
-        const table = `<div class="table-wrap"><table><thead><tr><th>#</th><th>Repository</th><th>Sprache</th><th>Lizenz</th><th>Stars</th><th>Beschreibung</th><th>Aktion</th></tr></thead><tbody>${list.map((repo, index) => `<tr><td>${index + 1}</td><td><div class="repo-name">${esc(repo.full_name)}</div><div class="muted">${esc(repo.owner?.login || '')}</div></td><td>${esc(repo.language || '—')}</td><td>${esc(repo.license?.spdx_id || repo.license?.name || '—')}</td><td>${fmt(repo.stargazers_count)}</td><td>${esc(repo.description || 'Keine Beschreibung hinterlegt.')}</td><td><a class="btn" href="index.html?repo=${encodeURIComponent(repo.full_name)}">Analysieren</a></td></tr>`).join('')}</tbody></table></div>`;
-        const cards = `<div class="mobile-list">${list.map((repo, index) => `<article class="repo-mobile"><div class="repo-mobile-head"><div><h3>${esc(repo.full_name)}</h3><div class="muted">${esc(repo.owner?.login || '')}</div></div><span class="rank">#${index + 1}</span></div><p>${esc(repo.description || 'Keine Beschreibung hinterlegt.')}</p><div class="meta"><div><span>Sprache</span><b>${esc(repo.language || '—')}</b></div><div><span>Stars</span><b>${fmt(repo.stargazers_count)}</b></div><div><span>Lizenz</span><b>${esc(repo.license?.spdx_id || repo.license?.name || '—')}</b></div><div><span>Owner</span><b>${esc(repo.owner?.login || '—')}</b></div></div><div class="mobile-action"><a class="btn" href="index.html?repo=${encodeURIComponent(repo.full_name)}">Analysieren</a></div></article>`).join('')}</div>`;
-        $('content').innerHTML = table + cards;
-      }
-
-      initTheme();
-      initMenu();
-      ['filter', 'languageFilter', 'starsFilter', 'licenseFilter'].forEach(id => $(id).addEventListener('input', render));
-      $('refreshBtn').addEventListener('click', () => loadTop100(true));
-      loadTop100();
-    </script>
-  </body>
+    <section class="hero"><h1>Top-100-Vergleichsgruppe</h1><p>Öffentliche GitHub-Repositories als Vergleichsgrundlage für die Repository-Health-Analyse.</p></section>
+    <section class="card"><h2>Zusammensetzung der Vergleichsgruppe</h2><p class="hint">Die Liste basiert auf öffentlichen GitHub-Repositories und wird nach Anzahl der Stars sortiert. Stars sind ein Reichweitenindikator, jedoch kein alleiniger Qualitätsnachweis.</p><div class="note"><b>Kriterien:</b> öffentliche Repositories · Sortierung nach Stars · maximal 100 Treffer · tägliche Aktualisierung im lokalen Browser-Cache.</div><div class="filters"><div><label for="filter">Suche</label><input id="filter" placeholder="Repository, Beschreibung oder Sprache"></div><div><label for="languageFilter">Sprache</label><select id="languageFilter"><option value="">Alle Sprachen</option></select></div><div><label for="starsFilter">Stars</label><select id="starsFilter"><option value="0">Alle</option><option value="100000">ab 100K</option><option value="250000">ab 250K</option><option value="500000">ab 500K</option></select></div><div><label for="licenseFilter">Lizenz</label><select id="licenseFilter"><option value="">Alle Lizenzen</option></select></div><button id="refreshBtn" type="button">Aktualisieren</button></div><div id="status" class="status">Top-100-Liste wird vorbereitet.</div><div id="content"></div></section>
+    <footer class="footer">OpenGitHealth · Vergleichsdaten auf Basis öffentlich verfügbarer GitHub-Informationen.</footer>
+  </div>
+  <script src="assets/js/layout.js"></script>
+  <script>
+    const API='https://api.github.com';let repos=[];const $=id=>document.getElementById(id);const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));const fmt=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n??'—');const today=()=>new Date().toISOString().slice(0,10);
+    function tokenHeaders(){const token=localStorage.getItem('gitSuccessToken')||localStorage.getItem('openGitHealthToken')||'';const headers={'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};if(token)headers.Authorization='Bearer '+token;return headers}
+    async function loadTop100(force=false){$('status').textContent='Top-100-Liste wird geladen.';if(!force){const cached=localStorage.getItem('gitSuccessTop100')||localStorage.getItem('openGitHealthTop100');if(cached){try{const cache=JSON.parse(cached);if(cache.date===today()&&Array.isArray(cache.items)){repos=cache.items;setupFilters();render();$('status').textContent='Top-100-Liste aus lokalem Tagescache geladen.';return}}catch(error){}}}try{const response=await fetch(`${API}/search/repositories?q=stars:%3E1&sort=stars&order=desc&per_page=100`,{headers:tokenHeaders()});if(!response.ok)throw new Error('Top-100-Liste konnte nicht geladen werden. Bitte Token prüfen oder später erneut versuchen.');const data=await response.json();repos=data.items||[];localStorage.setItem('openGitHealthTop100',JSON.stringify({date:today(),items:repos}));setupFilters();render();$('status').textContent='Top-100-Liste wurde aktualisiert.'}catch(error){$('status').textContent=error.message}}
+    function setupFilters(){const languages=[...new Set(repos.map(repo=>repo.language).filter(Boolean))].sort();$('languageFilter').innerHTML='<option value="">Alle Sprachen</option>'+languages.map(language=>`<option value="${esc(language)}">${esc(language)}</option>`).join('');const licenses=[...new Set(repos.map(repo=>repo.license?.spdx_id||repo.license?.name).filter(Boolean))].sort();$('licenseFilter').innerHTML='<option value="">Alle Lizenzen</option>'+licenses.map(license=>`<option value="${esc(license)}">${esc(license)}</option>`).join('')}
+    function getFiltered(){const query=$('filter').value.toLowerCase();const language=$('languageFilter').value;const minimumStars=Number($('starsFilter').value||0);const license=$('licenseFilter').value;return repos.filter(repo=>{const searchable=`${repo.full_name} ${repo.description||''} ${repo.language||''}`.toLowerCase();const repoLicense=repo.license?.spdx_id||repo.license?.name||'';return(!query||searchable.includes(query))&&(!language||repo.language===language)&&((repo.stargazers_count||0)>=minimumStars)&&(!license||repoLicense===license)})}
+    function render(){const list=getFiltered();if(!list.length){$('content').innerHTML='<div class="empty">Keine Repositories für die aktuelle Filterauswahl gefunden.</div>';return}const table=`<div class="table-wrap"><table><thead><tr><th>#</th><th>Repository</th><th>Sprache</th><th>Lizenz</th><th>Stars</th><th>Beschreibung</th><th>Aktion</th></tr></thead><tbody>${list.map((repo,index)=>`<tr><td>${index+1}</td><td><div class="repo-name">${esc(repo.full_name)}</div><div class="muted">${esc(repo.owner?.login||'')}</div></td><td>${esc(repo.language||'—')}</td><td>${esc(repo.license?.spdx_id||repo.license?.name||'—')}</td><td>${fmt(repo.stargazers_count)}</td><td>${esc(repo.description||'Keine Beschreibung hinterlegt.')}</td><td><a class="btn" href="index.html?repo=${encodeURIComponent(repo.full_name)}">Analysieren</a></td></tr>`).join('')}</tbody></table></div>`;const cards=`<div class="mobile-list">${list.map((repo,index)=>`<article class="repo-mobile"><div class="repo-mobile-head"><div><h3>${esc(repo.full_name)}</h3><div class="muted">${esc(repo.owner?.login||'')}</div></div><span class="rank">#${index+1}</span></div><p>${esc(repo.description||'Keine Beschreibung hinterlegt.')}</p><div class="meta"><div><span>Sprache</span><b>${esc(repo.language||'—')}</b></div><div><span>Stars</span><b>${fmt(repo.stargazers_count)}</b></div><div><span>Lizenz</span><b>${esc(repo.license?.spdx_id||repo.license?.name||'—')}</b></div><div><span>Owner</span><b>${esc(repo.owner?.login||'—')}</b></div></div><div class="mobile-action"><a class="btn" href="index.html?repo=${encodeURIComponent(repo.full_name)}">Analysieren</a></div></article>`).join('')}</div>`;$('content').innerHTML=table+cards}
+    ['filter','languageFilter','starsFilter','licenseFilter'].forEach(id=>$(id).addEventListener('input',render));$('refreshBtn').addEventListener('click',()=>loadTop100(true));loadTop100();
+  </script>
+</body>
 </html>
