@@ -1,397 +1,52 @@
 <!doctype html>
 <html lang="de">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>GitSuccess | Repository Analyzer</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <style>
-      :root{
-        --primary:#5B50D6;
-        --positive:#34D399;
-        --neutral:#FBBF24;
-        --negative:#FB7185;
-        --card:#fff;
-        --surface:#F8FAFC;
-        --soft:#F1F5F9;
-        --border:#E2E8F0;
-        --muted:#64748B;
-        --text:#1E293B;
-        --shadow:0 18px 48px rgba(15,23,42,.07);
-      }
-
-      body.dark{
-        --card:#1F2937;
-        --surface:#111827;
-        --soft:#374151;
-        --border:#374151;
-        --muted:#9CA3AF;
-        --text:#F3F4F6;
-        --shadow:0 20px 54px rgba(0,0,0,.30);
-      }
-
-      *{box-sizing:border-box;margin:0;padding:0}
-      html,body{max-width:100%;overflow-x:hidden}
-      body{min-height:100vh;font-family:Poppins,system-ui,sans-serif;color:var(--text);background:linear-gradient(180deg,#F8FAFB 0%,#EEF2F7 100%)}
-      body.dark{background:#111827}
-      .shell{width:min(1160px,100%);margin:auto;padding:18px 18px 56px}
-
-      .topbar{position:sticky;top:10px;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px;padding:8px 10px;background:rgba(248,250,251,.86);backdrop-filter:blur(18px);border:1px solid rgba(226,232,240,.78);border-radius:22px;box-shadow:0 14px 36px rgba(15,23,42,.06)}
-      body.dark .topbar{background:rgba(17,24,39,.86);border-color:rgba(55,65,81,.85)}
-      .brand{display:flex;align-items:center;gap:10px;font-weight:700}
-      .logo{display:grid;place-items:center;width:38px;height:38px;color:white;background:linear-gradient(135deg,var(--primary),#8177ff);border-radius:13px}
-      .mobile-head{display:contents}
-      .menu-toggle{display:none;padding:9px 11px;font-size:18px;line-height:1;color:var(--text);cursor:pointer;background:var(--card);border:1px solid var(--border);border-radius:12px}
-      .nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}
-      .nav a,.nav button,.btn-secondary{padding:9px 13px;font-family:inherit;font-size:12px;color:var(--text);text-decoration:none;cursor:pointer;background:rgba(255,255,255,.86);border:1px solid var(--border);border-radius:999px}
-      .dark .nav a,.dark .nav button,.dark .btn-secondary{background:rgba(31,41,55,.86)}
-      .nav a.active{color:white;background:var(--primary);border-color:var(--primary)}
-
-      .hero{max-width:820px;margin:0 auto 20px;text-align:center}
-      .hero h1{font-size:clamp(30px,4.2vw,48px);line-height:1.08;letter-spacing:-.045em}
-      .hero p{margin-top:10px;font-size:14px;color:var(--muted)}
-      .card{background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}
-      .dark .card{background:rgba(31,41,55,.94)}
-      .panel,.search-card{padding:20px}
-      .hidden{display:none!important}
-      .hint,.status{font-size:12px;color:var(--muted);line-height:1.55}
-      .hint a,.status a{font-weight:700;color:var(--primary);text-decoration:none}
-
-      .search-card{max-width:900px;margin:0 auto 18px}
-      .label{display:block;margin-bottom:8px;font-size:12px;font-weight:600}
-      .search-row,.token-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}
-      .token-row{margin-top:12px}
-      input{width:100%;min-width:0;padding:12px 14px;font-family:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:13px;outline:none}
-      .btn-primary{padding:12px 18px;font-family:inherit;font-weight:700;color:white;cursor:pointer;background:var(--primary);border:0;border-radius:13px}
-      .btn-primary:disabled{opacity:.55;cursor:not-allowed}
-      .message{max-width:760px;margin:16px auto;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:16px}
-      .message.error{background:rgba(251,113,133,.08);border-color:rgba(251,113,133,.45)}
-      .message.success{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.45)}
-
-      .results{display:grid;gap:14px;margin-top:18px}
-      .repo-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;padding:20px 22px}
-      .repo-main{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;align-items:center}
-      .avatar-wrap,.avatar{width:52px;height:52px;border-radius:16px}
-      .avatar-wrap{overflow:hidden;background:var(--soft);border:1px solid var(--border)}
-      .avatar{object-fit:cover}
-      .repo-title{min-width:0}
-      .repo-title a{font-size:21px;font-weight:700;color:var(--text);text-decoration:none;word-break:break-word}
-      .desc{margin:4px 0 10px;font-size:13px;color:var(--muted)}
-      .tags{display:flex;flex-wrap:wrap;gap:6px}
-      .tag{padding:4px 8px;font-size:11px;color:var(--muted);background:var(--soft);border:1px solid var(--border);border-radius:999px}
-      .stats{display:grid;grid-template-columns:repeat(4,72px);gap:8px}
-      .stat{padding:10px 8px;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:15px}
-      .stat b{display:block;font-size:16px}.stat span{font-size:10px;color:var(--muted)}
-
-      .score-grid{display:grid;grid-template-columns:280px 1fr;gap:14px}
-      .overall{display:grid;place-items:center;text-align:center;padding:20px}
-      .ring{position:relative;display:grid;place-items:center;width:132px;height:132px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--s)*1%),var(--border) 0)}
-      .ring:after{content:"";position:absolute;inset:12px;background:var(--card);border-radius:50%}
-      .ring-inner{position:relative;z-index:1}
-      .ring-num{font-size:36px;font-weight:700}
-      .section-title{margin-bottom:12px;font-size:17px;font-weight:700}
-      .pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-      .pillar{padding:18px;background:var(--card);border:1px solid var(--border);border-radius:20px}
-      .pillar h3{font-size:14px}.pill-score{margin-top:10px;font-size:28px;font-weight:700}.pillar p{margin-top:8px;font-size:12px;color:var(--muted)}
-      .bar{height:8px;margin-top:12px;overflow:hidden;background:var(--border);border-radius:999px}.bar i{display:block;height:100%;width:var(--w);background:var(--c)}
-
-      .grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-      .box{padding:13px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:16px}
-      .box b{display:block;margin-bottom:6px;color:var(--text)}
-      table{width:100%;border-collapse:collapse;font-size:13px}
-      th,td{padding:10px 8px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}
-      th{font-size:11px;color:var(--muted);text-transform:uppercase}
-      .table-scroll{overflow:auto;border:1px solid var(--border);border-radius:14px}.table-scroll table{min-width:680px}
-      .footer{margin-top:24px;font-size:12px;color:var(--muted);text-align:center}
-
-      @media(max-width:980px){.repo-card,.score-grid{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}
-      @media(max-width:760px){.shell{padding:12px 12px 40px}.topbar{align-items:stretch;flex-direction:column;gap:10px;border-radius:18px}.mobile-head{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}.menu-toggle{display:inline-flex;align-items:center;justify-content:center}.nav{display:none;width:100%;grid-template-columns:1fr;gap:7px}.nav.open{display:grid}.nav a,.nav button{text-align:center;padding:10px 12px;font-size:12px}.hero{text-align:left;margin:8px 0 16px}.hero h1{font-size:28px;letter-spacing:-.03em}.card{border-radius:18px}.panel,.search-card{padding:14px}.search-card{max-width:none;margin:0 0 16px}.search-row,.token-row{grid-template-columns:1fr}.btn-primary,.btn-secondary{width:100%;text-align:center}.repo-card{padding:16px}.repo-main{grid-template-columns:44px minmax(0,1fr)}.avatar-wrap,.avatar{width:44px;height:44px}.repo-title a{font-size:18px}.stats{grid-template-columns:repeat(2,1fr)}.grid2{grid-template-columns:1fr}.table-scroll{max-width:100%;margin:0 -4px}}
-    </style>
-  </head>
-
-  <body>
-    <div class="shell">
-      <header class="topbar">
-        <div class="mobile-head">
-          <div class="brand">
-            <div class="logo">⌘</div>
-            <span>GitSuccess</span>
-          </div>
-          <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav">☰</button>
-        </div>
-        <nav id="mainNav" class="nav"></nav>
-      </header>
-
-      <section class="hero">
-        <h1>Repository Health transparent einordnen.</h1>
-        <p>GitSuccess analysiert öffentlich verfügbare GitHub-Signale und erstellt eine nachvollziehbare Repository-Health-Bewertung.</p>
-      </section>
-
-      <section class="card search-card">
-        <label class="label" for="repoIn">GitHub-Repository</label>
-        <div class="search-row">
-          <input id="repoIn" type="text" placeholder="z. B. facebook/react oder https://github.com/vuejs/core">
-          <button id="analyzeBtn" class="btn-primary" type="button">Repository analysieren</button>
-        </div>
-        <div class="token-row">
-          <div>
-            <label class="label" for="tokenIn" style="margin-top:12px">GitHub Personal Access Token</label>
-            <input id="tokenIn" type="password" placeholder="Token hier einfügen">
-          </div>
-          <button class="btn-secondary" id="saveTokenBtn" type="button">Token lokal speichern</button>
-        </div>
-        <p class="hint">Der Token wird ausschließlich lokal im Browser gespeichert und für authentifizierte GitHub-API-Anfragen verwendet. Eine Anleitung finden Sie im <a href="api-guide.html">REST-API Guide</a>.</p>
-      </section>
-
-      <p class="status" id="benchStatus">Benchmark-Daten werden vorbereitet.</p>
-      <div id="tokenState" class="message hidden"></div>
-      <div id="loadingState" class="message hidden">Analyse wird ausgeführt. Bitte warten.</div>
-      <div id="errorState" class="message error hidden"></div>
-
-      <main id="results" class="results hidden">
-        <section id="repoHdr" class="card repo-card"></section>
-        <section class="score-grid">
-          <div id="overallRow" class="card overall"></div>
-          <div id="pillarsRow" class="pillars"></div>
-        </section>
-        <section id="kpiPanel" class="card panel"></section>
-        <section id="explainCard" class="card panel"></section>
-        <section id="sugCard" class="card panel"></section>
-      </main>
-
-      <footer class="footer">GitSuccess · Transparente Repository-Analyse auf Basis öffentlich verfügbarer GitHub-Daten.</footer>
-    </div>
-
-    <script src="assets/js/layout.js"></script>
-    <script>
-      const API = 'https://api.github.com';
-      const FALLBACK_MEDIANS = {commits30:35,daysInactive:9,contributors:70,closeRate:.72,relFreq:35,avgClose:18,avgComments:2.3,forkRatio:.18,doku:100,starsTage:9};
-      let MEDIANS = {...FALLBACK_MEDIANS};
-      let state = {meta:null,kpis:null,scores:null,apiLog:[]};
-
-      const $ = id => document.getElementById(id);
-      const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-      const fmt = n => n == null || Number.isNaN(n) ? 'Nicht verfügbar' : n >= 1e6 ? (n/1e6).toFixed(1)+'M' : n >= 1e3 ? (n/1e3).toFixed(1)+'K' : String(Math.round(n));
-      const color = s => s >= 70 ? '#34D399' : s >= 45 ? '#FBBF24' : '#FB7185';
-
-      const PILLARS = [
-        {id:'p1',label:'Aktivität & Community',weight:.40,kpis:[['commits30','Commit-Aktivität 30 Tage',.50,'more'],['daysInactive','Tage seit letztem Push',.30,'less'],['contributors','Contributors',.20,'more']]},
-        {id:'p2',label:'Reaktionsfähigkeit & Wartung',weight:.35,kpis:[['closeRate','Issue-Schließungsrate',.30,'more'],['relFreq','Ø Tage zwischen Releases',.25,'less'],['avgClose','Ø Issue-Schließzeit',.30,'less'],['avgComments','Issue-Engagement',.15,'more']]},
-        {id:'p3',label:'Reichweite & Dokumentation',weight:.25,kpis:[['forkRatio','Fork-Ratio',.35,'more'],['doku','Dokumentation README + CONTRIBUTING',.35,'bool'],['starsTage','Stars pro Alterstag',.30,'log']]}
-      ];
-
-      function parseUrl(raw) {
-        const value = raw.trim().replace(/^git\+/,'').replace(/\.git$/,'').replace(/\/+$/,'');
-        const match = value.match(/^https?:\/\/(?:www\.)?github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/.*)?$/) || value.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/);
-        return match ? {owner: match[1], name: match[2]} : null;
-      }
-
-      function tokenHeaders() {
-        const token = ($('tokenIn')?.value || localStorage.getItem('gitSuccessToken') || '').trim();
-        const headers = {'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};
-        if (token) headers.Authorization = 'Bearer ' + token;
-        return headers;
-      }
-
-      async function ghFetch(path, nullable = false) {
-        state.apiLog.push(path);
-        const response = await fetch(API + path, {headers: tokenHeaders()});
-        if (!response.ok) {
-          if (nullable) return null;
-          if (response.status === 403) throw new Error('GitHub API-Limit erreicht. Bitte Token speichern oder später erneut versuchen.');
-          if (response.status === 404) throw new Error('Repository wurde nicht gefunden.');
-          throw new Error('GitHub API-Fehler ' + response.status);
-        }
-        return response.json();
-      }
-
-      async function safe(path) {
-        try { return await ghFetch(path, true); } catch (error) { return null; }
-      }
-
-      async function loadBenchmarks() {
-        try {
-          const response = await fetch('data/benchmarks.json');
-          if (response.ok) {
-            const data = await response.json();
-            if (data?.medians) MEDIANS = {...FALLBACK_MEDIANS, ...data.medians};
-          }
-          $('benchStatus').innerHTML = 'Benchmark-Daten geladen. Details zur Berechnung finden Sie in der <a href="docs.html">Metrik-Dokumentation</a>.';
-        } catch (error) {
-          $('benchStatus').innerHTML = 'Benchmark-Fallback aktiv. Details zur Berechnung finden Sie in der <a href="docs.html">Metrik-Dokumentation</a>.';
-        }
-      }
-
-      async function fetchKpis(owner, name) {
-        const base = await ghFetch(`/repos/${owner}/${name}`);
-        const [activity, readme, contributing, releases, issues, contributors] = await Promise.all([
-          safe(`/repos/${owner}/${name}/stats/commit_activity`),
-          safe(`/repos/${owner}/${name}/readme`),
-          safe(`/repos/${owner}/${name}/contents/CONTRIBUTING.md`),
-          safe(`/repos/${owner}/${name}/releases?per_page=20`),
-          safe(`/repos/${owner}/${name}/issues?state=all&per_page=100`),
-          safe(`/repos/${owner}/${name}/contributors?per_page=100`)
-        ]);
-
-        const stars = base.stargazers_count || 0;
-        const forks = base.forks_count || 0;
-        const age = Math.max(1, Math.floor((Date.now() - new Date(base.created_at)) / 864e5));
-        const daysInactive = Math.max(0, Math.floor((Date.now() - new Date(base.pushed_at || base.updated_at || base.created_at)) / 864e5));
-        const commits30 = Array.isArray(activity) ? activity.slice(-4).reduce((sum, week) => sum + Math.max(0, week.total || 0), 0) : null;
-
-        let closeRate = null, avgClose = null, avgComments = null;
-        if (Array.isArray(issues)) {
-          const realIssues = issues.filter(issue => !issue.pull_request);
-          const closed = realIssues.filter(issue => issue.state === 'closed');
-          closeRate = realIssues.length ? closed.length / realIssues.length : null;
-          const closeTimes = closed.map(issue => (new Date(issue.closed_at) - new Date(issue.created_at)) / 864e5).filter(value => Number.isFinite(value) && value >= 0);
-          avgClose = closeTimes.length ? closeTimes.reduce((a,b) => a + b, 0) / closeTimes.length : null;
-          avgComments = realIssues.length ? realIssues.reduce((sum, issue) => sum + (issue.comments || 0), 0) / realIssues.length : null;
-        }
-
-        let relFreq = null;
-        if (Array.isArray(releases)) {
-          const dates = releases.filter(release => !release.draft && !release.prerelease && release.published_at).map(release => new Date(release.published_at).getTime()).sort((a,b) => a - b);
-          const diffs = dates.slice(1).map((date, index) => (date - dates[index]) / 864e5).filter(value => value >= 0);
-          relFreq = diffs.length ? diffs.reduce((a,b) => a + b, 0) / diffs.length : null;
-        }
-
-        return {
-          meta: {fullName:base.full_name,htmlUrl:base.html_url,description:base.description,language:base.language,license:base.license?.spdx_id || base.license?.name,stars,forks,openIssues:base.open_issues_count || 0,age,readmeOk:!!readme,contribOk:!!contributing},
-          kpis: {commits30,daysInactive,contributors:Array.isArray(contributors) ? contributors.length : null,closeRate,relFreq,avgClose,avgComments,forkRatio:stars > 0 ? forks / stars : 0,doku:(readme ? 60 : 0) + (contributing ? 40 : 0),starsTage:stars / age}
-        };
-      }
-
-      function scoreKpi(key, value, direction) {
-        if (value == null || !Number.isFinite(Number(value))) return null;
-        const median = MEDIANS[key];
-        if (!Number.isFinite(Number(median))) return null;
-        let score = null;
-        if (direction === 'more') score = median > 0 ? value / median * 100 : null;
-        if (direction === 'less') score = value === 0 ? 100 : median > 0 ? median / value * 100 : null;
-        if (direction === 'bool') score = value;
-        if (direction === 'log') score = value > 0 && median > 0 ? Math.log10(value + 1) / Math.log10(median + 1) * 100 : null;
-        return score == null || !Number.isFinite(score) ? null : Math.max(0, Math.min(100, Math.round(score)));
-      }
-
-      function computeScores(kpis) {
-        const scores = {};
-        PILLARS.forEach(pillar => {
-          let points = 0, weights = 0;
-          pillar.kpis.forEach(([key,,weight,direction]) => {
-            const score = scoreKpi(key, kpis[key], direction);
-            if (score != null) { points += score * weight; weights += weight; }
-          });
-          scores[pillar.id] = weights ? Math.round(points / weights) : null;
-        });
-        let points = 0, weights = 0;
-        PILLARS.forEach(pillar => {
-          if (scores[pillar.id] != null) { points += scores[pillar.id] * pillar.weight; weights += pillar.weight; }
-        });
-        scores.overall = weights ? Math.round(points / weights) : null;
-        return scores;
-      }
-
-      function kpiLabel(key) {
-        return PILLARS.flatMap(pillar => pillar.kpis).find(([id]) => id === key)?.[1] || key;
-      }
-
-      function render() {
-        const {meta, kpis, scores} = state;
-        const owner = meta.fullName.split('/')[0];
-        $('repoHdr').innerHTML = `<div class="repo-main"><div class="avatar-wrap"><img class="avatar" src="https://github.com/${esc(owner)}.png?size=128" alt=""></div><div class="repo-title"><a href="${esc(meta.htmlUrl)}" target="_blank" rel="noreferrer">${esc(meta.fullName)}</a><p class="desc">${esc(meta.description || 'Keine Beschreibung hinterlegt.')}</p><div class="tags">${meta.language ? `<span class="tag">${esc(meta.language)}</span>` : ''}${meta.license ? `<span class="tag">${esc(meta.license)}</span>` : ''}<span class="tag">${meta.readmeOk ? 'README vorhanden' : 'README fehlt'}</span>${meta.contribOk ? '<span class="tag">CONTRIBUTING vorhanden</span>' : ''}</div></div></div><div class="stats"><div class="stat"><b>${fmt(meta.stars)}</b><span>Stars</span></div><div class="stat"><b>${fmt(meta.forks)}</b><span>Forks</span></div><div class="stat"><b>${fmt(meta.openIssues)}</b><span>Offene Issues</span></div><div class="stat"><b>${fmt(meta.age)}</b><span>Projekttage</span></div></div>`;
-
-        const overall = scores.overall ?? 0;
-        $('overallRow').innerHTML = `<div class="section-title">Repository Health Score</div><div class="ring" style="--s:${overall};--c:${color(overall)}"><div class="ring-inner"><div class="ring-num" style="color:${color(overall)}">${scores.overall ?? '—'}</div></div></div><p class="hint" style="margin-top:14px">Gewichteter Score aus Aktivität, Wartung, Reichweite und Dokumentation.</p>`;
-
-        $('pillarsRow').innerHTML = PILLARS.map(pillar => {
-          const score = scores[pillar.id] ?? 0;
-          return `<article class="pillar"><h3>${pillar.label}</h3><div class="pill-score" style="color:${color(score)}">${scores[pillar.id] ?? '—'}</div><p>Gewichtung: ${Math.round(pillar.weight * 100)}%</p><div class="bar"><i style="--w:${score}%;--c:${color(score)}"></i></div></article>`;
-        }).join('');
-
-        const rows = PILLARS.flatMap(pillar => pillar.kpis).map(([key,label,,direction]) => {
-          const value = kpis[key];
-          const score = scoreKpi(key, value, direction);
-          const display = key === 'closeRate' || key === 'forkRatio' ? (value == null ? 'Nicht verfügbar' : (value * 100).toFixed(1) + '%') : key === 'starsTage' || key === 'relFreq' || key === 'avgClose' || key === 'avgComments' ? (value == null ? 'Nicht verfügbar' : value.toFixed(2)) : fmt(value);
-          return `<tr><td><b>${label}</b></td><td>${display}</td><td>${fmt(MEDIANS[key])}</td><td style="color:${color(score ?? 0)}"><b>${score ?? '—'}</b></td></tr>`;
-        }).join('');
-        $('kpiPanel').innerHTML = `<div class="section-title">KPI-Details</div><div class="table-scroll"><table><thead><tr><th>Kennzahl</th><th>Ist-Wert</th><th>Benchmark</th><th>Score</th></tr></thead><tbody>${rows}</tbody></table></div>`;
-
-        $('explainCard').innerHTML = `<div class="section-title">Methodische Einordnung</div><div class="grid2"><div class="box"><b>Aktivität & Community</b>Zeigt, ob das Repository sichtbar gepflegt wird.</div><div class="box"><b>Reaktionsfähigkeit & Wartung</b>Bewertet Issues, Releases und Antwortverhalten.</div><div class="box"><b>Reichweite & Dokumentation</b>Bewertet Sichtbarkeit und Einstiegshürden.</div><div class="box"><b>Hinweis</b>Der Score ersetzt keine Code-, Security- oder Architekturprüfung.</div></div>`;
-        $('sugCard').innerHTML = `<div class="section-title">Handlungsempfehlungen</div><div class="grid2">${getSuggestions().map(item => `<div class="box"><b>${item.title}</b>${item.text}</div>`).join('')}</div>`;
-        $('results').classList.remove('hidden');
-      }
-
-      function getSuggestions() {
-        const low = PILLARS.flatMap(p => p.kpis).map(([key,label,,direction]) => ({key,label,score:scoreKpi(key,state.kpis[key],direction)})).filter(item => (item.score ?? 0) < 70).slice(0,4);
-        if (!low.length) return [{title:'Keine kritischen Auffälligkeiten',text:'Die wichtigsten sichtbaren Signale liegen im stabilen Bereich.'}];
-        return low.map(item => ({title:item.label + ' verbessern', text:'Dieser Bereich liegt unterhalb des Benchmark-Niveaus und sollte genauer geprüft werden.'}));
-      }
-
-      function showTokenMessage(text, type = 'success') {
-        $('tokenState').textContent = text;
-        $('tokenState').className = 'message ' + (type === 'success' ? 'success' : 'error');
-        setTimeout(() => $('tokenState').classList.add('hidden'), 3000);
-      }
-
-      function saveToken() {
-        const token = $('tokenIn').value.trim();
-        if (!token) {
-          localStorage.removeItem('gitSuccessToken');
-          showTokenMessage('Token wurde entfernt. Analysen laufen ohne Authentifizierung.');
-          return;
-        }
-        localStorage.setItem('gitSuccessToken', token);
-        showTokenMessage('Token wurde lokal im Browser gespeichert.');
-      }
-
-      async function analyze() {
-        const parsed = parseUrl($('repoIn').value);
-        if (!parsed) {
-          $('errorState').textContent = 'Bitte geben Sie ein gültiges GitHub-Repository ein, z. B. facebook/react oder https://github.com/facebook/react.';
-          $('errorState').classList.remove('hidden');
-          return;
-        }
-
-        localStorage.setItem('gitSuccessLastRepoInput', $('repoIn').value.trim());
-        $('analyzeBtn').disabled = true;
-        $('loadingState').classList.remove('hidden');
-        $('errorState').classList.add('hidden');
-        $('results').classList.add('hidden');
-        state.apiLog = [];
-
-        try {
-          await loadBenchmarks();
-          const data = await fetchKpis(parsed.owner, parsed.name);
-          state = {...state, ...data, scores: computeScores(data.kpis)};
-          render();
-          $('results').scrollIntoView({behavior:'smooth'});
-        } catch (error) {
-          $('errorState').textContent = error.message;
-          $('errorState').classList.remove('hidden');
-        } finally {
-          $('loadingState').classList.add('hidden');
-          $('analyzeBtn').disabled = false;
-        }
-      }
-
-      function initPage() {
-        $('analyzeBtn').addEventListener('click', analyze);
-        $('repoIn').addEventListener('keydown', event => { if (event.key === 'Enter') analyze(); });
-        $('saveTokenBtn').addEventListener('click', saveToken);
-        $('tokenIn').value = localStorage.getItem('gitSuccessToken') || '';
-
-        const repoParam = new URLSearchParams(window.location.search).get('repo');
-        $('repoIn').value = repoParam ? `https://github.com/${repoParam}` : (localStorage.getItem('gitSuccessLastRepoInput') || '');
-        loadBenchmarks();
-        if (repoParam) setTimeout(analyze, 250);
-      }
-
-      initPage();
-    </script>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GitSuccess | Repository Analyzer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--primary:#5B50D6;--positive:#34D399;--neutral:#FBBF24;--negative:#FB7185;--card:#fff;--surface:#F8FAFC;--soft:#F1F5F9;--border:#E2E8F0;--muted:#64748B;--text:#1E293B;--shadow:0 18px 48px rgba(15,23,42,.07)}
+    body.dark{--card:#1F2937;--surface:#111827;--soft:#374151;--border:#374151;--muted:#9CA3AF;--text:#F3F4F6;--shadow:0 20px 54px rgba(0,0,0,.30)}
+    *{box-sizing:border-box;margin:0;padding:0}html,body{max-width:100%;overflow-x:hidden}body{min-height:100vh;font-family:Poppins,system-ui,sans-serif;color:var(--text);background:linear-gradient(180deg,#F8FAFB 0%,#EEF2F7 100%)}body.dark{background:#111827}.shell{width:min(1160px,100%);margin:auto;padding:18px 18px 56px}
+    .topbar{position:sticky;top:10px;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px;padding:8px 10px;background:rgba(248,250,251,.86);backdrop-filter:blur(18px);border:1px solid rgba(226,232,240,.78);border-radius:22px;box-shadow:0 14px 36px rgba(15,23,42,.06)}body.dark .topbar{background:rgba(17,24,39,.86);border-color:rgba(55,65,81,.85)}.brand{display:flex;align-items:center;gap:10px;font-weight:700}.logo{display:grid;place-items:center;width:38px;height:38px;color:white;background:linear-gradient(135deg,var(--primary),#8177ff);border-radius:13px}.mobile-head{display:contents}.menu-toggle{display:none;padding:9px 11px;font-size:18px;line-height:1;color:var(--text);cursor:pointer;background:var(--card);border:1px solid var(--border);border-radius:12px}.nav{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:8px}.nav a,.nav button,.btn-secondary,.icon-btn{padding:9px 13px;font-family:inherit;font-size:12px;color:var(--text);text-decoration:none;cursor:pointer;background:rgba(255,255,255,.86);border:1px solid var(--border);border-radius:999px}.dark .nav a,.dark .nav button,.dark .btn-secondary,.dark .icon-btn{background:rgba(31,41,55,.86)}.nav a.active{color:white;background:var(--primary);border-color:var(--primary)}
+    .hero{max-width:820px;margin:0 auto 20px;text-align:center}.hero h1{font-size:clamp(30px,4.2vw,48px);line-height:1.08;letter-spacing:-.045em}.hero p{margin-top:10px;font-size:14px;color:var(--muted)}.card{background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}.dark .card{background:rgba(31,41,55,.94)}.panel,.search-card{padding:20px}.section-title{margin-bottom:12px;font-size:17px;font-weight:700}.hidden{display:none!important}.hint,.status{font-size:12px;color:var(--muted);line-height:1.55}.hint a,.status a{font-weight:700;color:var(--primary);text-decoration:none}.status{max-width:900px;margin:0 auto 16px}.search-card{max-width:900px;margin:0 auto 18px}.label{display:block;margin-bottom:8px;font-size:12px;font-weight:600}.search-row,.token-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}.token-row{margin-top:12px}input{width:100%;min-width:0;padding:12px 14px;font-family:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:13px;outline:none}.btn-primary{padding:12px 18px;font-family:inherit;font-weight:700;color:white;cursor:pointer;background:var(--primary);border:0;border-radius:13px}.btn-primary:disabled{opacity:.55;cursor:not-allowed}.message{max-width:760px;margin:16px auto;padding:14px;background:var(--card);border:1px solid var(--border);border-radius:16px}.message.error{background:rgba(251,113,133,.08);border-color:rgba(251,113,133,.45)}.message.success{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.45)}
+    .results{display:grid;gap:14px;margin-top:18px}.dash-actions{display:flex;justify-content:flex-end;position:sticky;top:78px;z-index:20;pointer-events:none}.menu-wrap{position:relative;pointer-events:auto}.icon-btn{display:grid;place-items:center;width:40px;height:40px;padding:0;font-size:20px}.popover{position:absolute;right:0;top:48px;width:min(820px,92vw);max-height:78vh;overflow:auto;padding:16px;background:var(--card);border:1px solid var(--border);border-radius:22px;box-shadow:0 34px 90px rgba(15,23,42,.20)}
+    .repo-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;padding:20px 22px}.repo-main{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;align-items:center}.avatar-wrap,.avatar{width:52px;height:52px;border-radius:16px}.avatar-wrap{overflow:hidden;background:var(--soft);border:1px solid var(--border)}.avatar{object-fit:cover}.repo-title{min-width:0}.repo-title a{font-size:21px;font-weight:700;color:var(--text);text-decoration:none;word-break:break-word}.desc{margin:4px 0 10px;font-size:13px;color:var(--muted)}.tags{display:flex;flex-wrap:wrap;gap:6px}.tag{padding:4px 8px;font-size:11px;color:var(--muted);background:var(--soft);border:1px solid var(--border);border-radius:999px}.stats{display:grid;grid-template-columns:repeat(4,72px);gap:8px}.stat{padding:10px 8px;text-align:center;background:var(--surface);border:1px solid var(--border);border-radius:15px}.stat b{display:block;font-size:16px}.stat span{font-size:10px;color:var(--muted)}
+    .score-grid{display:grid;grid-template-columns:280px minmax(0,1fr);gap:14px}.overall{display:grid;place-items:center;padding:20px;text-align:center}.status-label{margin-bottom:8px;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}.ring{position:relative;display:grid;place-items:center;width:132px;height:132px;border-radius:50%;background:conic-gradient(var(--c) calc(var(--s)*1%),var(--border) 0)}.ring:after{content:"";position:absolute;inset:12px;background:var(--card);border-radius:50%}.ring-inner{position:relative;z-index:1}.ring-num{font-size:36px;font-weight:700}.ring-grade{margin-top:10px;font-size:13px;font-weight:600}.score-breakdown{display:grid;gap:7px;width:100%;margin-top:14px}.weight-row{display:flex;justify-content:space-between;gap:12px;padding:8px 10px;font-size:11px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:12px}.weight-row b{color:var(--text)}
+    .pillars{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.pillar{min-height:300px;padding:18px;font-family:inherit;color:var(--text);text-align:left;cursor:pointer;background:var(--card);border:1px solid var(--border);border-radius:20px;display:flex;flex-direction:column;justify-content:space-between}.pillar.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(91,80,214,.10)}.pillar-top{display:flex;justify-content:space-between;gap:10px}.pillar h3{font-size:14px}.pillar-weight{font-size:12px;color:var(--muted)}.pill-score{margin-top:12px;font-size:28px;font-weight:700}.kpi-preview{display:grid;gap:7px;margin-top:14px}.kpi-mini{padding:7px 9px;background:var(--surface);border:1px solid var(--border);border-radius:12px}.kpi-mini-label{font-size:10px;font-weight:600;color:var(--text)}.kpi-mini-value{margin-top:3px;font-size:12px;font-weight:700}.kpi-mini-direction{margin-top:2px;font-size:10px;color:var(--muted)}.details-hint{margin-top:12px;font-size:11px;font-weight:600;color:var(--primary)}.bar{height:7px;margin-top:10px;overflow:hidden;background:var(--border);border-radius:999px}.bar i{display:block;height:100%;width:var(--w);background:var(--c)}
+    .grid2,.config-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.box,.cfg-group{padding:13px;font-size:13px;color:var(--muted);background:var(--surface);border:1px solid var(--border);border-radius:16px}.box b,.cfg-head{display:block;margin-bottom:6px;font-weight:700;color:var(--text)}.check{display:flex;gap:8px;align-items:center;margin:7px 0;font-size:13px}.check input{width:auto}.toggle-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px}.config-footer{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;padding-top:13px;margin-top:14px;border-top:1px solid var(--border)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{padding:10px 8px;text-align:left;vertical-align:top;border-bottom:1px solid var(--border)}th{font-size:11px;color:var(--muted);text-transform:uppercase}.table-scroll{overflow:auto;border:1px solid var(--border);border-radius:14px}.table-scroll table{min-width:760px}.score-badge{display:inline-block;padding:4px 8px;font-weight:700;background:var(--soft);border-radius:999px}.score-tooltip{position:relative;cursor:help}.score-tooltip:hover:after{content:attr(data-tooltip);position:absolute;left:50%;bottom:calc(100% + 10px);z-index:300;width:290px;padding:10px 12px;font-size:11px;line-height:1.45;color:var(--text);white-space:normal;background:var(--card);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);transform:translateX(-50%)}.footer{margin-top:24px;font-size:12px;color:var(--muted);text-align:center}
+    @media(max-width:980px){.repo-card,.score-grid{grid-template-columns:1fr}.pillars{grid-template-columns:1fr}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:760px){.shell{padding:12px 12px 40px}.topbar{align-items:stretch;flex-direction:column;gap:10px;border-radius:18px}.mobile-head{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}.menu-toggle{display:inline-flex;align-items:center;justify-content:center}.nav{display:none;width:100%;grid-template-columns:1fr;gap:7px}.nav.open{display:grid}.nav a,.nav button{text-align:center;padding:10px 12px;font-size:12px}.hero{text-align:left;margin:8px 0 16px}.hero h1{font-size:28px;letter-spacing:-.03em}.hero p{font-size:13px}.card{border-radius:18px}.panel,.search-card{padding:14px}.search-card{max-width:none;margin:0 0 16px}.search-row,.token-row{grid-template-columns:1fr}.btn-primary,.btn-secondary{width:100%;text-align:center}.repo-card{padding:16px}.repo-main{grid-template-columns:44px minmax(0,1fr)}.avatar-wrap,.avatar{width:44px;height:44px}.repo-title a{font-size:18px}.stats{grid-template-columns:repeat(2,1fr)}.overall{padding:16px}.pillar{min-height:auto}.grid2,.config-grid{grid-template-columns:1fr}.dash-actions{top:auto;bottom:16px}.popover{position:fixed;left:12px;right:12px;top:auto;bottom:70px;width:auto;max-height:70vh}.table-scroll{max-width:100%;margin:0 -4px}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar"><div class="mobile-head"><div class="brand"><div class="logo">⌘</div><span>GitSuccess</span></div><button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav">☰</button></div><nav id="mainNav" class="nav"></nav></header>
+    <section class="hero"><h1>Repository Health transparent einordnen.</h1><p>GitSuccess analysiert öffentlich verfügbare GitHub-Signale und erstellt eine nachvollziehbare Repository-Health-Bewertung.</p></section>
+    <section class="card search-card"><label class="label" for="repoIn">GitHub-Repository</label><div class="search-row"><input id="repoIn" type="text" placeholder="z. B. facebook/react oder https://github.com/vuejs/core"><button id="analyzeBtn" class="btn-primary" type="button">Repository analysieren</button></div><div class="token-row"><div><label class="label" for="tokenIn" style="margin-top:12px">GitHub Personal Access Token</label><input id="tokenIn" type="password" placeholder="Token hier einfügen"></div><button class="btn-secondary" id="saveTokenBtn" type="button">Token lokal speichern</button></div><p class="hint">Der Token wird ausschließlich lokal im Browser gespeichert und für authentifizierte GitHub-API-Anfragen verwendet. Eine Anleitung finden Sie im <a href="api-guide.html">REST-API Guide</a>.</p></section>
+    <p class="status" id="benchStatus">Benchmark-Daten werden vorbereitet.</p><div id="tokenState" class="message hidden"></div><div id="loadingState" class="message hidden">Analyse wird ausgeführt. Bitte warten.</div><div id="errorState" class="message error hidden"></div>
+    <main id="results" class="results hidden"><div class="dash-actions"><div class="menu-wrap"><button class="icon-btn" id="configBtn" type="button" title="Anzeige konfigurieren">⋯</button><section id="configCard" class="popover hidden"></section></div></div><section id="repoHdr" class="card repo-card"></section><section class="score-grid"><div id="overallRow" class="card overall"></div><div id="pillarsRow" class="pillars"></div></section><section id="kpiPanel" class="card panel"></section><section id="explainCard" class="card panel"></section><section id="sugCard" class="card panel"></section><section id="apiCard" class="card panel"></section></main>
+    <footer class="footer">GitSuccess · Transparente Repository-Analyse auf Basis öffentlich verfügbarer GitHub-Daten.</footer>
+  </div>
+  <script src="assets/js/layout.js"></script>
+  <script>
+    const API='https://api.github.com';const FALLBACK_MEDIANS={commits30:35,daysInactive:9,contributors:70,closeRate:.72,relFreq:35,avgClose:18,avgComments:2.3,fehlerProd:.25,forkRatio:.18,doku:100,starsTage:9};let MEDIANS={...FALLBACK_MEDIANS},activePillar='p1',state={meta:null,kpis:null,scores:null,apiLog:[],visibility:null};
+    const PILLARS=[{id:'p1',label:'Aktivität & Community',weight:.40,text:'Bewertet Entwicklungsaktivität und sichtbare Community-Beteiligung.',kpis:[{id:'commits30',label:'Commit-Aktivität 30 Tage',w:.50,dir:'more',fmt:v=>v==null?'Nicht verfügbar':Math.round(v)+' Commits'},{id:'daysInactive',label:'Tage seit letztem Push',w:.30,dir:'less',fmt:v=>v==null?'Nicht verfügbar':Math.round(v)+' Tage'},{id:'contributors',label:'Contributors',w:.20,dir:'more',fmt:v=>v==null?'Nicht verfügbar':Math.round(v)+' Personen'}]},{id:'p2',label:'Reaktionsfähigkeit & Wartung',weight:.35,text:'Bewertet Wartungsfähigkeit, Release-Rhythmus und Issue-Bearbeitung.',kpis:[{id:'closeRate',label:'Issue-Schließungsrate',w:.25,dir:'more',fmt:v=>v==null?'Nicht verfügbar':(v*100).toFixed(1)+'%'},{id:'relFreq',label:'Ø Tage zwischen Releases',w:.25,dir:'less',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(1)+' Tage'},{id:'avgClose',label:'Ø Issue-Schließzeit',w:.25,dir:'less',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(1)+' Tage'},{id:'avgComments',label:'Issue-Engagement',w:.15,dir:'more',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(1)+' Kommentare'},{id:'fehlerProd',label:'Fehlerbehebungs-Produktivität',w:.10,dir:'more',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(3)}]},{id:'p3',label:'Reichweite & Dokumentation',weight:.25,text:'Bewertet Reichweite, Dokumentation und Einstiegshürden.',kpis:[{id:'forkRatio',label:'Fork-Ratio',w:.35,dir:'more',fmt:v=>v==null?'Nicht verfügbar':(v*100).toFixed(1)+'%'},{id:'doku',label:'Dokumentation README + CONTRIBUTING',w:.35,dir:'bool',fmt:v=>v==null?'Nicht verfügbar':v+' / 100'},{id:'starsTage',label:'Stars pro Alterstag',w:.30,dir:'log',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(2)}]}];
+    const KPI_INFO={commits30:'Regelmäßige Änderungen zeigen aktive Pflege.',daysInactive:'Niedrigere Werte sprechen für aktuelle Pflege.',contributors:'Mehr Beteiligte reduzieren Abhängigkeiten.',closeRate:'Eine hohe Quote zeigt aktives Backlog-Management.',relFreq:'Regelmäßige Releases machen Fortschritt planbar.',avgClose:'Kürzere Zeiten zeigen Reaktionsfähigkeit.',avgComments:'Kommentare zeigen Austausch und Nachvollziehbarkeit.',fehlerProd:'Verhältnis geschlossener Issues zur Commit-Aktivität.',forkRatio:'Forks deuten auf Nutzungsinteresse hin.',doku:'Dokumentation reduziert Einstiegshürden.',starsTage:'Reichweite in Relation zum Projektalter.'};const KPI_DIRECTION={commits30:'höher ist besser',daysInactive:'niedriger ist besser',contributors:'höher ist besser',closeRate:'höher ist besser',relFreq:'niedriger ist besser',avgClose:'niedriger ist besser',avgComments:'höher ist besser',fehlerProd:'höher ist besser',forkRatio:'höher ist besser',doku:'höher ist besser',starsTage:'höher ist besser'};
+    const $=id=>document.getElementById(id),allKpis=()=>PILLARS.flatMap(p=>p.kpis),kpiById=id=>allKpis().find(k=>k.id===id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),fmt=n=>n==null||Number.isNaN(n)?'Nicht verfügbar':n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(Math.round(n)),color=s=>s>=70?'#34D399':s>=45?'#FBBF24':'#FB7185',scoreText=s=>s>=80?'starke Repository Health':s>=60?'solide Repository Health':s>=40?'eingeschränkte Repository Health':'kritische Repository Health';
+    function defaultVisibility(){const kpis={};allKpis().forEach(k=>kpis[k.id]=true);return{sections:{profile:true,overall:true,pillars:true,details:true,explain:true,suggestions:true,api:true},kpis}}function parseUrl(raw){const v=raw.trim().replace(/^git\+/,'').replace(/\.git$/,'').replace(/\/+$/,'');const m=v.match(/^https?:\/\/(?:www\.)?github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/.*)?$/)||v.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/);return m?{owner:m[1],name:m[2]}:null}function tokenHeaders(){const t=($('tokenIn')?.value||localStorage.getItem('gitSuccessToken')||'').trim();const h={'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};if(t)h.Authorization='Bearer '+t;return h}
+    async function ghFetch(path,nullable=false){state.apiLog.push(path);const r=await fetch(API+path,{headers:tokenHeaders()});if(!r.ok){if(nullable)return null;if(r.status===403)throw new Error('GitHub API-Limit erreicht. Bitte Token speichern oder später erneut versuchen.');if(r.status===404)throw new Error('Repository wurde nicht gefunden.');throw new Error('GitHub API-Fehler '+r.status)}return r.json()}async function safe(path){try{return await ghFetch(path,true)}catch(e){return null}}async function loadBenchmarks(){try{const r=await fetch('data/benchmarks.json');if(r.ok){const d=await r.json();if(d?.medians)MEDIANS={...FALLBACK_MEDIANS,...d.medians}}$('benchStatus').innerHTML='Benchmark-Daten geladen. Details zur Berechnung finden Sie in der <a href="docs.html">Metrik-Dokumentation</a>.'}catch(e){$('benchStatus').innerHTML='Benchmark-Fallback aktiv. Details zur Berechnung finden Sie in der <a href="docs.html">Metrik-Dokumentation</a>.'}}
+    async function fetchKpis(owner,name){const b=await ghFetch(`/repos/${owner}/${name}`);const[a,readme,contrib,releases,issues,contributors]=await Promise.all([safe(`/repos/${owner}/${name}/stats/commit_activity`),safe(`/repos/${owner}/${name}/readme`),safe(`/repos/${owner}/${name}/contents/CONTRIBUTING.md`),safe(`/repos/${owner}/${name}/releases?per_page=20`),safe(`/repos/${owner}/${name}/issues?state=all&per_page=100`),safe(`/repos/${owner}/${name}/contributors?per_page=100`)]);const stars=b.stargazers_count||0,forks=b.forks_count||0,age=Math.max(1,Math.floor((Date.now()-new Date(b.created_at))/864e5)),daysInactive=Math.max(0,Math.floor((Date.now()-new Date(b.pushed_at||b.updated_at||b.created_at))/864e5)),commits30=Array.isArray(a)?a.slice(-4).reduce((s,w)=>s+Math.max(0,w.total||0),0):null;let closeRate=null,avgClose=null,avgComments=null,fehlerProd=null;if(Array.isArray(issues)){const real=issues.filter(i=>!i.pull_request),closed=real.filter(i=>i.state==='closed');closeRate=real.length?closed.length/real.length:null;const times=closed.map(i=>(new Date(i.closed_at)-new Date(i.created_at))/864e5).filter(v=>Number.isFinite(v)&&v>=0);avgClose=times.length?times.reduce((x,y)=>x+y,0)/times.length:null;avgComments=real.length?real.reduce((s,i)=>s+(i.comments||0),0)/real.length:null;fehlerProd=commits30>0?closed.length/commits30:null}let relFreq=null;if(Array.isArray(releases)){const dates=releases.filter(r=>!r.draft&&!r.prerelease&&r.published_at).map(r=>new Date(r.published_at).getTime()).sort((x,y)=>x-y),diffs=dates.slice(1).map((d,i)=>(d-dates[i])/864e5).filter(v=>v>=0);relFreq=diffs.length?diffs.reduce((x,y)=>x+y,0)/diffs.length:null}return{meta:{fullName:b.full_name,htmlUrl:b.html_url,description:b.description,language:b.language,license:b.license?.spdx_id||b.license?.name,stars,forks,openIssues:b.open_issues_count||0,age,readmeOk:!!readme,contribOk:!!contrib},kpis:{commits30,daysInactive,contributors:Array.isArray(contributors)?contributors.length:null,closeRate,relFreq,avgClose,avgComments,fehlerProd,forkRatio:stars>0?forks/stars:0,doku:(readme?60:0)+(contrib?40:0),starsTage:stars/age}}}
+    function scoreKpi(key,value){const k=kpiById(key),m=MEDIANS[key];if(value==null||!Number.isFinite(Number(value))||!k||!Number.isFinite(Number(m)))return null;let s=null;if(k.dir==='more')s=m>0?value/m*100:null;if(k.dir==='less')s=value===0?100:m>0?m/value*100:null;if(k.dir==='bool')s=value;if(k.dir==='log')s=value>0&&m>0?Math.log10(value+1)/Math.log10(m+1)*100:null;return s==null||!Number.isFinite(s)?null:Math.max(0,Math.min(100,Math.round(s)))}function computeScores(kpis){const out={};PILLARS.forEach(p=>{let pts=0,wt=0;p.kpis.forEach(k=>{const s=scoreKpi(k.id,kpis[k.id]);if(s!=null){pts+=s*k.w;wt+=k.w}});out[p.id]=wt?Math.round(pts/wt):null});let pts=0,wt=0;PILLARS.forEach(p=>{if(out[p.id]!=null){pts+=out[p.id]*p.weight;wt+=p.weight}});out.overall=wt?Math.round(pts/wt):null;return out}
+    function renderConfig(){const v=state.visibility;$('configCard').innerHTML=`<div class="toggle-row"><div><div class="section-title">Anzeige konfigurieren</div><p class="hint">Legen Sie fest, welche Bereiche und Kennzahlen sichtbar sind.</p></div><button class="btn-secondary" type="button" onclick="toggleConfig(false)">Schließen</button></div><div class="config-grid"><div class="cfg-group"><div class="cfg-head">Dashboard-Bereiche</div>${[['profile','Repository-Profil'],['overall','Repository Health Score'],['pillars','Bewertungssäulen'],['details','KPI-Details'],['explain','Methodische Einordnung'],['suggestions','Handlungsempfehlungen'],['api','GitHub-API-Endpunkte']].map(([id,label])=>`<label class="check"><input type="checkbox" ${v.sections[id]?'checked':''} onchange="state.visibility.sections.${id}=this.checked;rerender()"> ${label}</label>`).join('')}</div>${PILLARS.map(p=>`<div class="cfg-group"><div class="cfg-head">${p.label}</div>${p.kpis.map(k=>`<label class="check"><input type="checkbox" ${v.kpis[k.id]?'checked':''} onchange="state.visibility.kpis.${k.id}=this.checked;rerender()"> ${k.label}</label>`).join('')}</div>`).join('')}</div><div class="config-footer"><button class="btn-secondary" type="button" onclick="toggleConfig(false)">Anwenden</button><button class="btn-primary" type="button" onclick="openReportForPdf()">PDF-Report erstellen</button></div>`}function toggleConfig(force){$('configCard').classList.toggle('hidden',force===undefined?undefined:!force)}function rerender(){renderConfig();renderRepo();renderOverall();renderPillars();renderKpiPanel(activePillar);renderExplain();renderSuggestions();renderApiCard()}
+    function renderRepo(){const m=state.meta,owner=m.fullName.split('/')[0];$('repoHdr').classList.toggle('hidden',!state.visibility.sections.profile);$('repoHdr').innerHTML=`<div class="repo-main"><div class="avatar-wrap"><img class="avatar" src="https://github.com/${esc(owner)}.png?size=128" alt=""></div><div class="repo-title"><a href="${esc(m.htmlUrl)}" target="_blank" rel="noreferrer">${esc(m.fullName)}</a><p class="desc">${esc(m.description||'Keine Beschreibung hinterlegt.')}</p><div class="tags">${m.language?`<span class="tag">${esc(m.language)}</span>`:''}${m.license?`<span class="tag">${esc(m.license)}</span>`:''}<span class="tag">${m.readmeOk?'README vorhanden':'README fehlt'}</span>${m.contribOk?'<span class="tag">CONTRIBUTING vorhanden</span>':''}</div></div></div><div class="stats"><div class="stat"><b>${fmt(m.stars)}</b><span>Stars</span></div><div class="stat"><b>${fmt(m.forks)}</b><span>Forks</span></div><div class="stat"><b>${fmt(m.openIssues)}</b><span>Offene Issues</span></div><div class="stat"><b>${fmt(m.age)}</b><span>Projekttage</span></div></div>`}function renderOverall(){const s=state.scores.overall??0;$('overallRow').classList.toggle('hidden',!state.visibility.sections.overall);$('overallRow').innerHTML=`<div class="status-label">Status</div><div class="ring" style="--s:${s};--c:${color(s)}"><div class="ring-inner"><div class="ring-num" style="color:${color(s)}">${state.scores.overall??'—'}</div></div></div><div class="ring-grade">${state.scores.overall!=null?scoreText(s):'Nicht verfügbar'}</div><div class="score-breakdown"><div class="weight-row"><b>Aktivität & Community</b><span>40%</span></div><div class="weight-row"><b>Reaktionsfähigkeit & Wartung</b><span>35%</span></div><div class="weight-row"><b>Reichweite & Dokumentation</b><span>25%</span></div></div><p class="hint" style="margin-top:12px">Der Repository Health Score ist ein gewichteter, vergleichender Indikator.</p>`}
+    function renderPillars(){$('pillarsRow').classList.toggle('hidden',!state.visibility.sections.pillars);$('pillarsRow').innerHTML=PILLARS.map(p=>{const s=state.scores[p.id]??0,chips=p.kpis.map(k=>`<div class="kpi-mini"><div class="kpi-mini-label">${esc(k.label)}</div><div class="kpi-mini-value">${esc(k.fmt(state.kpis[k.id]))}</div><div class="kpi-mini-direction">${esc(KPI_DIRECTION[k.id])}</div></div>`).join('');return`<button class="pillar ${activePillar===p.id?'active':''}" type="button" onclick="activePillar='${p.id}';renderPillars();renderKpiPanel('${p.id}')"><div><div class="pillar-top"><h3>${p.label}</h3><span class="pillar-weight">${Math.round(p.weight*100)}%</span></div><div class="pill-score" style="color:${color(s)}">${state.scores[p.id]??'—'}</div><div class="kpi-preview">${chips}</div><div class="details-hint">Details anzeigen</div></div><div class="bar"><i style="--w:${s}%;--c:${color(s)}"></i></div></button>`}).join('')}function renderKpiPanel(id){const p=PILLARS.find(x=>x.id===id)||PILLARS[0];const rows=p.kpis.filter(k=>state.visibility.kpis[k.id]).map(k=>{const cur=state.kpis[k.id],med=MEDIANS[k.id],s=scoreKpi(k.id,cur),formula=k.dir==='less'?`${k.fmt(med)} / ${k.fmt(cur)} × 100`:k.dir==='bool'?`README + CONTRIBUTING = ${k.fmt(cur)}`:k.dir==='log'?`log(${k.fmt(cur)} + 1) / log(${k.fmt(med)} + 1) × 100`:`${k.fmt(cur)} / ${k.fmt(med)} × 100`,tip=`Bewertungsrichtung: ${KPI_DIRECTION[k.id]}. Ist-Wert: ${k.fmt(cur)}. Median: ${k.fmt(med)}. Formel: ${formula}. Ergebnis: ${s??'nicht verfügbar'}.`;return`<tr><td><b>${k.label}</b><br><span class="hint">${KPI_INFO[k.id]} Richtung: ${KPI_DIRECTION[k.id]}.</span></td><td>${k.fmt(cur)}</td><td>${k.fmt(med)}</td><td><span class="score-badge score-tooltip" style="color:${color(s??0)}" data-tooltip="${esc(tip)}">${s??'—'}</span></td><td>${Math.round(k.w*100)}%</td><td>${esc(formula)}</td></tr>`}).join('');$('kpiPanel').classList.toggle('hidden',!state.visibility.sections.details);$('kpiPanel').innerHTML=`<div class="section-title">${p.label}</div><p class="hint" style="margin-bottom:10px">${p.text}</p>${rows?`<div class="table-scroll"><table><thead><tr><th>Kennzahl</th><th>Ist-Wert</th><th>Median</th><th>Score</th><th>Gewicht</th><th>Berechnung</th></tr></thead><tbody>${rows}</tbody></table></div>`:'<p class="hint">Alle Kennzahlen dieser Kategorie sind ausgeblendet.</p>'}`}
+    function renderExplain(){$('explainCard').classList.toggle('hidden',!state.visibility.sections.explain);$('explainCard').innerHTML=`<div class="section-title">Methodische Einordnung</div><div class="grid2">${PILLARS.map(p=>`<div class="box"><b>${p.label}</b>${p.text}</div>`).join('')}<div class="box"><b>Umgang mit fehlenden Daten</b>Nicht verfügbare GitHub-Daten werden aus der jeweiligen Berechnung ausgeschlossen.</div></div>`}function renderSuggestions(){$('sugCard').classList.toggle('hidden',!state.visibility.sections.suggestions);const items=allKpis().map(k=>({k,score:scoreKpi(k.id,state.kpis[k.id])})).filter(i=>(i.score??0)<70).slice(0,4);$('sugCard').innerHTML=`<div class="section-title">Handlungsempfehlungen</div><div class="grid2">${items.length?items.map(i=>`<div class="box"><b>${i.k.label} verbessern</b>Dieser Bereich liegt unterhalb des Benchmark-Niveaus und sollte genauer geprüft werden.</div>`).join(''):'<div class="box"><b>Keine kritischen Auffälligkeiten</b>Die wichtigsten sichtbaren Signale liegen im stabilen Bereich.</div>'}</div>`}function renderApiCard(){$('apiCard').classList.toggle('hidden',!state.visibility.sections.api);const unique=[...new Set(state.apiLog)];$('apiCard').innerHTML=`<div class="section-title">Genutzte GitHub-API-Endpunkte</div><div class="grid2">${unique.map(e=>`<div class="box"><b>GET</b>${esc(e)}</div>`).join('')}</div>`}
+    function openReportForPdf(){const rows=allKpis().map(k=>`<tr><td>${esc(k.label)}</td><td>${esc(k.fmt(state.kpis[k.id]))}</td><td>${esc(k.fmt(MEDIANS[k.id]))}</td><td>${scoreKpi(k.id,state.kpis[k.id])??'—'}</td><td>${KPI_DIRECTION[k.id]}</td></tr>`).join(''),html=`<!doctype html><html><head><meta charset="utf-8"><title>GitSuccess Report</title><style>body{font-family:Arial,sans-serif;margin:28px;color:#1E293B;line-height:1.45}h1{font-size:28px}.score{font-size:48px;color:#5B50D6;font-weight:700}.note{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:12px;margin:12px 0}table{width:100%;border-collapse:collapse;margin-top:12px}td,th{border:1px solid #E2E8F0;padding:8px;font-size:12px;text-align:left}th{background:#F1F5F9}.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.pillar{border:1px solid #E2E8F0;border-radius:14px;padding:12px;background:#F8FAFC}.big{font-size:30px;color:#5B50D6;font-weight:700}</style></head><body><h1>GitSuccess Repository Health Report</h1><p>${esc(state.meta.fullName)}</p><div class="score">${state.scores.overall??'—'} / 100</div><div class="note"><b>Status:</b> ${scoreText(state.scores.overall??0)}</div><h2>Bewertungssäulen</h2><div class="pillars">${PILLARS.map(p=>`<div class="pillar"><h3>${p.label}</h3><div class="big">${state.scores[p.id]??'—'}</div><p>${Math.round(p.weight*100)}% Gewichtung</p></div>`).join('')}</div><h2>KPI-Details</h2><table><tr><th>KPI</th><th>Ist-Wert</th><th>Median</th><th>Score</th><th>Richtung</th></tr>${rows}</table><h2>Hinweis</h2><div class="note">Der Score ist eine indikative Bewertung auf Basis öffentlich verfügbarer GitHub-Daten und ersetzt keine Code-, Security- oder Architekturprüfung.</div></body></html>`,w=window.open('','_blank');if(!w)return alert('Der Bericht konnte nicht geöffnet werden. Bitte Popup-Blocker prüfen.');w.document.write(html);w.document.close()}
+    function showTokenMessage(text,type='success'){$('tokenState').textContent=text;$('tokenState').className='message '+(type==='success'?'success':'error');setTimeout(()=>$('tokenState').classList.add('hidden'),3000)}function saveToken(){const t=$('tokenIn').value.trim();if(!t){localStorage.removeItem('gitSuccessToken');showTokenMessage('Token wurde entfernt. Analysen laufen ohne Authentifizierung.');return}localStorage.setItem('gitSuccessToken',t);showTokenMessage('Token wurde lokal im Browser gespeichert.')}async function analyze(){const p=parseUrl($('repoIn').value);if(!p){$('errorState').textContent='Bitte geben Sie ein gültiges GitHub-Repository ein, z. B. facebook/react oder https://github.com/facebook/react.';$('errorState').classList.remove('hidden');return}localStorage.setItem('gitSuccessLastRepoInput',$('repoIn').value.trim());$('analyzeBtn').disabled=true;$('loadingState').classList.remove('hidden');$('errorState').classList.add('hidden');$('results').classList.add('hidden');state.apiLog=[];try{await loadBenchmarks();const data=await fetchKpis(p.owner,p.name);state={...state,...data,scores:computeScores(data.kpis),visibility:state.visibility||defaultVisibility()};activePillar='p1';rerender();$('results').classList.remove('hidden');$('results').scrollIntoView({behavior:'smooth'})}catch(e){$('errorState').textContent=e.message;$('errorState').classList.remove('hidden')}finally{$('loadingState').classList.add('hidden');$('analyzeBtn').disabled=false}}
+    function initPage(){state.visibility=defaultVisibility();$('analyzeBtn').addEventListener('click',analyze);$('repoIn').addEventListener('keydown',e=>{if(e.key==='Enter')analyze()});$('saveTokenBtn').addEventListener('click',saveToken);$('configBtn').addEventListener('click',()=>toggleConfig());$('tokenIn').value=localStorage.getItem('gitSuccessToken')||'';const repoParam=new URLSearchParams(window.location.search).get('repo');$('repoIn').value=repoParam?`https://github.com/${repoParam}`:(localStorage.getItem('gitSuccessLastRepoInput')||'');loadBenchmarks();if(repoParam)setTimeout(analyze,250)}initPage();
+  </script>
+</body>
 </html>
