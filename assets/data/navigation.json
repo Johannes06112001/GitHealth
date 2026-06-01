@@ -1,0 +1,22 @@
+[
+  {
+    "href": "top100.html",
+    "label": "Top-100-Vergleichsgruppe"
+  },
+  {
+    "href": "index.html",
+    "label": "Repository Analyzer"
+  },
+  {
+    "href": "docs.html",
+    "label": "Metrik-Dokumentation"
+  },
+  {
+    "href": "api-guide.html",
+    "label": "REST-API Guide"
+  },
+  {
+    "href": "about.html",
+    "label": "Team"
+  }
+]
