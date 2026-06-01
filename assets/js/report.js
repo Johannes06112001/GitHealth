@@ -9,12 +9,6 @@
     return Math.max(min, Math.min(max, Number(value) || 0));
   }
 
-  function scoreColor(score) {
-    if ((score ?? 0) >= 70) return '#166534';
-    if ((score ?? 0) >= 45) return '#92400E';
-    return '#9F1239';
-  }
-
   function scoreLabel(score) {
     if (typeof scoreText === 'function') return scoreText(score ?? 0);
     if ((score ?? 0) >= 80) return 'starke Repository Health';
@@ -89,6 +83,15 @@
     }).join('');
   }
 
+  function benchmarkLegend() {
+    return `
+      <div class="benchmark-legend">
+        <span><i class="legend-current"></i> Ist-Wert</span>
+        <span><i class="legend-median"></i> Median</span>
+      </div>
+    `;
+  }
+
   function benchmarkRows() {
     const selected = ['daysInactive', 'contributors', 'closeRate', 'avgClose', 'doku', 'starsTage']
       .map(id => allReportKpis().find(kpi => kpi.id === id))
@@ -99,15 +102,15 @@
       const median = MEDIANS[kpi.id];
       const score = kpiScore(kpi);
       const percentile = clamp(score);
-      const currentPos = clamp(score);
+      const currentPos = clamp(score == null ? 0 : score);
       const medianPos = 50;
       return `
         <tr>
           <td><b>${esc(kpi.label)}</b></td>
           <td>
-            <div class="range">
-              <i class="median" style="left:${medianPos}%"><span>Median</span></i>
-              <i class="current" style="left:${currentPos}%"><span>Ist</span></i>
+            <div class="range-line" aria-label="Ist-Wert und Median">
+              <i class="median" style="left:${medianPos}%"></i>
+              <i class="current" style="left:${currentPos}%"></i>
             </div>
             <div class="range-values">
               <span>Ist-Wert: <b>${esc(kpi.fmt(current))}</b></span>
@@ -203,11 +206,15 @@
     .pillar-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 12px; }
     .pillar-card { border: 1px solid #E2E8F0; border-radius: 12px; padding: 16px; min-height: 170px; page-break-inside: avoid; }
     .pillar-score { font-size: 32px; color: #3F2E8C; font-weight: 700; margin-bottom: 14px; }
-    .range { position: relative; height: 34px; margin: 4px 10px 10px; border-bottom: 1px solid #E2E8F0; }
-    .range i { position: absolute; bottom: -7px; width: 40px; height: 40px; border: 1px solid #E2E8F0; border-radius: 50%; background: white; transform: translateX(-50%); }
-    .range i span { position: absolute; top: 8px; left: 6px; font-size: 10px; font-weight: 700; }
-    .range .current span { color: #3F2E8C; }
-    .range .median span { color: #F59E0B; }
+    .benchmark-legend { display: flex; gap: 18px; align-items: center; justify-content: flex-end; margin: 6px 0 8px; font-size: 11px; color: #475569; }
+    .benchmark-legend span { display: inline-flex; align-items: center; gap: 6px; }
+    .benchmark-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+    .legend-current { background: #5B50D6; }
+    .legend-median { background: #F59E0B; }
+    .range-line { position: relative; height: 22px; margin: 4px 8px 8px; border-bottom: 2px solid #E2E8F0; }
+    .range-line i { position: absolute; bottom: -7px; width: 3px; height: 18px; border-radius: 999px; transform: translateX(-50%); }
+    .range-line i.current { background: #5B50D6; }
+    .range-line i.median { background: #F59E0B; }
     .range-values { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; }
     .doc-status { font-weight: 700; }
     .doc-status.ok { color: #166534; }
@@ -246,6 +253,7 @@
 
   <h2>Benchmark-Kontext</h2>
   <div class="note">Die Benchmark-Werte basieren auf der täglich aktualisierten Top-100-Vergleichsgruppe öffentlicher GitHub-Repositories. Sie dienen der relativen Einordnung und bilden nicht die gesamte GitHub-Plattform ab.</div>
+  ${benchmarkLegend()}
   <table>
     <tr><th>KPI</th><th>Ist-Wert und Median</th><th>Perzentil</th><th>Einordnung</th></tr>
     ${benchmarkRows()}
