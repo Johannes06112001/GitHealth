@@ -44,14 +44,7 @@
           <div class="logo">⌘</div>
           <span>GitSuccess</span>
         </div>
-        <nav class="nav">
-          <a href="top100.html">Top-100-Vergleichsgruppe</a>
-          <a href="index.html">Repository Analyzer</a>
-          <a href="docs.html">Metrik-Dokumentation</a>
-          <a class="active" href="api-guide.html">REST-API Guide</a>
-          <a href="about.html">Team</a>
-          <button id="themeBtn" type="button">Dark Mode</button>
-        </nav>
+        <nav class="nav"></nav>
       </div>
 
       <section class="hero">
@@ -95,29 +88,6 @@
       </section>
     </div>
 
-    <script>
-      const THEME_KEY = 'gitSuccessTheme';
-
-      function initTheme() {
-        const button = document.getElementById('themeBtn');
-        const saved = localStorage.getItem(THEME_KEY);
-
-        if (saved === 'dark') {
-          document.body.classList.add('dark');
-        }
-
-        if (button) {
-          button.textContent = document.body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
-        }
-
-        button?.addEventListener('click', () => {
-          const isDark = document.body.classList.toggle('dark');
-          localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
-          button.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-        });
-      }
-
-      initTheme();
-    </script>
+    <script src="assets/js/layout.js"></script>
   </body>
 </html>
