@@ -1,35 +1,1031 @@
 <!doctype html>
 <html lang="de">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GitSuccess | Repository Analyzer</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--primary:#5B50D6;--positive:#34D399;--neutral:#FBBF24;--negative:#FB7185;--card:#fff;--surface:#F8FAFC;--soft:#F1F5F9;--border:#E2E8F0;--muted:#64748B;--text:#1E293B;--shadow:0 18px 48px rgba(15,23,42,.07)}body.dark{--card:#1F2937;--surface:#111827;--soft:#374151;--border:#374151;--muted:#9CA3AF;--text:#F3F4F6;--shadow:0 20px 54px rgba(0,0,0,.30)}*{box-sizing:border-box;margin:0;padding:0}body{font-family:Poppins,system-ui,sans-serif;background:linear-gradient(180deg,#F8FAFB 0%,#EEF2F7 100%);color:var(--text);min-height:100vh}body.dark{background:#111827}.shell{width:min(1160px,100%);margin:auto;padding:18px 18px 56px}.topbar{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px;position:sticky;top:10px;z-index:100;background:rgba(248,250,251,.82);backdrop-filter:blur(18px);border:1px solid rgba(226,232,240,.78);border-radius:22px;padding:8px 10px;box-shadow:0 14px 36px rgba(15,23,42,.06)}body.dark .topbar{background:rgba(17,24,39,.84);border-color:rgba(55,65,81,.85)}.brand{display:flex;align-items:center;gap:10px;font-weight:700}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--primary),#8177ff);display:grid;place-items:center;color:#fff}.mobile-head{display:contents}.menu-toggle{display:none;border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:12px;padding:9px 11px;font-size:18px;line-height:1;cursor:pointer}.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.nav a,.nav button,.btn-secondary,.icon-btn{border:1px solid var(--border);background:rgba(255,255,255,.86);color:var(--text);border-radius:999px;padding:9px 13px;text-decoration:none;font-size:12px;cursor:pointer;font-family:inherit}.dark .nav a,.dark .nav button,.dark .btn-secondary,.dark .icon-btn{background:rgba(31,41,55,.86)}.nav .active{background:var(--primary);border-color:var(--primary);color:#fff}.hero{max-width:820px;margin:0 auto 20px;text-align:center}.hero h1{font-size:clamp(30px,4.2vw,48px);letter-spacing:-.045em;line-height:1.08}.hero p{color:var(--muted);font-size:14px;margin-top:10px}.card{background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:22px;box-shadow:var(--shadow)}.dark .card{background:rgba(31,41,55,.94)}.panel{padding:20px}.section-title{font-size:17px;font-weight:700;margin-bottom:12px}.hint,.status{font-size:12px;color:var(--muted);line-height:1.55}.hint a,.status a{color:var(--primary);font-weight:700;text-decoration:none}.status{max-width:900px;margin:0 auto 16px}.hidden{display:none!important}.search-card{max-width:900px;margin:0 auto 18px;padding:18px}.label{display:block;font-size:12px;font-weight:600;margin-bottom:8px}.search-row,.token-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}.token-row{margin-top:12px}input{width:100%;min-width:0;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:13px;padding:12px 14px;outline:none;font-family:inherit}.btn-primary{border:0;background:var(--primary);color:#fff;border-radius:13px;padding:12px 18px;font-weight:700;cursor:pointer;font-family:inherit}.btn-primary:disabled{opacity:.55;cursor:not-allowed}.message{max-width:760px;margin:16px auto;padding:14px;border-radius:16px;border:1px solid var(--border);background:var(--card)}.message.error{border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.08)}.message.success{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.08)}.results{display:grid;gap:14px;margin-top:18px}.dash-actions{display:flex;justify-content:flex-end;position:sticky;top:78px;z-index:20;pointer-events:none}.menu-wrap{position:relative;pointer-events:auto}.icon-btn{width:40px;height:40px;padding:0;font-size:20px}.popover{position:absolute;right:0;top:48px;width:min(780px,92vw);max-height:78vh;overflow:auto;background:var(--card);border:1px solid var(--border);border-radius:22px;box-shadow:0 34px 90px rgba(15,23,42,.20);padding:16px}.repo-card{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center;padding:20px 22px}.repo-main{display:grid;grid-template-columns:52px minmax(0,1fr);gap:14px;align-items:center}.avatar-wrap{width:52px;height:52px;border-radius:16px;background:var(--soft);border:1px solid var(--border);overflow:hidden}.avatar{width:52px;height:52px;object-fit:cover}.repo-title{min-width:0}.repo-title a{font-size:21px;font-weight:700;color:var(--text);text-decoration:none;word-break:break-word}.desc{font-size:13px;color:var(--muted);margin:4px 0 10px}.tags{display:flex;flex-wrap:wrap;gap:6px}.tag{font-size:11px;color:var(--muted);background:var(--soft);border:1px solid var(--border);border-radius:999px;padding:4px 8px}.stats{display:grid;grid-template-columns:repeat(4,72px);gap:8px}.stat{background:var(--surface);border:1px solid var(--border);border-radius:15px;padding:10px 8px;text-align:center}.stat b{display:block;font-size:16px}.stat span{font-size:10px;color:var(--muted)}.score-grid{display:grid;grid-template-columns:280px 1fr;gap:14px}.overall{display:grid;place-items:center;text-align:center;padding:20px}.status-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:8px}.ring{width:132px;height:132px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--c) calc(var(--s)*1%),var(--border) 0)}.ring:after{content:"";position:absolute;inset:12px;background:var(--card);border-radius:50%}.ring-inner{position:relative;z-index:1}.ring-num{font-size:36px;font-weight:700}.ring-grade{font-size:13px;margin-top:10px;font-weight:600}.formula{margin-top:14px;color:var(--muted);font-size:12px}.score-breakdown{display:grid;gap:7px;width:100%;margin-top:14px}.weight-row{display:flex;justify-content:space-between;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:8px 10px;font-size:11px;color:var(--muted)}.weight-row b{color:var(--text)}.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.pillar{min-height:300px;border:1px solid var(--border);background:var(--card);border-radius:20px;padding:18px;text-align:left;color:var(--text);cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;font-family:inherit}.pillar.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(91,80,214,.10)}.pillar-top{display:flex;justify-content:space-between;gap:10px}.pillar h3{font-size:14px}.pillar-weight{font-size:12px;color:var(--muted)}.pill-score{font-size:28px;font-weight:700;margin-top:12px}.bar{height:7px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:10px}.bar i{display:block;height:100%;background:var(--c);width:var(--w)}.kpi-preview{display:grid;gap:7px;margin-top:14px}.kpi-mini{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:7px 9px}.kpi-mini-label{font-size:10px;font-weight:600;color:var(--text)}.kpi-mini-value{font-size:12px;font-weight:700;margin-top:3px}.kpi-mini-direction{font-size:10px;color:var(--muted);margin-top:2px}.details-hint{margin-top:12px;font-size:11px;font-weight:600;color:var(--primary)}.context-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.context-card{border:1px solid var(--border);background:var(--surface);border-radius:16px;padding:13px}.context-card h3{font-size:13px;margin-bottom:10px}.context-numbers{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}.context-number{border:1px solid var(--border);background:var(--card);border-radius:12px;padding:8px}.context-number span{display:block;font-size:10px;color:var(--muted);font-weight:600}.context-number b{display:block;font-size:14px;margin-top:2px}.context-number.current b{color:var(--primary)}.context-number.median b{color:var(--neutral)}.range{height:14px;background:linear-gradient(90deg,rgba(52,211,153,.18),rgba(91,80,214,.12));border:1px solid var(--border);border-radius:999px;position:relative;margin:22px 0 15px}.range-marker{position:absolute;top:-9px;left:calc(var(--p)*1%);transform:translateX(-50%);display:grid;place-items:center}.range-marker:before{content:"";width:6px;height:30px;border-radius:999px;background:var(--marker);box-shadow:0 0 0 3px var(--card)}.range-marker span{position:absolute;top:-18px;white-space:nowrap;font-size:10px;font-weight:700;color:var(--marker);background:var(--card);border:1px solid var(--border);border-radius:999px;padding:2px 6px}.range-marker.current{--marker:var(--primary)}.range-marker.median{--marker:var(--neutral)}.range-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.legend span{font-size:10px;color:var(--muted)}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.legend .current-dot{background:var(--primary)}.legend .median-dot{background:var(--neutral)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}th{color:var(--muted);font-size:11px;text-transform:uppercase}.table-scroll{overflow:auto;border:1px solid var(--border);border-radius:14px}.table-scroll table{min-width:720px}.score-badge{display:inline-block;border-radius:999px;background:var(--soft);padding:4px 8px;font-weight:600}.score-tooltip{position:relative;cursor:help}.score-tooltip:hover:after{content:attr(data-tooltip);position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);width:280px;background:var(--card);color:var(--text);border:1px solid var(--border);border-radius:12px;padding:10px 12px;box-shadow:var(--shadow);font-size:11px;line-height:1.45;z-index:300;white-space:normal}.grid2,.config-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.box,.cfg-group{border:1px solid var(--border);background:var(--surface);border-radius:16px;padding:13px;color:var(--muted);font-size:13px}.box b,.cfg-head{display:block;color:var(--text);font-weight:700;margin-bottom:6px}.check{display:flex;gap:8px;align-items:center;margin:7px 0;font-size:13px}.check input{width:auto}.toggle-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px}.config-footer{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:13px;border-top:1px solid var(--border)}.footer{margin-top:24px;text-align:center;color:var(--muted);font-size:12px}@media(max-width:980px){.repo-card,.score-grid{grid-template-columns:1fr}.pillars,.context-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:760px){.shell{padding:12px 12px 40px}.topbar{align-items:stretch;flex-direction:column;gap:10px;border-radius:18px}.mobile-head{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}.menu-toggle{display:inline-flex;align-items:center;justify-content:center}.nav{display:none;width:100%;grid-template-columns:1fr;gap:7px}.nav.open{display:grid}.nav a,.nav button{text-align:center;padding:10px 12px;font-size:12px}.hero{text-align:left;margin:8px 0 16px}.hero h1{font-size:28px;letter-spacing:-.03em}.hero p{font-size:13px}.card{border-radius:18px}.panel,.search-card{padding:14px}.search-card{max-width:none;margin:0 0 16px}.search-row,.token-row{grid-template-columns:1fr}.btn-primary,.btn-secondary{width:100%;text-align:center}.repo-card{padding:16px}.repo-main{grid-template-columns:44px minmax(0,1fr)}.avatar-wrap,.avatar{width:44px;height:44px}.repo-title a{font-size:18px}.stats{grid-template-columns:repeat(2,1fr)}.overall{padding:16px}.pillars{gap:10px}.pillar{min-height:auto}.context-numbers,.grid2,.config-grid{grid-template-columns:1fr}.dash-actions{top:auto;bottom:16px}.popover{position:fixed;left:12px;right:12px;top:auto;bottom:70px;width:auto;max-height:70vh}.section-title{font-size:16px}.table-scroll{margin:0 -4px}}</style>
-</head>
-<body>
-<div class="shell"><div class="topbar"><div class="mobile-head"><div class="brand"><div class="logo">⌘</div><span>GitSuccess</span></div><button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="mainNav">☰</button></div><nav id="mainNav" class="nav"><a href="top100.html">Top-100-Vergleichsgruppe</a><a class="active" href="index.html">Repository Analyzer</a><a href="docs.html">Metrik-Dokumentation</a><a href="api-guide.html">REST-API Guide</a><button id="themeBtn" type="button">Dark Mode</button></nav></div><section class="hero"><h1>Repository Health transparent einordnen.</h1><p>GitSuccess analysiert öffentlich verfügbare GitHub-Signale und erstellt eine nachvollziehbare Repository-Health-Bewertung.</p></section><section class="card search-card"><label class="label" for="repoIn">GitHub-Repository</label><div class="search-row"><input id="repoIn" type="text" placeholder="z. B. facebook/react oder https://github.com/vuejs/core"><button id="analyzeBtn" class="btn-primary" type="button">Repository analysieren</button></div><div class="token-row"><div><label class="label" for="tokenIn" style="margin-top:12px">GitHub Personal Access Token</label><input id="tokenIn" type="password" placeholder="Token hier einfügen"></div><button class="btn-secondary" id="saveTokenBtn" type="button">Token lokal speichern</button></div><p class="hint">Der Token wird ausschließlich lokal im Browser gespeichert und für authentifizierte GitHub-API-Anfragen verwendet. Eine Anleitung finden Sie im <a href="api-guide.html">REST-API Guide</a>.</p></section><p class="status" id="benchStatus">Benchmark-Daten werden vorbereitet.</p><div id="tokenState" class="message hidden"></div><div id="loadingState" class="message hidden">Analyse wird ausgeführt. Bitte warten.</div><div id="errorState" class="message error hidden"></div><main id="results" class="results hidden"><div class="dash-actions"><div class="menu-wrap"><button class="icon-btn" id="configBtn" title="Anzeige konfigurieren">⋯</button><section id="configCard" class="popover hidden"></section></div></div><section id="repoHdr" class="card repo-card"></section><section class="score-grid"><div id="overallRow" class="card overall"></div><div id="pillarsRow" class="pillars"></div></section><section id="kpiPanel" class="card panel"></section><section id="benchmarkCard" class="card panel"></section><section id="explainCard" class="card panel"></section><section id="sugCard" class="card panel"></section><section id="compareCard" class="card panel hidden"></section><section id="apiCard" class="card panel"></section></main><footer class="footer">GitSuccess · Transparente Repository-Analyse auf Basis öffentlich verfügbarer GitHub-Daten.</footer></div>
-<script>
-const API='https://api.github.com',THEME_KEY='gitSuccessTheme';const FALLBACK_MEDIANS={commits30:35,daysInactive:9,contributors:70,closeRate:.72,relFreq:35,avgClose:18,avgComments:2.3,fehlerProd:.25,forkRatio:.18,doku:100,starsTage:9};let MEDIANS={...FALLBACK_MEDIANS},activePillar='p1',state={meta:null,kpis:null,scores:null,apiLog:[],visibility:null,analyses:[],benchmarkRepos:[]};
-const PILLARS=[{id:'p1',label:'Aktivität & Community',weight:.40,kpis:[{id:'commits30',label:'Commit-Aktivität 30 Tage',w:.50,dir:'more',fmt:v=>v==null?'Nicht verfügbar':Math.round(v)+' Commits'},{id:'daysInactive',label:'Tage seit letztem Push',w:.30,dir:'less',fmt:v=>v==null?'Nicht verfügbar':Math.round(v)+' Tage'},{id:'contributors',label:'Contributors',w:.20,dir:'more',fmt:v=>v==null?'Nicht verfügbar':Math.round(v)+' Personen'}]},{id:'p2',label:'Reaktionsfähigkeit & Wartung',weight:.35,kpis:[{id:'closeRate',label:'Issue-Schließungsrate',w:.25,dir:'more',fmt:v=>v==null?'Nicht verfügbar':(v*100).toFixed(1)+'%'},{id:'relFreq',label:'Ø Tage zwischen Releases',w:.25,dir:'less',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(1)+' Tage'},{id:'avgClose',label:'Ø Issue-Schließzeit',w:.25,dir:'less',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(1)+' Tage'},{id:'avgComments',label:'Issue-Engagement',w:.15,dir:'more',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(1)+' Kommentare'},{id:'fehlerProd',label:'Fehlerbehebungs-Produktivität',w:.10,dir:'more',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(3)}]},{id:'p3',label:'Reichweite & Dokumentation',weight:.25,kpis:[{id:'forkRatio',label:'Fork-Ratio',w:.35,dir:'more',fmt:v=>v==null?'Nicht verfügbar':(v*100).toFixed(1)+'%'},{id:'doku',label:'Dokumentation README + CONTRIBUTING',w:.35,dir:'bool',fmt:v=>v==null?'Nicht verfügbar':v+' / 100'},{id:'starsTage',label:'Stars pro Alterstag',w:.30,dir:'log',fmt:v=>v==null?'Nicht verfügbar':v.toFixed(2)}]}];
-const TEXT={p1:'Bewertet Entwicklungsaktivität und sichtbare Community-Beteiligung.',p2:'Bewertet Wartungsfähigkeit, Release-Rhythmus und Issue-Bearbeitung.',p3:'Bewertet Reichweite, Dokumentation und Einstiegshürden.'};const KPI_INFO={commits30:'Regelmäßige Änderungen zeigen aktive Pflege.',daysInactive:'Niedrigere Werte sprechen für aktuelle Pflege.',contributors:'Mehr Beteiligte reduzieren Abhängigkeiten.',closeRate:'Eine hohe Quote zeigt aktives Backlog-Management.',relFreq:'Regelmäßige Releases machen Fortschritt planbar.',avgClose:'Kürzere Zeiten zeigen Reaktionsfähigkeit.',avgComments:'Kommentare zeigen Austausch und Nachvollziehbarkeit.',fehlerProd:'Verhältnis geschlossener Issues zur Commit-Aktivität.',forkRatio:'Forks deuten auf Nutzungsinteresse hin.',doku:'Dokumentation reduziert Einstiegshürden.',starsTage:'Reichweite in Relation zum Projektalter.'};const KPI_DIRECTION={commits30:'höher ist besser',daysInactive:'niedriger ist besser',contributors:'höher ist besser',closeRate:'höher ist besser',relFreq:'niedriger ist besser',avgClose:'niedriger ist besser',avgComments:'höher ist besser',fehlerProd:'höher ist besser',forkRatio:'höher ist besser',doku:'höher ist besser',starsTage:'höher ist besser'};const CONTEXT_KPIS=['commits30','daysInactive','contributors','closeRate','avgClose','doku','starsTage'];
-const $=id=>document.getElementById(id),allKpis=()=>PILLARS.flatMap(p=>p.kpis),kpiById=id=>allKpis().find(k=>k.id===id),esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function fmt(n){if(n==null||Number.isNaN(n))return'Nicht verfügbar';if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'K';return String(Math.round(n))}function color(s){return s>=70?'#34D399':s>=45?'#FBBF24':'#FB7185'}function scoreText(s){return s>=80?'starke Repository Health':s>=60?'solide Repository Health':s>=40?'eingeschränkte Repository Health':'kritische Repository Health'}function defaultVisibility(){const k={};allKpis().forEach(x=>k[x.id]=true);return{sections:{profile:true,pillars:true,overall:true,suggestions:true,api:true,explain:true,compare:true,benchmark:true},kpis:k}}
-function initTheme(){const b=$('themeBtn');if(localStorage.getItem(THEME_KEY)==='dark')document.body.classList.add('dark');b.textContent=document.body.classList.contains('dark')?'Light Mode':'Dark Mode';b.addEventListener('click',()=>{const d=document.body.classList.toggle('dark');localStorage.setItem(THEME_KEY,d?'dark':'light');b.textContent=d?'Light Mode':'Dark Mode'})}function initMenu(){const t=$('menuToggle'),n=$('mainNav');if(!t||!n)return;t.addEventListener('click',()=>{const open=n.classList.toggle('open');t.setAttribute('aria-expanded',String(open));t.textContent=open?'×':'☰'});n.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{n.classList.remove('open');t.setAttribute('aria-expanded','false');t.textContent='☰'}))}function showTokenMsg(text,type='error'){$('tokenState').textContent=text;$('tokenState').className='message '+(type==='success'?'success':'error');setTimeout(()=>$('tokenState').classList.add('hidden'),3200)}function saveToken(){const t=$('tokenIn').value.trim();if(!t){localStorage.removeItem('gitSuccessToken');showTokenMsg('Token wurde entfernt. Analysen laufen ohne Authentifizierung.','success');return}localStorage.setItem('gitSuccessToken',t);showTokenMsg('Token wurde lokal im Browser gespeichert.','success')}function tokenHeaders(){const t=($('tokenIn')?.value||localStorage.getItem('gitSuccessToken')||'').trim();const h={'Accept':'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28'};if(t)h.Authorization='Bearer '+t;return h}
-function parseUrl(raw){const s=raw.trim().replace(/^git\+/,'').replace(/\.git$/,'').replace(/\/+$/,'');let m=s.match(/^https?:\/\/(?:www\.)?github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/.*)?$/)||s.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/);return m?{owner:m[1],name:m[2]}:null}function parseMany(raw){return raw.split(/[\n,]+/).map(x=>x.trim()).filter(Boolean).map(parseUrl).filter(Boolean).slice(0,6)}async function ghFetch(path,{nullable=false,retries=2}={}){state.apiLog.push(path);let r;try{r=await fetch(API+path,{headers:tokenHeaders()})}catch(e){if(nullable)return null;throw new Error('GitHub ist derzeit nicht erreichbar.')}if(r.status===202){if(retries<=0)return null;await new Promise(res=>setTimeout(res,1200));return ghFetch(path,{nullable:true,retries:retries-1})}if(r.status===404&&nullable)return null;if(r.status===404)throw new Error('Repository oder API-Ressource wurde nicht gefunden.');if(r.status===403){if(nullable)return null;throw new Error('GitHub API-Limit erreicht. Bitte Token speichern oder später erneut versuchen.')}if(!r.ok){if(nullable)return null;throw new Error('GitHub API-Fehler '+r.status)}return r.json()}async function safe(path){return ghFetch(path,{nullable:true,retries:2}).catch(()=>null)}async function loadBenchmarks(){try{const [b,t]=await Promise.all([fetch('data/benchmarks.json'),fetch('data/top100_repos.json')]);if(b.ok){const d=await b.json();if(d?.medians)MEDIANS={...FALLBACK_MEDIANS,...d.medians}}if(t.ok){const repos=await t.json();if(Array.isArray(repos))state.benchmarkRepos=repos}$('benchStatus').innerHTML='Benchmark-Daten geladen. Details zur Berechnung finden Sie in der <a href="docs.html">Metrik-Dokumentation</a>.';return}catch(e){}$('benchStatus').innerHTML='Benchmark-Fallback aktiv. Details zur Berechnung finden Sie in der <a href="docs.html">Metrik-Dokumentation</a>.'}
-async function fetchKpis(owner,name){const base=await ghFetch(`/repos/${owner}/${name}`);const [activity,readme,contributing,releases,issues,contributors]=await Promise.all([safe(`/repos/${owner}/${name}/stats/commit_activity`),safe(`/repos/${owner}/${name}/readme`),safe(`/repos/${owner}/${name}/contents/CONTRIBUTING.md`),safe(`/repos/${owner}/${name}/releases?per_page=20`),safe(`/repos/${owner}/${name}/issues?state=all&per_page=100`),safe(`/repos/${owner}/${name}/contributors?per_page=100`)]);const stars=Math.max(0,base.stargazers_count||0),forks=Math.max(0,base.forks_count||0),age=Math.max(1,Math.floor((Date.now()-new Date(base.created_at))/864e5)),daysInactive=Math.max(0,Math.floor((Date.now()-new Date(base.pushed_at||base.updated_at||base.created_at))/864e5));const commits30=Array.isArray(activity)?activity.slice(-4).reduce((s,w)=>s+Math.max(0,w.total||0),0):null;let closeRate=null,avgClose=null,avgComments=null,fehlerProd=null;if(Array.isArray(issues)){const real=issues.filter(i=>!i.pull_request);if(real.length){const closed=real.filter(i=>i.state==='closed');closeRate=closed.length/real.length;const times=closed.map(i=>(new Date(i.closed_at)-new Date(i.created_at))/864e5).filter(v=>Number.isFinite(v)&&v>=0);avgClose=times.length?times.reduce((a,b)=>a+b,0)/times.length:null;avgComments=real.reduce((s,i)=>s+Math.max(0,i.comments||0),0)/real.length;fehlerProd=commits30>0?closed.length/commits30:null}}let relFreq=null;if(Array.isArray(releases)){const dates=releases.filter(r=>!r.draft&&!r.prerelease&&r.published_at).map(r=>new Date(r.published_at).getTime()).sort((a,b)=>a-b);if(dates.length>=2){const diffs=dates.slice(1).map((d,i)=>(d-dates[i])/864e5).filter(v=>v>=0);relFreq=diffs.length?diffs.reduce((a,b)=>a+b,0)/diffs.length:null}}return{meta:{fullName:base.full_name,htmlUrl:base.html_url,description:base.description,language:base.language,license:base.license?.spdx_id||base.license?.name,stars,forks,openIssues:base.open_issues_count||0,age,readmeOk:!!readme,contribOk:!!contributing},kpis:{commits30,daysInactive,contributors:Array.isArray(contributors)?contributors.length:null,closeRate,relFreq,avgClose,avgComments,fehlerProd,forkRatio:stars>0?forks/stars:0,doku:(readme?60:0)+(contributing?40:0),starsTage:stars/age}}}
-function scoreKpi(key,val){if(val==null||!Number.isFinite(Number(val)))return null;const med=MEDIANS[key],dir=kpiById(key)?.dir;if(!Number.isFinite(Number(med)))return null;let s=null;if(dir==='more')s=med>0?val/med*100:null;if(dir==='less')s=val===0?100:(med>0?med/val*100:null);if(dir==='bool')s=val;if(dir==='log')s=val>0&&med>0?Math.log10(val+1)/Math.log10(med+1)*100:null;return s==null||!Number.isFinite(s)?null:Math.max(0,Math.min(100,Math.round(s)))}function computeScores(kpis){const out={};PILLARS.forEach(p=>{let pts=0,wt=0;p.kpis.forEach(k=>{const s=scoreKpi(k.id,kpis[k.id]);if(s!=null){pts+=s*k.w;wt+=k.w}});out[p.id]=wt?Math.round(pts/wt):null});let pts=0,wt=0;PILLARS.forEach(p=>{if(out[p.id]!=null){pts+=out[p.id]*p.weight;wt+=p.weight}});out.overall=wt?Math.round(pts/wt):null;return out}function syncAnalysisScores(){state.analyses.forEach(a=>a.scores=computeScores(a.kpis));if(state.analyses[0]){state.meta=state.analyses[0].meta;state.kpis=state.analyses[0].kpis;state.scores=state.analyses[0].scores}}function rerender(){if(!state.meta)return;syncAnalysisScores();renderConfig();renderRepo();renderOverall();renderPillars();renderKpiPanel(activePillar);renderBenchmarkContext();renderExplain();renderSuggestions();renderCompare();renderApiCard()}
-function position(value,min,max){return max===min?50:Math.max(2,Math.min(98,((value-min)/(max-min))*100))}function benchmarkStats(key){const vals=state.benchmarkRepos.map(r=>r.kpis?.[key]).filter(v=>v!=null&&Number.isFinite(Number(v))).map(Number).sort((a,b)=>a-b),v=state.kpis?.[key],k=kpiById(key);if(!vals.length||v==null||!k)return null;const min=vals[0],max=vals[vals.length-1],median=MEDIANS[key]??vals[Math.floor(vals.length/2)],pos=position(v,min,max),medianPos=position(median,min,max);const better=k.dir==='less'?vals.filter(x=>x>=v).length:vals.filter(x=>x<=v).length;const percentile=Math.round(better/vals.length*100);return{min,max,median,pos,medianPos,percentile,value:v,k}}function contextText(s){if(!s)return'Keine ausreichenden Benchmark-Daten verfügbar.';return`Das Repository liegt bei dieser Kennzahl besser oder gleich als ca. ${s.percentile}% der Benchmark-Vergleichsgruppe.`}function benchmarkVisual(s){return`<div class="range" title="Ist-Wert und Median innerhalb der Benchmark-Spannweite"><div class="range-marker median" style="--p:${s.medianPos}"><span>Median</span></div><div class="range-marker current" style="--p:${s.pos}"><span>Ist</span></div></div><div class="range-labels"><span>Min. ${s.k.fmt(s.min)}</span><span>Max. ${s.k.fmt(s.max)}</span></div><div class="legend"><span><i class="current-dot"></i>Ist-Wert</span><span><i class="median-dot"></i>Median</span></div>`}
-function renderBenchmarkContext(){const el=$('benchmarkCard');el.classList.toggle('hidden',!state.visibility.sections.benchmark);if(!state.visibility.sections.benchmark)return;const cards=CONTEXT_KPIS.map(id=>{const s=benchmarkStats(id),k=kpiById(id);if(!s)return`<div class="context-card"><h3>${esc(k?.label||id)}</h3><p class="hint">Keine Vergleichsdaten verfügbar.</p></div>`;return`<div class="context-card"><h3>${esc(k.label)}</h3><div class="context-numbers"><div class="context-number current"><span>Ist-Wert</span><b>${k.fmt(s.value)}</b></div><div class="context-number median"><span>Median</span><b>${k.fmt(s.median)}</b></div></div>${benchmarkVisual(s)}<p class="hint">${esc(contextText(s))}</p></div>`}).join('');const docs=state.benchmarkRepos.length?`README: ${Math.round(state.benchmarkRepos.filter(r=>r.kpis?.readmePresent).length/state.benchmarkRepos.length*100)}% · CONTRIBUTING: ${Math.round(state.benchmarkRepos.filter(r=>r.kpis?.contribPresent).length/state.benchmarkRepos.length*100)}% der Vergleichsgruppe`:'';el.innerHTML=`<div class="section-title">Benchmark-Kontext der Vergleichsgruppe</div><p class="hint" style="margin-bottom:12px">Die Einordnung basiert auf der täglich aktualisierten Top-100-Vergleichsgruppe öffentlicher GitHub-Repositories. Sie dient der relativen Bewertung und stellt keine vollständige Abbildung der gesamten GitHub-Plattform dar. ${docs}</p><div class="context-grid">${cards}</div>`}
-function renderConfig(){const v=state.visibility;$('configCard').innerHTML=`<div class="toggle-row"><div><div class="section-title">Anzeige konfigurieren</div><p class="hint">Legen Sie fest, welche Bereiche und Kennzahlen sichtbar sind.</p></div><button class="btn-secondary" onclick="toggleConfig(false)">Schließen</button></div><div class="config-grid"><div class="cfg-group"><div class="cfg-head">Dashboard-Bereiche</div>${[['profile','Repository-Profil'],['overall','Repository Health Score'],['pillars','Bewertungssäulen'],['benchmark','Benchmark-Kontext'],['explain','Methodische Einordnung'],['suggestions','Handlungsempfehlungen'],['compare','Repository-Vergleich'],['api','GitHub-API-Endpunkte']].map(([id,label])=>`<label class="check"><input type="checkbox" ${v.sections[id]?'checked':''} onchange="state.visibility.sections.${id}=this.checked;rerender()"> ${label}</label>`).join('')}</div>${PILLARS.map(p=>`<div class="cfg-group"><div class="cfg-head">${p.label}</div>${p.kpis.map(k=>`<label class="check"><input type="checkbox" ${v.kpis[k.id]?'checked':''} onchange="state.visibility.kpis.${k.id}=this.checked;rerender()"> ${k.label}</label>`).join('')}</div>`).join('')}</div><div class="config-footer"><button class="btn-secondary" onclick="toggleConfig(false)">Anwenden</button><button class="btn-primary" onclick="openReportForPdf()" ${state.meta?'':'disabled'}>PDF-Report erstellen</button></div>`}function toggleConfig(force){$('configCard').classList.toggle('hidden',force===undefined?undefined:!force)}
-function renderRepo(){const m=state.meta,owner=m.fullName.split('/')[0];$('repoHdr').classList.toggle('hidden',!state.visibility.sections.profile);$('repoHdr').innerHTML=`<div class="repo-main"><div class="avatar-wrap"><img class="avatar" src="https://github.com/${esc(owner)}.png?size=128" alt=""></div><div class="repo-title"><a href="${esc(m.htmlUrl)}" target="_blank">${esc(m.fullName)}</a><p class="desc">${esc(m.description||'Keine Beschreibung hinterlegt.')}</p><div class="tags">${m.language?`<span class="tag">${esc(m.language)}</span>`:''}${m.license?`<span class="tag">${esc(m.license)}</span>`:''}<span class="tag">${m.readmeOk?'README vorhanden':'README nicht verfügbar'}</span>${m.contribOk?'<span class="tag">CONTRIBUTING vorhanden</span>':''}</div></div></div><div class="stats"><div class="stat"><b>${fmt(m.stars)}</b><span>Stars</span></div><div class="stat"><b>${fmt(m.forks)}</b><span>Forks</span></div><div class="stat"><b>${fmt(m.openIssues)}</b><span>Offene Issues</span></div><div class="stat"><b>${fmt(m.age)}</b><span>Projekttage</span></div></div>`}function renderOverall(){const s=state.scores.overall??0,c=color(s);$('overallRow').classList.toggle('hidden',!state.visibility.sections.overall);$('overallRow').innerHTML=`<div class="status-label">Status</div><div class="ring" style="--s:${s};--c:${c}"><div class="ring-inner"><div class="ring-num" style="color:${c}">${state.scores.overall??'—'}</div></div></div><div class="ring-grade">${state.scores.overall!=null?scoreText(s):'Nicht verfügbar'}</div><div class="score-breakdown"><div class="weight-row"><b>Aktivität & Community</b><span>40%</span></div><div class="weight-row"><b>Reaktionsfähigkeit & Wartung</b><span>35%</span></div><div class="weight-row"><b>Reichweite & Dokumentation</b><span>25%</span></div></div><div class="formula">Der Repository Health Score ist ein gewichteter, vergleichender Indikator auf Basis öffentlich verfügbarer GitHub-Daten.</div>`}function renderPillars(){$('pillarsRow').classList.toggle('hidden',!state.visibility.sections.pillars);$('pillarsRow').innerHTML=PILLARS.map(p=>{const s=state.scores[p.id],c=color(s??0);const chips=p.kpis.map(k=>`<div class="kpi-mini" title="${esc(KPI_INFO[k.id])}"><div class="kpi-mini-label">${esc(k.label)}</div><div class="kpi-mini-value">${esc(k.fmt(state.kpis[k.id]))}</div><div class="kpi-mini-direction">${esc(KPI_DIRECTION[k.id])}</div></div>`).join('');return`<button class="pillar ${activePillar===p.id?'active':''}" onclick="activePillar='${p.id}';renderPillars();renderKpiPanel('${p.id}')"><div><div class="pillar-top"><h3>${p.label}</h3><span class="pillar-weight">${Math.round(p.weight*100)}%</span></div><div class="pill-score" style="color:${c}">${s??'—'}</div><div class="kpi-preview">${chips}</div><div class="details-hint">Details anzeigen</div></div><div class="bar"><i style="--c:${c};--w:${s??0}%"></i></div></button>`}).join('')}function renderKpiPanel(pid){const p=PILLARS.find(x=>x.id===pid)||PILLARS[0];const rows=p.kpis.filter(k=>state.visibility.kpis[k.id]).map(k=>{const current=state.kpis[k.id],bench=MEDIANS[k.id],s=scoreKpi(k.id,current),c=color(s??0);const tip=`Dieser KPI-Score zeigt, wie stark der Ist-Wert im Verhältnis zum Benchmark abschneidet. Bewertungsrichtung: ${KPI_DIRECTION[k.id]}. Ist-Wert: ${k.fmt(current)}. Benchmark/Median: ${k.fmt(bench)}.`;return`<tr><td><b>${k.label}</b><br><span class="hint">${KPI_INFO[k.id]} Richtung: ${KPI_DIRECTION[k.id]}.</span></td><td>${k.fmt(current)}</td><td>${k.fmt(bench)}</td><td><span class="score-badge score-tooltip" style="color:${c}" data-tooltip="${esc(tip)}">${s??'Nicht verfügbar'}</span></td><td>${Math.round(k.w*100)}%</td></tr>`}).join('');$('kpiPanel').classList.toggle('hidden',!state.visibility.sections.pillars);$('kpiPanel').innerHTML=`<div class="section-title">${p.label}</div><p class="hint" style="margin-bottom:10px">${TEXT[p.id]}</p>${rows?`<div class="table-scroll"><table><thead><tr><th>Kennzahl</th><th>Wert</th><th>Benchmark</th><th>Score</th><th>Gewicht</th></tr></thead><tbody>${rows}</tbody></table></div>`:'<p class="hint">Alle Kennzahlen dieser Kategorie sind ausgeblendet.</p>'}`}
-function renderExplain(){$('explainCard').classList.toggle('hidden',!state.visibility.sections.explain);$('explainCard').innerHTML=`<div class="section-title">Methodische Einordnung</div><div class="grid2">${PILLARS.map(p=>`<div class="box"><b>${p.label}</b>${TEXT[p.id]}</div>`).join('')}<div class="box"><b>Umgang mit fehlenden Daten</b>Nicht verfügbare GitHub-Daten werden nicht als negativer Wert interpretiert, sondern aus der jeweiligen Berechnung ausgeschlossen.</div></div>`}function getSuggestionsFor(a=state){const k=a.kpis;return[['commits30','Entwicklungsaktivität stabilisieren','Regelmäßige Maintenance-Commits und eine sichtbare Roadmap unterstützen die Wahrnehmung aktiver Pflege.'],['contributors','Contributor-Basis erweitern','Contribution-Guidelines, Issue-Templates und geeignete Einstiegsthemen erleichtern Beteiligung.'],['avgClose','Issue-Reaktionszeit verbessern','Eine regelmäßige Triage mit klaren Prioritäten erhöht die Wartungstransparenz.'],['relFreq','Release-Prozess strukturieren','Kleine, dokumentierte Releases verbessern Planbarkeit und Vertrauen.'],['doku','Dokumentation ausbauen','README, Quickstart, Beispiele und Contribution-Hinweise reduzieren Einstiegshürden.']].filter(([id])=>(state.visibility?.kpis?.[id]??true)&&((scoreKpi(id,k[id])??0)<70)).slice(0,5)}function renderSuggestions(){$('sugCard').classList.toggle('hidden',!state.visibility.sections.suggestions);const items=getSuggestionsFor(state);$('sugCard').innerHTML=`<div class="section-title">Ableitungen und Handlungsempfehlungen</div><div class="grid2">${items.length?items.map(([,t,d])=>`<div class="box"><b>${t}</b>${d}</div>`).join(''):'<div class="box"><b>Keine kritischen Auffälligkeiten</b>Die sichtbaren Kernmetriken liegen im stabilen Bereich.</div>'}</div>`}function renderCompare(){const show=state.visibility.sections.compare&&state.analyses.length>1;$('compareCard').classList.toggle('hidden',!show);if(!show)return;const best=[...state.analyses].sort((a,b)=>(b.scores.overall??-1)-(a.scores.overall??-1))[0];$('compareCard').innerHTML=`<div class="section-title">Repository-Vergleich</div><p class="hint" style="margin-bottom:10px">Höchster Repository Health Score: ${esc(best.meta.fullName)} mit ${best.scores.overall} Punkten.</p><div class="table-scroll"><table><thead><tr><th>Repository</th><th>Quelle</th><th>Gesamt</th>${PILLARS.map(p=>`<th>${p.label}</th>`).join('')}</tr></thead><tbody>${state.analyses.map(a=>`<tr><td>${esc(a.meta.fullName)}</td><td>${a.source==='top100'?'Top-100-Vergleichsgruppe':'Direkte Eingabe'}</td><td>${a.scores.overall??'—'}</td>${PILLARS.map(p=>`<td>${a.scores[p.id]??'—'}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}function renderApiCard(){$('apiCard').classList.toggle('hidden',!state.visibility.sections.api);const unique=[...new Set(state.apiLog)];$('apiCard').innerHTML=`<div class="section-title">Genutzte GitHub-API-Endpunkte</div><div class="grid2">${unique.map(u=>`<div class="box"><b>GET</b>${esc(u)}</div>`).join('')}</div>`}
-function interpretation(score){if(score==null)return'Für diesen Bereich konnten nicht genügend Daten berechnet werden.';if(score>=80)return'Der Wert liegt im starken Bereich. Die öffentlich sichtbaren GitHub-Signale sprechen hier für eine robuste Repository Health.';if(score>=60)return'Der Wert liegt im soliden Bereich. Es gibt positive Signale, einzelne Aspekte können jedoch weiter verbessert werden.';if(score>=40)return'Der Wert liegt im eingeschränkten Bereich. Mehrere Signale deuten auf Verbesserungsbedarf hin.';return'Der Wert liegt im kritischen Bereich. Die sichtbaren Signale sprechen für deutliche Lücken oder fehlende Daten.'}function calcText(k){const v=state.kpis[k.id],m=MEDIANS[k.id],s=scoreKpi(k.id,v);if(v==null||s==null)return'Nicht berechenbar.';if(k.dir==='more')return`${k.fmt(v)} / ${k.fmt(m)} × 100 = ${s}`;if(k.dir==='less')return`${k.fmt(m)} / ${k.fmt(v)} × 100 = ${s}`;if(k.dir==='bool')return`README ${state.meta.readmeOk?'vorhanden':'fehlt'} + CONTRIBUTING ${state.meta.contribOk?'vorhanden':'fehlt'} = ${s}`;return`Logarithmische Normalisierung gegen Median ${k.fmt(m)} = ${s}`}
+  
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>
+      GitSuccess | Repository Analyzer
+    </title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+    <style>
+      :root{--primary:#5B50D6;--positive:#34D399;--neutral:#FBBF24;--negative:#FB7185;--card:#fff;--surface:#F8FAFC;--soft:#F1F5F9;--border:#E2E8F0;--muted:#64748B;--text:#1E293B;--shadow:0
+      18px 48px rgba(15,23,42,.07)}body.dark{--card:#1F2937;--surface:#111827;--soft:#374151;--border:#374151;--muted:#9CA3AF;--text:#F3F4F6;--shadow:0
+      20px 54px rgba(0,0,0,.30)}*{box-sizing:border-box;margin:0;padding:0}body{font-family:Poppins,system-ui,sans-serif;background:linear-gradient(180deg,#F8FAFB
+      0%,#EEF2F7 100%);color:var(--text);min-height:100vh}body.dark{background:#111827}.shell{width:min(1160px,100%);margin:auto;padding:18px
+      18px 56px}.topbar{min-height:54px;display:flex;align-items:center;justify-content:space-between;gap:18px;margin-bottom:22px;position:sticky;top:10px;z-index:100;background:rgba(248,250,251,.82);backdrop-filter:blur(18px);border:1px
+      solid rgba(226,232,240,.78);border-radius:22px;padding:8px 10px;box-shadow:0
+      14px 36px rgba(15,23,42,.06)}body.dark .topbar{background:rgba(17,24,39,.84);border-color:rgba(55,65,81,.85)}.brand{display:flex;align-items:center;gap:10px;font-weight:700}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--primary),#8177ff);display:grid;place-items:center;color:#fff}.mobile-head{display:contents}.menu-toggle{display:none;border:1px
+      solid var(--border);background:var(--card);color:var(--text);border-radius:12px;padding:9px
+      11px;font-size:18px;line-height:1;cursor:pointer}.nav{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.nav
+      a,.nav button,.btn-secondary,.icon-btn{border:1px solid var(--border);background:rgba(255,255,255,.86);color:var(--text);border-radius:999px;padding:9px
+      13px;text-decoration:none;font-size:12px;cursor:pointer;font-family:inherit}.dark
+      .nav a,.dark .nav button,.dark .btn-secondary,.dark .icon-btn{background:rgba(31,41,55,.86)}.nav
+      .active{background:var(--primary);border-color:var(--primary);color:#fff}.hero{max-width:820px;margin:0
+      auto 20px;text-align:center}.hero h1{font-size:clamp(30px,4.2vw,48px);letter-spacing:-.045em;line-height:1.08}.hero
+      p{color:var(--muted);font-size:14px;margin-top:10px}.card{background:rgba(255,255,255,.94);border:1px
+      solid var(--border);border-radius:22px;box-shadow:var(--shadow)}.dark .card{background:rgba(31,41,55,.94)}.panel{padding:20px}.section-title{font-size:17px;font-weight:700;margin-bottom:12px}.hint,.status{font-size:12px;color:var(--muted);line-height:1.55}.hint
+      a,.status a{color:var(--primary);font-weight:700;text-decoration:none}.status{max-width:900px;margin:0
+      auto 16px}.hidden{display:none!important}.search-card{max-width:900px;margin:0
+      auto 18px;padding:18px}.label{display:block;font-size:12px;font-weight:600;margin-bottom:8px}.search-row,.token-row{display:grid;grid-template-columns:minmax(0,1fr)
+      auto;gap:10px;align-items:end}.token-row{margin-top:12px}input{width:100%;min-width:0;border:1px
+      solid var(--border);background:var(--surface);color:var(--text);border-radius:13px;padding:12px
+      14px;outline:none;font-family:inherit}.btn-primary{border:0;background:var(--primary);color:#fff;border-radius:13px;padding:12px
+      18px;font-weight:700;cursor:pointer;font-family:inherit}.btn-primary:disabled{opacity:.55;cursor:not-allowed}.message{max-width:760px;margin:16px
+      auto;padding:14px;border-radius:16px;border:1px solid var(--border);background:var(--card)}.message.error{border-color:rgba(251,113,133,.45);background:rgba(251,113,133,.08)}.message.success{border-color:rgba(52,211,153,.45);background:rgba(52,211,153,.08)}.results{display:grid;gap:14px;margin-top:18px}.dash-actions{display:flex;justify-content:flex-end;position:sticky;top:78px;z-index:20;pointer-events:none}.menu-wrap{position:relative;pointer-events:auto}.icon-btn{width:40px;height:40px;padding:0;font-size:20px}.popover{position:absolute;right:0;top:48px;width:min(780px,92vw);max-height:78vh;overflow:auto;background:var(--card);border:1px
+      solid var(--border);border-radius:22px;box-shadow:0 34px 90px rgba(15,23,42,.20);padding:16px}.repo-card{display:grid;grid-template-columns:minmax(0,1fr)
+      auto;gap:18px;align-items:center;padding:20px 22px}.repo-main{display:grid;grid-template-columns:52px
+      minmax(0,1fr);gap:14px;align-items:center}.avatar-wrap{width:52px;height:52px;border-radius:16px;background:var(--soft);border:1px
+      solid var(--border);overflow:hidden}.avatar{width:52px;height:52px;object-fit:cover}.repo-title{min-width:0}.repo-title
+      a{font-size:21px;font-weight:700;color:var(--text);text-decoration:none;word-break:break-word}.desc{font-size:13px;color:var(--muted);margin:4px
+      0 10px}.tags{display:flex;flex-wrap:wrap;gap:6px}.tag{font-size:11px;color:var(--muted);background:var(--soft);border:1px
+      solid var(--border);border-radius:999px;padding:4px 8px}.stats{display:grid;grid-template-columns:repeat(4,72px);gap:8px}.stat{background:var(--surface);border:1px
+      solid var(--border);border-radius:15px;padding:10px 8px;text-align:center}.stat
+      b{display:block;font-size:16px}.stat span{font-size:10px;color:var(--muted)}.score-grid{display:grid;grid-template-columns:280px
+      1fr;gap:14px}.overall{display:grid;place-items:center;text-align:center;padding:20px}.status-label{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;margin-bottom:8px}.ring{width:132px;height:132px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--c)
+      calc(var(--s)*1%),var(--border) 0)}.ring:after{content:"";position:absolute;inset:12px;background:var(--card);border-radius:50%}.ring-inner{position:relative;z-index:1}.ring-num{font-size:36px;font-weight:700}.ring-grade{font-size:13px;margin-top:10px;font-weight:600}.formula{margin-top:14px;color:var(--muted);font-size:12px}.score-breakdown{display:grid;gap:7px;width:100%;margin-top:14px}.weight-row{display:flex;justify-content:space-between;background:var(--surface);border:1px
+      solid var(--border);border-radius:12px;padding:8px 10px;font-size:11px;color:var(--muted)}.weight-row
+      b{color:var(--text)}.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.pillar{min-height:300px;border:1px
+      solid var(--border);background:var(--card);border-radius:20px;padding:18px;text-align:left;color:var(--text);cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;font-family:inherit}.pillar.active{border-color:var(--primary);box-shadow:0
+      0 0 3px rgba(91,80,214,.10)}.pillar-top{display:flex;justify-content:space-between;gap:10px}.pillar
+      h3{font-size:14px}.pillar-weight{font-size:12px;color:var(--muted)}.pill-score{font-size:28px;font-weight:700;margin-top:12px}.bar{height:7px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:10px}.bar
+      i{display:block;height:100%;background:var(--c);width:var(--w)}.kpi-preview{display:grid;gap:7px;margin-top:14px}.kpi-mini{background:var(--surface);border:1px
+      solid var(--border);border-radius:12px;padding:7px 9px}.kpi-mini-label{font-size:10px;font-weight:600;color:var(--text)}.kpi-mini-value{font-size:12px;font-weight:700;margin-top:3px}.kpi-mini-direction{font-size:10px;color:var(--muted);margin-top:2px}.details-hint{margin-top:12px;font-size:11px;font-weight:600;color:var(--primary)}.context-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.context-card{border:1px
+      solid var(--border);background:var(--surface);border-radius:16px;padding:13px}.context-card
+      h3{font-size:13px;margin-bottom:10px}.context-numbers{display:grid;grid-template-columns:1fr
+      1fr;gap:8px;margin-bottom:12px}.context-number{border:1px solid var(--border);background:var(--card);border-radius:12px;padding:8px}.context-number
+      span{display:block;font-size:10px;color:var(--muted);font-weight:600}.context-number
+      b{display:block;font-size:14px;margin-top:2px}.context-number.current b{color:var(--primary)}.context-number.median
+      b{color:var(--neutral)}.range{height:14px;background:linear-gradient(90deg,rgba(52,211,153,.18),rgba(91,80,214,.12));border:1px
+      solid var(--border);border-radius:999px;position:relative;margin:22px 0
+      15px}.range-marker{position:absolute;top:-9px;left:calc(var(--p)*1%);transform:translateX(-50%);display:grid;place-items:center}.range-marker:before{content:"";width:6px;height:30px;border-radius:999px;background:var(--marker);box-shadow:0
+      0 0 3px var(--card)}.range-marker span{position:absolute;top:-18px;white-space:nowrap;font-size:10px;font-weight:700;color:var(--marker);background:var(--card);border:1px
+      solid var(--border);border-radius:999px;padding:2px 6px}.range-marker.current{--marker:var(--primary)}.range-marker.median{--marker:var(--neutral)}.range-labels{display:flex;justify-content:space-between;font-size:10px;color:var(--muted)}.legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.legend
+      span{font-size:10px;color:var(--muted)}.legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.legend
+      .current-dot{background:var(--primary)}.legend .median-dot{background:var(--neutral)}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px
+      solid var(--border);padding:10px 8px;text-align:left;vertical-align:top}th{color:var(--muted);font-size:11px;text-transform:uppercase}.table-scroll{overflow:auto;border:1px
+      solid var(--border);border-radius:14px}.table-scroll table{min-width:720px}.score-badge{display:inline-block;border-radius:999px;background:var(--soft);padding:4px
+      8px;font-weight:600}.score-tooltip{position:relative;cursor:help}.score-tooltip:hover:after{content:attr(data-tooltip);position:absolute;left:50%;bottom:calc(100%
+      + 10px);transform:translateX(-50%);width:280px;background:var(--card);color:var(--text);border:1px
+      solid var(--border);border-radius:12px;padding:10px 12px;box-shadow:var(--shadow);font-size:11px;line-height:1.45;z-index:300;white-space:normal}.grid2,.config-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.box,.cfg-group{border:1px
+      solid var(--border);background:var(--surface);border-radius:16px;padding:13px;color:var(--muted);font-size:13px}.box
+      b,.cfg-head{display:block;color:var(--text);font-weight:700;margin-bottom:6px}.check{display:flex;gap:8px;align-items:center;margin:7px
+      0;font-size:13px}.check input{width:auto}.toggle-row{display:flex;justify-content:space-between;gap:12px;margin-bottom:12px}.config-footer{display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;margin-top:14px;padding-top:13px;border-top:1px
+      solid var(--border)}.footer{margin-top:24px;text-align:center;color:var(--muted);font-size:12px}@media(max-width:980px){.repo-card,.score-grid{grid-template-columns:1fr}.pillars,.context-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(4,minmax(0,1fr))}}@media(max-width:760px){.shell{padding:12px
+      12px 40px}.topbar{align-items:stretch;flex-direction:column;gap:10px;border-radius:18px}.mobile-head{display:flex;align-items:center;justify-content:space-between;width:100%;gap:12px}.menu-toggle{display:inline-flex;align-items:center;justify-content:center}.nav{display:none;width:100%;grid-template-columns:1fr;gap:7px}.nav.open{display:grid}.nav
+      a,.nav button{text-align:center;padding:10px 12px;font-size:12px}.hero{text-align:left;margin:8px
+      0 16px}.hero h1{font-size:28px;letter-spacing:-.03em}.hero p{font-size:13px}.card{border-radius:18px}.panel,.search-card{padding:14px}.search-card{max-width:none;margin:0
+      0 16px}.search-row,.token-row{grid-template-columns:1fr}.btn-primary,.btn-secondary{width:100%;text-align:center}.repo-card{padding:16px}.repo-main{grid-template-columns:44px
+      minmax(0,1fr)}.avatar-wrap,.avatar{width:44px;height:44px}.repo-title a{font-size:18px}.stats{grid-template-columns:repeat(2,1fr)}.overall{padding:16px}.pillars{gap:10px}.pillar{min-height:auto}.context-numbers,.grid2,.config-grid{grid-template-columns:1fr}.dash-actions{top:auto;bottom:16px}.popover{position:fixed;left:12px;right:12px;top:auto;bottom:70px;width:auto;max-height:70vh}.section-title{font-size:16px}.table-scroll{margin:0
+      -4px}}
+    </style>
+  </head>
+  
+  <body>
+    <div class="shell">
+      <div class="topbar">
+        <div class="mobile-head">
+          <div class="brand">
+            <div class="logo">
+              ⌘
+            </div>
+            <span>
+              GitSuccess
+            </span>
+          </div>
+          <button id="menuToggle" class="menu-toggle" type="button" aria-expanded="false"
+          aria-controls="mainNav">
+            ☰
+          </button>
+        </div>
+        <nav id="mainNav" class="nav">
+          <a href="top100.html">
+            Top-100-Vergleichsgruppe
+          </a>
+          <a class="active" href="index.html">
+            Repository Analyzer
+          </a>
+          <a href="docs.html">
+            Metrik-Dokumentation
+          </a>
+          <a href="api-guide.html">
+            REST-API Guide
+          </a>
+          <button id="themeBtn" type="button">
+            Dark Mode
+          </button>
+        </nav>
+      </div>
+      <section class="hero">
+        <h1>
+          Repository Health transparent einordnen.
+        </h1>
+        <p>
+          GitSuccess analysiert öffentlich verfügbare GitHub-Signale und erstellt
+          eine nachvollziehbare Repository-Health-Bewertung.
+        </p>
+      </section>
+      <section class="card search-card">
+        <label class="label" for="repoIn">
+          GitHub-Repository
+        </label>
+        <div class="search-row">
+          <input id="repoIn" type="text" placeholder="z. B. facebook/react oder https://github.com/vuejs/core">
+          <button id="analyzeBtn" class="btn-primary" type="button">
+            Repository analysieren
+          </button>
+        </div>
+        <div class="token-row">
+          <div>
+            <label class="label" for="tokenIn" style="margin-top:12px">
+              GitHub Personal Access Token
+            </label>
+            <input id="tokenIn" type="password" placeholder="Token hier einfügen">
+          </div>
+          <button class="btn-secondary" id="saveTokenBtn" type="button">
+            Token lokal speichern
+          </button>
+        </div>
+        <p class="hint">
+          Der Token wird ausschließlich lokal im Browser gespeichert und für authentifizierte
+          GitHub-API-Anfragen verwendet. Eine Anleitung finden Sie im
+          <a href="api-guide.html">
+            REST-API Guide
+          </a>
+          .
+        </p>
+      </section>
+      <p class="status" id="benchStatus">
+        Benchmark-Daten werden vorbereitet.
+      </p>
+      <div id="tokenState" class="message hidden">
+      </div>
+      <div id="loadingState" class="message hidden">
+        Analyse wird ausgeführt. Bitte warten.
+      </div>
+      <div id="errorState" class="message error hidden">
+      </div>
+      <main id="results" class="results hidden">
+        <div class="dash-actions">
+          <div class="menu-wrap">
+            <button class="icon-btn" id="configBtn" title="Anzeige konfigurieren">
+              ⋯
+            </button>
+            <section id="configCard" class="popover hidden">
+            </section>
+          </div>
+        </div>
+        <section id="repoHdr" class="card repo-card">
+        </section>
+        <section class="score-grid">
+          <div id="overallRow" class="card overall">
+          </div>
+          <div id="pillarsRow" class="pillars">
+          </div>
+        </section>
+        <section id="kpiPanel" class="card panel">
+        </section>
+        <section id="benchmarkCard" class="card panel">
+        </section>
+        <section id="explainCard" class="card panel">
+        </section>
+        <section id="sugCard" class="card panel">
+        </section>
+        <section id="compareCard" class="card panel hidden">
+        </section>
+        <section id="apiCard" class="card panel">
+        </section>
+      </main>
+      <footer class="footer">
+        GitSuccess · Transparente Repository-Analyse auf Basis öffentlich verfügbarer
+        GitHub-Daten.
+      </footer>
+    </div>
+    <script>
+      const API = 'https://api.github.com',
+      THEME_KEY = 'gitSuccessTheme';
+      const FALLBACK_MEDIANS = {
+        commits30: 35,
+        daysInactive: 9,
+        contributors: 70,
+        closeRate: .72,
+        relFreq: 35,
+        avgClose: 18,
+        avgComments: 2.3,
+        fehlerProd: .25,
+        forkRatio: .18,
+        doku: 100,
+        starsTage: 9
+      };
+      let MEDIANS = {...FALLBACK_MEDIANS
+      },
+      activePillar = 'p1',
+      state = {
+        meta: null,
+        kpis: null,
+        scores: null,
+        apiLog: [],
+        visibility: null,
+        analyses: [],
+        benchmarkRepos: []
+      };
+      const PILLARS = [{
+        id: 'p1',
+        label: 'Aktivität & Community',
+        weight: .40,
+        kpis: [{
+          id: 'commits30',
+          label: 'Commit-Aktivität 30 Tage',
+          w: .50,
+          dir: 'more',
+          fmt: v = >v == null ? 'Nicht verfügbar': Math.round(v) + ' Commits'
+        },
+        {
+          id: 'daysInactive',
+          label: 'Tage seit letztem Push',
+          w: .30,
+          dir: 'less',
+          fmt: v = >v == null ? 'Nicht verfügbar': Math.round(v) + ' Tage'
+        },
+        {
+          id: 'contributors',
+          label: 'Contributors',
+          w: .20,
+          dir: 'more',
+          fmt: v = >v == null ? 'Nicht verfügbar': Math.round(v) + ' Personen'
+        }]
+      },
+      {
+        id: 'p2',
+        label: 'Reaktionsfähigkeit & Wartung',
+        weight: .35,
+        kpis: [{
+          id: 'closeRate',
+          label: 'Issue-Schließungsrate',
+          w: .25,
+          dir: 'more',
+          fmt: v = >v == null ? 'Nicht verfügbar': (v * 100).toFixed(1) + '%'
+        },
+        {
+          id: 'relFreq',
+          label: 'Ø Tage zwischen Releases',
+          w: .25,
+          dir: 'less',
+          fmt: v = >v == null ? 'Nicht verfügbar': v.toFixed(1) + ' Tage'
+        },
+        {
+          id: 'avgClose',
+          label: 'Ø Issue-Schließzeit',
+          w: .25,
+          dir: 'less',
+          fmt: v = >v == null ? 'Nicht verfügbar': v.toFixed(1) + ' Tage'
+        },
+        {
+          id: 'avgComments',
+          label: 'Issue-Engagement',
+          w: .15,
+          dir: 'more',
+          fmt: v = >v == null ? 'Nicht verfügbar': v.toFixed(1) + ' Kommentare'
+        },
+        {
+          id: 'fehlerProd',
+          label: 'Fehlerbehebungs-Produktivität',
+          w: .10,
+          dir: 'more',
+          fmt: v = >v == null ? 'Nicht verfügbar': v.toFixed(3)
+        }]
+      },
+      {
+        id: 'p3',
+        label: 'Reichweite & Dokumentation',
+        weight: .25,
+        kpis: [{
+          id: 'forkRatio',
+          label: 'Fork-Ratio',
+          w: .35,
+          dir: 'more',
+          fmt: v = >v == null ? 'Nicht verfügbar': (v * 100).toFixed(1) + '%'
+        },
+        {
+          id: 'doku',
+          label: 'Dokumentation README + CONTRIBUTING',
+          w: .35,
+          dir: 'bool',
+          fmt: v = >v == null ? 'Nicht verfügbar': v + ' / 100'
+        },
+        {
+          id: 'starsTage',
+          label: 'Stars pro Alterstag',
+          w: .30,
+          dir: 'log',
+          fmt: v = >v == null ? 'Nicht verfügbar': v.toFixed(2)
+        }]
+      }];
+      const TEXT = {
+        p1: 'Bewertet Entwicklungsaktivität und sichtbare Community-Beteiligung.',
+        p2: 'Bewertet Wartungsfähigkeit, Release-Rhythmus und Issue-Bearbeitung.',
+        p3: 'Bewertet Reichweite, Dokumentation und Einstiegshürden.'
+      };
+      const KPI_INFO = {
+        commits30: 'Regelmäßige Änderungen zeigen aktive Pflege.',
+        daysInactive: 'Niedrigere Werte sprechen für aktuelle Pflege.',
+        contributors: 'Mehr Beteiligte reduzieren Abhängigkeiten.',
+        closeRate: 'Eine hohe Quote zeigt aktives Backlog-Management.',
+        relFreq: 'Regelmäßige Releases machen Fortschritt planbar.',
+        avgClose: 'Kürzere Zeiten zeigen Reaktionsfähigkeit.',
+        avgComments: 'Kommentare zeigen Austausch und Nachvollziehbarkeit.',
+        fehlerProd: 'Verhältnis geschlossener Issues zur Commit-Aktivität.',
+        forkRatio: 'Forks deuten auf Nutzungsinteresse hin.',
+        doku: 'Dokumentation reduziert Einstiegshürden.',
+        starsTage: 'Reichweite in Relation zum Projektalter.'
+      };
+      const KPI_DIRECTION = {
+        commits30: 'höher ist besser',
+        daysInactive: 'niedriger ist besser',
+        contributors: 'höher ist besser',
+        closeRate: 'höher ist besser',
+        relFreq: 'niedriger ist besser',
+        avgClose: 'niedriger ist besser',
+        avgComments: 'höher ist besser',
+        fehlerProd: 'höher ist besser',
+        forkRatio: 'höher ist besser',
+        doku: 'höher ist besser',
+        starsTage: 'höher ist besser'
+      };
+      const CONTEXT_KPIS = ['commits30', 'daysInactive', 'contributors', 'closeRate', 'avgClose', 'doku', 'starsTage'];
+      const $ = id = >document.getElementById(id),
+      allKpis = () = >PILLARS.flatMap(p = >p.kpis),
+      kpiById = id = >allKpis().find(k = >k.id === id),
+      esc = s = >String(s ? ?'').replace(/[&<>"']/g, c = >({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#39;'
+      } [c]));
+      function fmt(n) {
+        if (n == null || Number.isNaN(n)) return 'Nicht verfügbar';
+        if (n >= 1e6) return (n / 1e6).toFixed(1) + 'M';
+        if (n >= 1e3) return (n / 1e3).toFixed(1) + 'K';
+        return String(Math.round(n))
+      }
+      function color(s) {
+        return s >= 70 ? '#34D399': s >= 45 ? '#FBBF24': '#FB7185'
+      }
+      function scoreText(s) {
+        return s >= 80 ? 'starke Repository Health': s >= 60 ? 'solide Repository Health': s >= 40 ? 'eingeschränkte Repository Health': 'kritische Repository Health'
+      }
+      function defaultVisibility() {
+        const k = {};
+        allKpis().forEach(x = >k[x.id] = true);
+        return {
+          sections: {
+            profile: true,
+            pillars: true,
+            overall: true,
+            suggestions: true,
+            api: true,
+            explain: true,
+            compare: true,
+            benchmark: true
+          },
+          kpis: k
+        }
+      }
+      function initTheme() {
+        const b = $('themeBtn');
+        if (localStorage.getItem(THEME_KEY) === 'dark') document.body.classList.add('dark');
+        b.textContent = document.body.classList.contains('dark') ? 'Light Mode': 'Dark Mode';
+        b.addEventListener('click', () = >{
+          const d = document.body.classList.toggle('dark');
+          localStorage.setItem(THEME_KEY, d ? 'dark': 'light');
+          b.textContent = d ? 'Light Mode': 'Dark Mode'
+        })
+      }
+      function initMenu() {
+        const t = $('menuToggle'),
+        n = $('mainNav');
+        if (!t || !n) return;
+        t.addEventListener('click', () = >{
+          const open = n.classList.toggle('open');
+          t.setAttribute('aria-expanded', String(open));
+          t.textContent = open ? '×': '☰'
+        });
+        n.querySelectorAll('a').forEach(a = >a.addEventListener('click', () = >{
+          n.classList.remove('open');
+          t.setAttribute('aria-expanded', 'false');
+          t.textContent = '☰'
+        }))
+      }
+      function showTokenMsg(text, type = 'error') {
+        $('tokenState').textContent = text;
+        $('tokenState').className = 'message ' + (type === 'success' ? 'success': 'error');
+        setTimeout(() = >$('tokenState').classList.add('hidden'), 3200)
+      }
+      function saveToken() {
+        const t = $('tokenIn').value.trim();
+        if (!t) {
+          localStorage.removeItem('gitSuccessToken');
+          showTokenMsg('Token wurde entfernt. Analysen laufen ohne Authentifizierung.', 'success');
+          return
+        }
+        localStorage.setItem('gitSuccessToken', t);
+        showTokenMsg('Token wurde lokal im Browser gespeichert.', 'success')
+      }
+      function tokenHeaders() {
+        const t = ($('tokenIn') ? .value || localStorage.getItem('gitSuccessToken') || '').trim();
+        const h = {
+          'Accept': 'application/vnd.github+json',
+          'X-GitHub-Api-Version': '2022-11-28'
+        };
+        if (t) h.Authorization = 'Bearer ' + t;
+        return h
+      }
+      function parseUrl(raw) {
+        const s = raw.trim().replace(/^git\+/, '').replace(/\.git$/, '').replace(/\/+$/, '');
+        let m = s.match(/^https?:\/\/(?:www\.)?github\.com\/([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)(?:\/.*)?$/) || s.match(/^([A-Za-z0-9_.-]+)\/([A-Za-z0-9_.-]+)$/);
+        return m ? {
+          owner: m[1],
+          name: m[2]
+        }: null
+      }
+      function parseMany(raw) {
+        return raw.split(/[\n,]+/).map(x = >x.trim()).filter(Boolean).map(parseUrl).filter(Boolean).slice(0, 6)
+      }
+      async
+      function ghFetch(path, {
+        nullable = false,
+        retries = 2
+      } = {}) {
+        state.apiLog.push(path);
+        let r;
+        try {
+          r = await fetch(API + path, {
+            headers: tokenHeaders()
+          })
+        } catch(e) {
+          if (nullable) return null;
+          throw new Error('GitHub ist derzeit nicht erreichbar.')
+        }
+        if (r.status === 202) {
+          if (retries <= 0) return null;
+          await new Promise(res = >setTimeout(res, 1200));
+          return ghFetch(path, {
+            nullable: true,
+            retries: retries - 1
+          })
+        }
+        if (r.status === 404 && nullable) return null;
+        if (r.status === 404) throw new Error('Repository oder API-Ressource wurde nicht gefunden.');
+        if (r.status === 403) {
+          if (nullable) return null;
+          throw new Error('GitHub API-Limit erreicht. Bitte Token speichern oder später erneut versuchen.')
+        }
+        if (!r.ok) {
+          if (nullable) return null;
+          throw new Error('GitHub API-Fehler ' + r.status)
+        }
+        return r.json()
+      }
+      async
+      function safe(path) {
+        return ghFetch(path, {
+          nullable: true,
+          retries: 2
+        }).
+        catch(() = >null)
+      }
+      async
+      function loadBenchmarks() {
+        try {
+          const[b, t] = await Promise.all([fetch('data/benchmarks.json'), fetch('data/top100_repos.json')]);
+          if (b.ok) {
+            const d = await b.json();
+            if (d ? .medians) MEDIANS = {...FALLBACK_MEDIANS,
+              ...d.medians
+            }
+          }
+          if (t.ok) {
+            const repos = await t.json();
+            if (Array.isArray(repos)) state.benchmarkRepos = repos
+          }
+          $('benchStatus').innerHTML = 'Benchmark-Daten geladen. Details zur Berechnung finden Sie in der <a href="docs.html">Metrik-Dokumentation</a>.';
+          return
+        } catch(e) {}
+        $('benchStatus').innerHTML = 'Benchmark-Fallback aktiv. Details zur Berechnung finden Sie in der <a href="docs.html">Metrik-Dokumentation</a>.'
+      }
+      async
+      function fetchKpis(owner, name) {
+        const base = await ghFetch(` / repos / $ {
+          owner
+        }
+        /${name}`);const [activity,readme,contributing,releases,issues,contributors]=await Promise.all([safe(`/repos / $ {
+          owner
+        }
+        /${name}/stats / commit_activity`),
+        safe(` / repos / $ {
+          owner
+        }
+        /${name}/readme`),
+        safe(` / repos / $ {
+          owner
+        }
+        /${name}/contents / CONTRIBUTING.md`),
+        safe(` / repos / $ {
+          owner
+        }
+        /${name}/releases ? per_page = 20`),
+        safe(` / repos / $ {
+          owner
+        }
+        /${name}/issues ? state = all & per_page = 100`),
+        safe(` / repos / $ {
+          owner
+        }
+        /${name}/contributors ? per_page = 100`)]);
+        const stars = Math.max(0, base.stargazers_count || 0),
+        forks = Math.max(0, base.forks_count || 0),
+        age = Math.max(1, Math.floor((Date.now() - new Date(base.created_at)) / 864e5)),
+        daysInactive = Math.max(0, Math.floor((Date.now() - new Date(base.pushed_at || base.updated_at || base.created_at)) / 864e5));
+        const commits30 = Array.isArray(activity) ? activity.slice( - 4).reduce((s, w) = >s + Math.max(0, w.total || 0), 0) : null;
+        let closeRate = null,
+        avgClose = null,
+        avgComments = null,
+        fehlerProd = null;
+        if (Array.isArray(issues)) {
+          const real = issues.filter(i = >!i.pull_request);
+          if (real.length) {
+            const closed = real.filter(i = >i.state === 'closed');
+            closeRate = closed.length / real.length;
+            const times = closed.map(i = >(new Date(i.closed_at) - new Date(i.created_at)) / 864e5).filter(v = >Number.isFinite(v) && v >= 0);
+            avgClose = times.length ? times.reduce((a, b) = >a + b, 0) / times.length: null;
+            avgComments = real.reduce((s, i) = >s + Math.max(0, i.comments || 0), 0) / real.length;
+            fehlerProd = commits30 > 0 ? closed.length / commits30: null
+          }
+        }
+        let relFreq = null;
+        if (Array.isArray(releases)) {
+          const dates = releases.filter(r = >!r.draft && !r.prerelease && r.published_at).map(r = >new Date(r.published_at).getTime()).sort((a, b) = >a - b);
+          if (dates.length >= 2) {
+            const diffs = dates.slice(1).map((d, i) = >(d - dates[i]) / 864e5).filter(v = >v >= 0);
+            relFreq = diffs.length ? diffs.reduce((a, b) = >a + b, 0) / diffs.length: null
+          }
+        }
+        return {
+          meta: {
+            fullName: base.full_name,
+            htmlUrl: base.html_url,
+            description: base.description,
+            language: base.language,
+            license: base.license ? .spdx_id || base.license ? .name,
+            stars,
+            forks,
+            openIssues: base.open_issues_count || 0,
+            age,
+            readmeOk: !!readme,
+            contribOk: !!contributing
+          },
+          kpis: {
+            commits30,
+            daysInactive,
+            contributors: Array.isArray(contributors) ? contributors.length: null,
+            closeRate,
+            relFreq,
+            avgClose,
+            avgComments,
+            fehlerProd,
+            forkRatio: stars > 0 ? forks / stars: 0,
+            doku: (readme ? 60 : 0) + (contributing ? 40 : 0),
+            starsTage: stars / age
+          }
+        }
+      }
+      function scoreKpi(key, val) {
+        if (val == null || !Number.isFinite(Number(val))) return null;
+        const med = MEDIANS[key],
+        dir = kpiById(key) ? .dir;
+        if (!Number.isFinite(Number(med))) return null;
+        let s = null;
+        if (dir === 'more') s = med > 0 ? val / med * 100 : null;
+        if (dir === 'less') s = val === 0 ? 100 : (med > 0 ? med / val * 100 : null);
+        if (dir === 'bool') s = val;
+        if (dir === 'log') s = val > 0 && med > 0 ? Math.log10(val + 1) / Math.log10(med + 1) * 100 : null;
+        return s == null || !Number.isFinite(s) ? null: Math.max(0, Math.min(100, Math.round(s)))
+      }
+      function computeScores(kpis) {
+        const out = {};
+        PILLARS.forEach(p = >{
+          let pts = 0,
+          wt = 0;
+          p.kpis.forEach(k = >{
+            const s = scoreKpi(k.id, kpis[k.id]);
+            if (s != null) {
+              pts += s * k.w;
+              wt += k.w
+            }
+          });
+          out[p.id] = wt ? Math.round(pts / wt) : null
+        });
+        let pts = 0,
+        wt = 0;
+        PILLARS.forEach(p = >{
+          if (out[p.id] != null) {
+            pts += out[p.id] * p.weight;
+            wt += p.weight
+          }
+        });
+        out.overall = wt ? Math.round(pts / wt) : null;
+        return out
+      }
+      function syncAnalysisScores() {
+        state.analyses.forEach(a = >a.scores = computeScores(a.kpis));
+        if (state.analyses[0]) {
+          state.meta = state.analyses[0].meta;
+          state.kpis = state.analyses[0].kpis;
+          state.scores = state.analyses[0].scores
+        }
+      }
+      function rerender() {
+        if (!state.meta) return;
+        syncAnalysisScores();
+        renderConfig();
+        renderRepo();
+        renderOverall();
+        renderPillars();
+        renderKpiPanel(activePillar);
+        renderBenchmarkContext();
+        renderExplain();
+        renderSuggestions();
+        renderCompare();
+        renderApiCard()
+      }
+      function position(value, min, max) {
+        return max === min ? 50 : Math.max(2, Math.min(98, ((value - min) / (max - min)) * 100))
+      }
+      function benchmarkStats(key) {
+        const vals = state.benchmarkRepos.map(r = >r.kpis ? . [key]).filter(v = >v != null && Number.isFinite(Number(v))).map(Number).sort((a, b) = >a - b),
+        v = state.kpis ? . [key],
+        k = kpiById(key);
+        if (!vals.length || v == null || !k) return null;
+        const min = vals[0],
+        max = vals[vals.length - 1],
+        median = MEDIANS[key] ? ?vals[Math.floor(vals.length / 2)],
+        pos = position(v, min, max),
+        medianPos = position(median, min, max);
+        const better = k.dir === 'less' ? vals.filter(x = >x >= v).length: vals.filter(x = >x <= v).length;
+        const percentile = Math.round(better / vals.length * 100);
+        return {
+          min,
+          max,
+          median,
+          pos,
+          medianPos,
+          percentile,
+          value: v,
+          k
+        }
+      }
+      function contextText(s) {
+        if (!s) return 'Keine ausreichenden Benchmark-Daten verfügbar.';
+        return`Das Repository liegt bei dieser Kennzahl besser oder gleich als ca.$ {
+          s.percentile
+        } % der Benchmark - Vergleichsgruppe.`
+      }
+      function benchmarkVisual(s) {
+        return` < div class = "range"title = "Ist-Wert und Median innerhalb der Benchmark-Spannweite" > <div class = "range-marker median"style = "--p:${s.medianPos}" > <span > Median < /span></div > <div class = "range-marker current"style = "--p:${s.pos}" > <span > Ist < /span></div > </div><div class="range-labels"><span>Min. ${s.k.fmt(s.min)}</span > <span > Max.$ {
+          s.k.fmt(s.max)
+        } < /span></div > <div class = "legend" > <span > <i class = "current-dot" > </i>Ist-Wert</span > <span > <i class = "median-dot" > </i>Median</span > </div>`}
+function renderBenchmarkContext(){const el=$('benchmarkCard');el.classList.toggle('hidden',!state.visibility.sections.benchmark);if(!state.visibility.sections.benchmark)return;const cards=CONTEXT_KPIS.map(id=>{const s=benchmarkStats(id),k=kpiById(id);if(!s)return`<div class="context-card"><h3>${esc(k?.label||id)}</h3 > <p class = "hint" > Keine Vergleichsdaten verfügbar. < /p></div > `;
+        return` < div class = "context-card" > <h3 > $ {
+          esc(k.label)
+        } < /h3><div class="context-numbers"><div class="context-number current"><span>Ist-Wert</span > <b > $ {
+          k.fmt(s.value)
+        } < /b></div > <div class = "context-number median" > <span > Median < /span><b>${k.fmt(s.median)}</b > </div></div > $ {
+          benchmarkVisual(s)
+        } < p class = "hint" > $ {
+          esc(contextText(s))
+        } < /p></div > `
+      }).join('');const docs = state.benchmarkRepos.length ? `README: $ {
+        Math.round(state.benchmarkRepos.filter(r = >r.kpis ? .readmePresent).length / state.benchmarkRepos.length * 100)
+      } % ·CONTRIBUTING: $ {
+        Math.round(state.benchmarkRepos.filter(r = >r.kpis ? .contribPresent).length / state.benchmarkRepos.length * 100)
+      } % der Vergleichsgruppe`: '';el.innerHTML = ` < div class = "section-title" > Benchmark - Kontext der Vergleichsgruppe < /div><p class="hint" style="margin-bottom:12px">Die Einordnung basiert auf der täglich aktualisierten Top-100-Vergleichsgruppe öffentlicher GitHub-Repositories. Sie dient der relativen Bewertung und stellt keine vollständige Abbildung der gesamten GitHub-Plattform dar. ${docs}</p > <div class = "context-grid" > $ {
+        cards
+      } < /div>`}
+function renderConfig(){const v=state.visibility;$('configCard').innerHTML=`<div class="toggle-row"><div><div class="section-title">Anzeige konfigurieren</div > <p class = "hint" > Legen Sie fest, welche Bereiche und Kennzahlen sichtbar sind. < /p></div > <button class = "btn-secondary"onclick = "toggleConfig(false)" > Schließen < /button></div > <div class = "config-grid" > <div class = "cfg-group" > <div class = "cfg-head" > Dashboard - Bereiche < /div>${[['profile','Repository-Profil'],['overall','Repository Health Score'],['pillars','Bewertungssäulen'],['benchmark','Benchmark-Kontext'],['explain','Methodische Einordnung'],['suggestions','Handlungsempfehlungen'],['compare','Repository-Vergleich'],['api','GitHub-API-Endpunkte']].map(([id,label])=>`<label class="check"><input type="checkbox" ${v.sections[id]?'checked':''} onchange="state.visibility.sections.${id}=this.checked;rerender()"> ${label}</label > `).join('')
+    } < /div>${PILLARS.map(p=>`<div class="cfg-group"><div class="cfg-head">${p.label}</div > $ {
+      p.kpis.map(k = >` < label class = "check" > <input type = "checkbox"$ {
+        v.kpis[k.id] ? 'checked': ''
+      }
+      onchange = "state.visibility.kpis.${k.id}=this.checked;rerender()" > $ {
+        k.label
+      } < /label>`).join('')}</div > `).join('')
+    } < /div><div class="config-footer"><button class="btn-secondary" onclick="toggleConfig(false)">Anwenden</button > <button class = "btn-primary"onclick = "openReportForPdf()"$ {
+      state.meta ? '': 'disabled'
+    } > PDF - Report erstellen < /button></div > `
+  }
+  function toggleConfig(force) {
+    $('configCard').classList.toggle('hidden', force === undefined ? undefined: !force)
+  }
+  function renderRepo() {
+    const m = state.meta,
+    owner = m.fullName.split('/')[0];
+    $('repoHdr').classList.toggle('hidden', !state.visibility.sections.profile);
+    $('repoHdr').innerHTML = ` < div class = "repo-main" > <div class = "avatar-wrap" > <img class = "avatar"src = "https://github.com/${esc(owner)}.png?size=128"alt = "" > </div><div class="repo-title"><a href="${esc(m.htmlUrl)}" target="_blank">${esc(m.fullName)}</a > <p class = "desc" > $ {
+      esc(m.description || 'Keine Beschreibung hinterlegt.')
+    } < /p><div class="tags">${m.language?`<span class="tag">${esc(m.language)}</span > `: ''
+  }
+  $ {
+    m.license ? ` < span class = "tag" > $ {
+      esc(m.license)
+    } < /span>`:''}<span class="tag">${m.readmeOk?'README vorhanden':'README nicht verfügbar'}</span > $ {
+      m.contribOk ? '<span class="tag">CONTRIBUTING vorhanden</span>': ''
+    } < /div></div > </div><div class="stats"><div class="stat"><b>${fmt(m.stars)}</b > <span > Stars < /span></div > <div class = "stat" > <b > $ {
+      fmt(m.forks)
+    } < /b><span>Forks</span > </div><div class="stat"><b>${fmt(m.openIssues)}</b > <span > Offene Issues < /span></div > <div class = "stat" > <b > $ {
+      fmt(m.age)
+    } < /b><span>Projekttage</span > </div></div > `
+  }
+  function renderOverall() {
+    const s = state.scores.overall ? ?0,
+    c = color(s);
+    $('overallRow').classList.toggle('hidden', !state.visibility.sections.overall);
+    $('overallRow').innerHTML = ` < div class = "status-label" > Status < /div><div class="ring" style="--s:${s};--c:${c}"><div class="ring-inner"><div class="ring-num" style="color:${c}">${state.scores.overall??'—'}</div > </div></div > <div class = "ring-grade" > $ {
+      state.scores.overall != null ? scoreText(s) : 'Nicht verfügbar'
+    } < /div><div class="score-breakdown"><div class="weight-row"><b>Aktivität & Community</b > <span > 40 % </span></div > <div class = "weight-row" > <b > Reaktionsfähigkeit & Wartung < /b><span>35%</span > </div><div class="weight-row"><b>Reichweite & Dokumentation</b > <span > 25 % </span></div > </div><div class="formula">Der Repository Health Score ist ein gewichteter, vergleichender Indikator auf Basis öffentlich verfügbarer GitHub-Daten.</div > `
+  }
+  function renderPillars() {
+    $('pillarsRow').classList.toggle('hidden', !state.visibility.sections.pillars);
+    $('pillarsRow').innerHTML = PILLARS.map(p = >{
+      const s = state.scores[p.id],
+      c = color(s ? ?0);
+      const chips = p.kpis.map(k = >` < div class = "kpi-mini"title = "${esc(KPI_INFO[k.id])}" > <div class = "kpi-mini-label" > $ {
+        esc(k.label)
+      } < /div><div class="kpi-mini-value">${esc(k.fmt(state.kpis[k.id]))}</div > <div class = "kpi-mini-direction" > $ {
+        esc(KPI_DIRECTION[k.id])
+      } < /div></div > `).join('');
+      return` < button class = "pillar ${activePillar===p.id?'active':''}"onclick = "activePillar='${p.id}';renderPillars();renderKpiPanel('${p.id}')" > <div > <div class = "pillar-top" > <h3 > $ {
+        p.label
+      } < /h3><span class="pillar-weight">${Math.round(p.weight*100)}%</span > </div><div class="pill-score" style="color:${c}">${s??'—'}</div > <div class = "kpi-preview" > $ {
+        chips
+      } < /div><div class="details-hint">Details anzeigen</div > </div><div class="bar"><i style="--c:${c};--w:${s??0}%"></i > </div></button > `
+    }).join('')
+  }
+  function renderKpiPanel(pid) {
+    const p = PILLARS.find(x = >x.id === pid) || PILLARS[0];
+    const rows = p.kpis.filter(k = >state.visibility.kpis[k.id]).map(k = >{
+      const current = state.kpis[k.id],
+      bench = MEDIANS[k.id],
+      s = scoreKpi(k.id, current),
+      c = color(s ? ?0);
+      const tip = `Dieser KPI - Score zeigt,
+      wie stark der Ist - Wert im Verhältnis zum Benchmark abschneidet.Bewertungsrichtung: $ {
+        KPI_DIRECTION[k.id]
+      }.Ist - Wert: $ {
+        k.fmt(current)
+      }.Benchmark / Median: $ {
+        k.fmt(bench)
+      }.`;
+      return` < tr > <td > <b > $ {
+        k.label
+      } < /b><br><span class="hint">${KPI_INFO[k.id]} Richtung: ${KPI_DIRECTION[k.id]}.</span > </td><td>${k.fmt(current)}</td > <td > $ {
+        k.fmt(bench)
+      } < /td><td><span class="score-badge score-tooltip" style="color:${c}" data-tooltip="${esc(tip)}">${s??'Nicht verfügbar'}</span > </td><td>${Math.round(k.w*100)}%</td > </tr>`}).join('');$('kpiPanel').classList.toggle('hidden',!state.visibility.sections.pillars);$('kpiPanel').innerHTML=`<div class="section-title">${p.label}</div > <p class = "hint"style = "margin-bottom:10px" > $ {
+        TEXT[p.id]
+      } < /p>${rows?`<div class="table-scroll"><table><thead><tr><th>Kennzahl</th > <th > Wert < /th><th>Benchmark</th > <th > Score < /th><th>Gewicht</th > </tr></thead > <tbody > $ {
+        rows
+      } < /tbody></table > </div>`:'<p class="hint">Alle Kennzahlen dieser Kategorie sind ausgeblendet.</p > '}`}
+function renderExplain(){$('explainCard ').classList.toggle('hidden ',!state.visibility.sections.explain);$('explainCard ').innerHTML=`<div class="section-title">Methodische Einordnung</div><div class="grid2">${PILLARS.map(p=>`<div class="box"><b>${p.label}</b>${TEXT[p.id]}</div>`).join('')}<div class="box"><b>Umgang mit fehlenden Daten</b>Nicht verfügbare GitHub-Daten werden nicht als negativer Wert interpretiert, sondern aus der jeweiligen Berechnung ausgeschlossen.</div></div>`}function getSuggestionsFor(a=state){const k=a.kpis;return[['commits30 ','Entwicklungsaktivität stabilisieren ','Regelmäßige Maintenance - Commits und eine sichtbare Roadmap unterstützen die Wahrnehmung aktiver Pflege.'],['contributors ','Contributor - Basis erweitern ','Contribution - Guidelines,
+      Issue - Templates und geeignete Einstiegsthemen erleichtern Beteiligung.'],['avgClose ','Issue - Reaktionszeit verbessern ','Eine regelmäßige Triage mit klaren Prioritäten erhöht die Wartungstransparenz.'],['relFreq ','Release - Prozess strukturieren ','Kleine,
+      dokumentierte Releases verbessern Planbarkeit und Vertrauen.'],['doku ','Dokumentation ausbauen ','README,
+      Quickstart,
+      Beispiele und Contribution - Hinweise reduzieren Einstiegshürden.']].filter(([id])=>(state.visibility?.kpis?.[id]??true)&&((scoreKpi(id,k[id])??0)<70)).slice(0,5)}function renderSuggestions(){$('sugCard ').classList.toggle('hidden ',!state.visibility.sections.suggestions);const items=getSuggestionsFor(state);$('sugCard ').innerHTML=`<div class="section-title">Ableitungen und Handlungsempfehlungen</div><div class="grid2">${items.length?items.map(([,t,d])=>`<div class="box"><b>${t}</b>${d}</div>`).join(''):' < div class = "box" > <b > Keine kritischen Auffälligkeiten < /b>Die sichtbaren Kernmetriken liegen im stabilen Bereich.</div > '}</div>`}function renderCompare(){const show=state.visibility.sections.compare&&state.analyses.length>1;$('compareCard ').classList.toggle('hidden ',!show);if(!show)return;const best=[...state.analyses].sort((a,b)=>(b.scores.overall??-1)-(a.scores.overall??-1))[0];$('compareCard ').innerHTML=`<div class="section-title">Repository-Vergleich</div><p class="hint" style="margin-bottom:10px">Höchster Repository Health Score: ${esc(best.meta.fullName)} mit ${best.scores.overall} Punkten.</p><div class="table-scroll"><table><thead><tr><th>Repository</th><th>Quelle</th><th>Gesamt</th>${PILLARS.map(p=>`<th>${p.label}</th>`).join('')}</tr></thead><tbody>${state.analyses.map(a=>`<tr><td>${esc(a.meta.fullName)}</td><td>${a.source==='top100 '?'Top - 100 - Vergleichsgruppe ':'Direkte Eingabe '}</td><td>${a.scores.overall??'—'}</td>${PILLARS.map(p=>`<td>${a.scores[p.id]??'—'}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`}function renderApiCard(){$('apiCard ').classList.toggle('hidden ',!state.visibility.sections.api);const unique=[...new Set(state.apiLog)];$('apiCard ').innerHTML=`<div class="section-title">Genutzte GitHub-API-Endpunkte</div><div class="grid2">${unique.map(u=>`<div class="box"><b>GET</b>${esc(u)}</div>`).join('')}</div>`}
+function interpretation(score){if(score==null)return'Für diesen Bereich konnten nicht genügend Daten berechnet werden.';if(score>=80)return'Der Wert liegt im starken Bereich.Dieöffentlich sichtbaren GitHub - Signale sprechen hier für eine robuste Repository Health.';if(score>=60)return'Der Wert liegt im soliden Bereich.Es gibt positive Signale,
+      einzelne Aspekte können jedoch weiter verbessert werden.';if(score>=40)return'Der Wert liegt im eingeschränkten Bereich.Mehrere Signale deuten auf Verbesserungsbedarf hin.';return'Der Wert liegt im kritischen Bereich.Die sichtbaren Signale sprechen für deutliche Lücken oder fehlende Daten.'}function calcText(k){const v=state.kpis[k.id],m=MEDIANS[k.id],s=scoreKpi(k.id,v);if(v==null||s==null)return'Nicht berechenbar.';if(k.dir==='more ')return`${k.fmt(v)} / ${k.fmt(m)} × 100 = ${s}`;if(k.dir==='less ')return`${k.fmt(m)} / ${k.fmt(v)} × 100 = ${s}`;if(k.dir==='bool ')return`README ${state.meta.readmeOk?'vorhanden ':'fehlt '} + CONTRIBUTING ${state.meta.contribOk?'vorhanden ':'fehlt '} = ${s}`;return`Logarithmische Normalisierung gegen Median ${k.fmt(m)} = ${s}`}
 function pdfBenchmarkCard(s){return`<div class="pdf-bench-card"><div class="pdf-bench-head"><h3>${esc(s.k.label)}</h3><span>${s.percentile}. Perzentil</span></div><div class="pdf-value-row"><div><small>Ist-Wert</small><b class="current">${s.k.fmt(s.value)}</b></div><div><small>Median</small><b class="median">${s.k.fmt(s.median)}</b></div></div><div class="pdf-scale"><i class="median" style="left:${s.medianPos}%"></i><i class="current" style="left:${s.pos}%"></i></div><div class="pdf-scale-labels"><span>Min. ${s.k.fmt(s.min)}</span><span>Max. ${s.k.fmt(s.max)}</span></div><div class="pdf-legend"><span><i class="current"></i>Ist-Wert</span><span><i class="median"></i>Median</span></div><p>${esc(contextText(s))}</p></div>`}
-function reportHtml(){if(!state.meta)throw new Error('Bitte führen Sie zuerst eine Analyse aus.');const docRows=[['README',state.meta.readmeOk,'Basisdokumentation, Quickstart und Projektüberblick'],['CONTRIBUTING',state.meta.contribOk,'Hinweise für Mitwirkung, Standards und Einstieg für Contributors']].map(([n,ok,d])=>`<tr><td>${n}</td><td><span class="badge ${ok?'good':'bad'}">${ok?'vorhanden':'fehlt'}</span></td><td>${d}</td></tr>`).join('');const pillarCards=PILLARS.map(p=>`<div class="pillar"><h3>${esc(p.label)}</h3><div class="big">${state.scores[p.id]??'—'}</div><p>${Math.round(p.weight*100)}% Gewichtung</p><small>${esc(TEXT[p.id])}</small><small><b>Interpretation:</b> ${interpretation(state.scores[p.id])}</small></div>`).join('');const kpiRows=allKpis().map(k=>{const val=state.kpis[k.id],sc=scoreKpi(k.id,val),arrow=KPI_DIRECTION[k.id].startsWith('höher')?'↑':'↓';return`<tr><td><b>${esc(k.label)}</b><br><span>${esc(KPI_INFO[k.id])}</span></td><td><span class="arrow">${arrow}</span> ${esc(KPI_DIRECTION[k.id])}</td><td>${k.fmt(MEDIANS[k.id])}</td><td>${k.fmt(val)}</td><td>${sc??'Nicht verfügbar'}</td><td>${calcText(k)}</td><td>${interpretation(sc)}</td></tr>`}).join('');const contextCards=CONTEXT_KPIS.map(id=>{const s=benchmarkStats(id);return s?pdfBenchmarkCard(s):''}).join('');const recs=getSuggestionsFor(state).map(([,t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join('')||'<li>Keine kritischen Auffälligkeiten in den sichtbaren Kernmetriken.</li>';const endpoints=[...new Set(state.apiLog)].map(u=>`<li><code>GET ${esc(u)}</code></li>`).join('');return`<!doctype html><html><head><meta charset="utf-8"><title>GitSuccess Repository Health Report</title><style>body{font-family:Arial,sans-serif;margin:28px;color:#1E293B;line-height:1.42}h1{font-size:28px;margin-bottom:4px}h2{margin-top:24px;font-size:19px}.muted{color:#64748B}.score{font-size:48px;color:#5B50D6;font-weight:700}.note{background:#F8FAFC;border:1px solid #E2E8F0;border-radius:12px;padding:12px;margin:12px 0}.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.pillar{border:1px solid #E2E8F0;border-radius:14px;padding:12px;background:#F8FAFC;page-break-inside:avoid}.pillar h3{font-size:14px;margin:0}.pillar .big{font-size:28px;color:#5B50D6;font-weight:700;margin:8px 0}.pillar small{display:block;color:#64748B;margin-top:6px}table{width:100%;border-collapse:collapse;margin-top:8px}td,th{border:1px solid #E2E8F0;padding:7px;text-align:left;vertical-align:top;font-size:11px}th{background:#F1F5F9}.badge{display:inline-block;border-radius:999px;padding:4px 8px;font-weight:700}.good{background:#DCFCE7;color:#166534}.bad{background:#FFE4E6;color:#9F1239}.arrow{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:#34D399;color:#fff;font-weight:700}.pdf-bench-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:10px}.pdf-bench-card{border:1px solid #E2E8F0;border-radius:14px;background:#F8FAFC;padding:12px;page-break-inside:avoid}.pdf-bench-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.pdf-bench-head h3{font-size:13px;margin:0}.pdf-bench-head span{font-size:11px;color:#5B50D6;font-weight:700;white-space:nowrap}.pdf-value-row{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.pdf-value-row div{border:1px solid #E2E8F0;border-radius:10px;background:white;padding:8px}.pdf-value-row small{display:block;color:#64748B;font-size:10px}.pdf-value-row b{display:block;font-size:14px;margin-top:2px}.pdf-value-row .current{color:#5B50D6}.pdf-value-row .median{color:#F59E0B}.pdf-scale{height:12px;border-radius:999px;background:linear-gradient(90deg,#DCFCE7,#EDE9FE);border:1px solid #CBD5E1;position:relative;margin:16px 8px 8px}.pdf-scale i{position:absolute;top:50%;transform:translate(-50%,-50%);width:12px;height:12px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 1px #CBD5E1}.pdf-scale i.current{background:#5B50D6}.pdf-scale i.median{background:#F59E0B}.pdf-scale-labels{display:flex;justify-content:space-between;color:#64748B;font-size:10px}.pdf-legend{display:flex;gap:12px;margin-top:8px;color:#64748B;font-size:10px}.pdf-legend i{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px}.pdf-legend .current{background:#5B50D6}.pdf-legend .median{background:#F59E0B}.pdf-bench-card p{font-size:11px;color:#475569;margin-top:8px}code{background:#F1F5F9;padding:2px 4px;border-radius:4px}@media print{body{margin:14mm}.pillars{grid-template-columns:repeat(3,1fr)}.pdf-bench-grid{grid-template-columns:1fr 1fr}h2{page-break-after:avoid}}</style></head><body><h1>GitSuccess Repository Health Report</h1><p class="muted">${esc(state.meta.fullName)} · erstellt auf Basis öffentlich verfügbarer GitHub-Daten</p><div class="score">${state.scores.overall??'—'} / 100</div><p><b>Status:</b> ${scoreText(state.scores.overall??0)}</p><div class="note"><b>Methodischer Hinweis:</b> Der Score ist eine indikative, vergleichende Repository-Health-Einordnung. Er ersetzt keine Code-, Security-, Architektur- oder Governance-Prüfung.</div><h2>Repository-Profil</h2><table><tr><th>Stars</th><th>Forks</th><th>Offene Issues</th><th>Projekttage</th><th>Sprache</th><th>Lizenz</th></tr><tr><td>${fmt(state.meta.stars)}</td><td>${fmt(state.meta.forks)}</td><td>${fmt(state.meta.openIssues)}</td><td>${fmt(state.meta.age)}</td><td>${esc(state.meta.language||'Nicht verfügbar')}</td><td>${esc(state.meta.license||'Nicht verfügbar')}</td></tr></table><h2>Bewertungssäulen</h2><div class="pillars">${pillarCards}</div><h2>Benchmark-Kontext</h2><div class="note">Die Benchmark-Werte basieren auf der täglich aktualisierten Top-100-Vergleichsgruppe öffentlicher GitHub-Repositories. Sie dienen der relativen Einordnung und bilden nicht die gesamte GitHub-Plattform ab.</div><div class="pdf-bench-grid">${contextCards}</div><h2>Dokumentationsstatus</h2><table><tr><th>Dokument</th><th>Status</th><th>Bedeutung</th></tr>${docRows}</table><div class="note"><b>Dokumentationsscore:</b> README zählt mit 60 Punkten, CONTRIBUTING mit 40 Punkten. Fehlende Dokumente senken den Dokumentationswert und werden im Report transparent ausgewiesen.</div><h2>KPI-Erläuterungen und Score-Berechnung</h2><table><tr><th>KPI</th><th>Richtung</th><th>Median</th><th>Ist-Wert</th><th>Score</th><th>Berechnung</th><th>Interpretation</th></tr>${kpiRows}</table><h2>Handlungsempfehlungen</h2><ul>${recs}</ul><h2>Genutzte GitHub-API-Endpunkte</h2><ul>${endpoints}</ul><h2>Interpretationsskala</h2><div class="note"><p><b>80–100:</b> starke Repository Health. <b>60–79:</b> solide Repository Health. <b>40–59:</b> eingeschränkte Repository Health. <b>0–39:</b> kritische Repository Health.</p><p class="muted">Der Report bewertet sichtbare GitHub-Signale wie Aktivität, Wartung, Reichweite und Dokumentation.</p></div></body></html>`}
-function openReportForPdf(){try{const w=window.open('','_blank');if(!w)return alert('Der Bericht konnte nicht geöffnet werden. Bitte Popup-Blocker prüfen.');w.document.write(reportHtml()+`<script>setTimeout(()=>window.print(),500)<\/script>`);w.document.close()}catch(e){alert(e.message)}}async function analyze(source='input'){localStorage.setItem('gitSuccessLastRepoInput',$('repoIn').value.trim());const parsed=parseMany($('repoIn').value);if(!parsed.length){$('errorState').textContent='Bitte geben Sie ein gültiges GitHub-Repository ein, z. B. facebook/react oder https://github.com/facebook/react.';$('errorState').classList.remove('hidden');return}$('analyzeBtn').disabled=true;$('loadingState').classList.remove('hidden');$('errorState').classList.add('hidden');$('results').classList.add('hidden');state.apiLog=[];state.visibility=state.visibility||defaultVisibility();try{await loadBenchmarks();const analyses=[];for(const p of parsed){$('loadingState').textContent=`Repository wird analysiert: ${p.owner}/${p.name}`;const data=await fetchKpis(p.owner,p.name);analyses.push({...data,source,scores:computeScores(data.kpis)})}state.analyses=analyses;syncAnalysisScores();activePillar='p1';$('loadingState').classList.add('hidden');$('results').classList.remove('hidden');rerender();$('results').scrollIntoView({behavior:'smooth'})}catch(e){$('loadingState').classList.add('hidden');$('errorState').textContent=e.message;$('errorState').classList.remove('hidden')}finally{$('analyzeBtn').disabled=false;$('loadingState').textContent='Analyse wird ausgeführt. Bitte warten.'}}function initPage(){initTheme();initMenu();$('analyzeBtn').addEventListener('click',()=>analyze('input'));$('repoIn').addEventListener('keydown',e=>{if(e.key==='Enter')analyze('input')});$('configBtn').addEventListener('click',()=>toggleConfig());$('saveTokenBtn').addEventListener('click',saveToken);state.visibility=defaultVisibility();$('tokenIn').value=localStorage.getItem('gitSuccessToken')||'';const repoParam=new URLSearchParams(location.search).get('repo');$('repoIn').value=repoParam?`https://github.com/${repoParam}`:(localStorage.getItem('gitSuccessLastRepoInput')||'');loadBenchmarks();if(repoParam)setTimeout(()=>analyze('top100'),250)}initPage();
-</script>
-</body>
+function reportHtml(){if(!state.meta)throw new Error('Bitte führen Sie zuerst eine Analyse aus.');const docRows=[['README ',state.meta.readmeOk,'Basisdokumentation,
+      Quickstart und Projektüberblick '],['CONTRIBUTING ',state.meta.contribOk,'Hinweise für Mitwirkung,
+      Standards und Einstieg für Contributors ']].map(([n,ok,d])=>`<tr><td>${n}</td><td><span class="badge ${ok?'good ':'bad '}">${ok?'vorhanden ':'fehlt '}</span></td><td>${d}</td></tr>`).join('');const pillarCards=PILLARS.map(p=>`<div class="pillar"><h3>${esc(p.label)}</h3><div class="big">${state.scores[p.id]??'—'}</div><p>${Math.round(p.weight*100)}% Gewichtung</p><small>${esc(TEXT[p.id])}</small><small><b>Interpretation:</b> ${interpretation(state.scores[p.id])}</small></div>`).join('');const kpiRows=allKpis().map(k=>{const val=state.kpis[k.id],sc=scoreKpi(k.id,val),arrow=KPI_DIRECTION[k.id].startsWith('höher ')?'↑':'↓';return`<tr><td><b>${esc(k.label)}</b><br><span>${esc(KPI_INFO[k.id])}</span></td><td><span class="arrow">${arrow}</span> ${esc(KPI_DIRECTION[k.id])}</td><td>${k.fmt(MEDIANS[k.id])}</td><td>${k.fmt(val)}</td><td>${sc??'Nicht verfügbar '}</td><td>${calcText(k)}</td><td>${interpretation(sc)}</td></tr>`}).join('');const contextCards=CONTEXT_KPIS.map(id=>{const s=benchmarkStats(id);return s?pdfBenchmarkCard(s):''}).join('');const recs=getSuggestionsFor(state).map(([,t,d])=>`<li><b>${esc(t)}:</b> ${esc(d)}</li>`).join('')||' < li > Keine kritischen Auffälligkeiten in den sichtbaren Kernmetriken. < /li>';const endpoints=[...new Set(state.apiLog)].map(u=>`<li><code>GET ${esc(u)}</code > </li>`).join('');return`<!doctype html><html><head><meta charset="utf-8"><title>GitSuccess Repository Health Report</title > <style > body {
+        font - family: Arial,
+        sans - serif;
+        margin: 28px;
+        color: #1E293B;
+        line - height: 1.42
+      }
+      h1 {
+        font - size: 28px;
+        margin - bottom: 4px
+      }
+      h2 {
+        margin - top: 24px;
+        font - size: 19px
+      }.muted {
+        color: #64748B
+      }.score {
+        font - size: 48px;
+        color: #5B50D6;
+        font - weight: 700
+      }.note {
+        background: #F8FAFC;
+        border: 1px solid#E2E8F0;
+        border - radius: 12px;
+        padding: 12px;
+        margin: 12px 0
+      }.pillars {
+        display: grid;
+        grid - template - columns: repeat(3, 1fr);
+        gap: 10px
+      }.pillar {
+        border: 1px solid#E2E8F0;
+        border - radius: 14px;
+        padding: 12px;
+        background: #F8FAFC;
+        page -
+        break - inside: avoid
+      }.pillar h3 {
+        font - size: 14px;
+        margin: 0
+      }.pillar.big {
+        font - size: 28px;
+        color: #5B50D6;
+        font - weight: 700;
+        margin: 8px 0
+      }.pillar small {
+        display: block;
+        color: #64748B;
+        margin - top: 6px
+      }
+      table {
+        width: 100 % ;
+        border - collapse: collapse;
+        margin - top: 8px
+      }
+      td,
+      th {
+        border: 1px solid#E2E8F0;
+        padding: 7px;
+        text - align: left;
+        vertical - align: top;
+        font - size: 11px
+      }
+      th {
+        background: #F1F5F9
+      }.badge {
+        display: inline - block;
+        border - radius: 999px;
+        padding: 4px 8px;
+        font - weight: 700
+      }.good {
+        background: #DCFCE7;
+        color: #166534
+      }.bad {
+        background: #FFE4E6;
+        color: #9F1239
+      }.arrow {
+        display: inline - grid;
+        place - items: center;
+        width: 20px;
+        height: 20px;
+        border - radius: 50 % ;
+        background: #34D399;
+        color: #fff;
+        font - weight: 700
+      }.pdf - bench - grid {
+        display: grid;
+        grid - template - columns: 1fr 1fr;
+        gap: 12px;
+        margin - top: 10px
+      }.pdf - bench - card {
+        border: 1px solid#E2E8F0;
+        border - radius: 14px;
+        background: #F8FAFC;
+        padding: 12px;
+        page -
+        break - inside: avoid
+      }.pdf - bench - head {
+        display: flex;
+        justify - content: space - between;
+        gap: 10px;
+        align - items: flex - start
+      }.pdf - bench - head h3 {
+        font - size: 13px;
+        margin: 0
+      }.pdf - bench - head span {
+        font - size: 11px;
+        color: #5B50D6;
+        font - weight: 700;
+        white - space: nowrap
+      }.pdf - value - row {
+        display: grid;
+        grid - template - columns: 1fr 1fr;
+        gap: 8px;
+        margin: 10px 0
+      }.pdf - value - row div {
+        border: 1px solid#E2E8F0;
+        border - radius: 10px;
+        background: white;
+        padding: 8px
+      }.pdf - value - row small {
+        display: block;
+        color: #64748B;
+        font - size: 10px
+      }.pdf - value - row b {
+        display: block;
+        font - size: 14px;
+        margin - top: 2px
+      }.pdf - value - row.current {
+        color: #5B50D6
+      }.pdf - value - row.median {
+        color: #F59E0B
+      }.pdf - scale {
+        height: 12px;
+        border - radius: 999px;
+        background: linear - gradient(90deg, #DCFCE7, #EDE9FE);
+        border: 1px solid#CBD5E1;
+        position: relative;
+        margin: 16px 8px 8px
+      }.pdf - scale i {
+        position: absolute;
+        top: 50 % ;
+        transform: translate( - 50 % , -50 % );
+        width: 12px;
+        height: 12px;
+        border - radius: 50 % ;
+        border: 2px solid white;
+        box - shadow: 0 0 0 1px#CBD5E1
+      }.pdf - scale i.current {
+        background: #5B50D6
+      }.pdf - scale i.median {
+        background: #F59E0B
+      }.pdf - scale - labels {
+        display: flex;
+        justify - content: space - between;
+        color: #64748B;
+        font - size: 10px
+      }.pdf - legend {
+        display: flex;
+        gap: 12px;
+        margin - top: 8px;
+        color: #64748B;
+        font - size: 10px
+      }.pdf - legend i {
+        display: inline - block;
+        width: 8px;
+        height: 8px;
+        border - radius: 50 % ;
+        margin - right: 4px
+      }.pdf - legend.current {
+        background: #5B50D6
+      }.pdf - legend.median {
+        background: #F59E0B
+      }.pdf - bench - card p {
+        font - size: 11px;
+        color: #475569;
+        margin - top: 8px
+      }
+      code {
+        background: #F1F5F9;
+        padding: 2px 4px;
+        border - radius: 4px
+      }@media print {
+        body {
+          margin: 14mm
+        }.pillars {
+          grid - template - columns: repeat(3, 1fr)
+        }.pdf - bench - grid {
+          grid - template - columns: 1fr 1fr
+        }
+        h2 {
+          page -
+          break - after: avoid
+        }
+      } < /style></head > <body > <h1 > GitSuccess Repository Health Report < /h1><p class="muted">${esc(state.meta.fullName)} · erstellt auf Basis öffentlich verfügbarer GitHub-Daten</p > <div class = "score" > $ {
+        state.scores.overall ? ?'—'
+      }
+      / 100</div > <p > <b > Status: </b> ${scoreText(state.scores.overall??0)}</p > <div class = "note" > <b > Methodischer Hinweis: </b> Der Score ist eine indikative, vergleichende Repository-Health-Einordnung. Er ersetzt keine Code-, Security-, Architektur- oder Governance-Prüfung.</div > <h2 > Repository - Profil < /h2><table><tr><th>Stars</th > <th > Forks < /th><th>Offene Issues</th > <th > Projekttage < /th><th>Sprache</th > <th > Lizenz < /th></tr > <tr > <td > $ {
+        fmt(state.meta.stars)
+      } < /td><td>${fmt(state.meta.forks)}</td > <td > $ {
+        fmt(state.meta.openIssues)
+      } < /td><td>${fmt(state.meta.age)}</td > <td > $ {
+        esc(state.meta.language || 'Nicht verfügbar')
+      } < /td><td>${esc(state.meta.license||'Nicht verfügbar')}</td > </tr></table > <h2 > Bewertungssäulen < /h2><div class="pillars">${pillarCards}</div > <h2 > Benchmark - Kontext < /h2><div class="note">Die Benchmark-Werte basieren auf der täglich aktualisierten Top-100-Vergleichsgruppe öffentlicher GitHub-Repositories. Sie dienen der relativen Einordnung und bilden nicht die gesamte GitHub-Plattform ab.</div > <div class = "pdf-bench-grid" > $ {
+        contextCards
+      } < /div><h2>Dokumentationsstatus</h2 > <table > <tr > <th > Dokument < /th><th>Status</th > <th > Bedeutung < /th></tr > $ {
+        docRows
+      } < /table><div class="note"><b>Dokumentationsscore:</b > README zählt mit 60 Punkten,
+      CONTRIBUTING mit 40 Punkten.Fehlende Dokumente senken den Dokumentationswert und werden im Report transparent ausgewiesen. < /div><h2>KPI-Erläuterungen und Score-Berechnung</h2 > <table > <tr > <th > KPI < /th><th>Richtung</th > <th > Median < /th><th>Ist-Wert</th > <th > Score < /th><th>Berechnung</th > <th > Interpretation < /th></tr > $ {
+        kpiRows
+      } < /table><h2>Handlungsempfehlungen</h2 > <ul > $ {
+        recs
+      } < /ul><h2>Genutzte GitHub-API-Endpunkte</h2 > <ul > $ {
+        endpoints
+      } < /ul><h2>Interpretationsskala</h2 > <div class = "note" > <p > <b > 80–100 : </b> starke Repository Health. <b>60–79:</b > solide Repository Health. < b > 40–59 : </b> eingeschränkte Repository Health. <b>0–39:</b > kritische Repository Health. < /p><p class="muted">Der Report bewertet sichtbare GitHub-Signale wie Aktivität, Wartung, Reichweite und Dokumentation.</p > </div></body > </html>`}
+function openReportForPdf(){try{const w=window.open('','_blank');if(!w)return alert('Der Bericht konnte nicht geöffnet werden. Bitte Popup-Blocker prüfen.');w.document.write(reportHtml()+`<script>setTimeout(()=>window.print(),500)<\/script>`);w.document.close()}catch(e){alert(e.message)}}async function analyze(source='input'){localStorage.setItem('gitSuccessLastRepoInput',$('repoIn').value.trim());const parsed=parseMany($('repoIn').value);if(!parsed.length){$('errorState').textContent='Bitte geben Sie ein gültiges GitHub-Repository ein, z. B. facebook/react oder https: //github.com/facebook/react.';$('errorState').classList.remove('hidden');return}$('analyzeBtn').disabled=true;$('loadingState').classList.remove('hidden');$('errorState').classList.add('hidden');$('results').classList.add('hidden');state.apiLog=[];state.visibility=state.visibility||defaultVisibility();try{await loadBenchmarks();const analyses=[];for(const p of parsed){$('loadingState').textContent=`Repository wird analysiert: ${p.owner}/${p.name}`;const data=await fetchKpis(p.owner,p.name);analyses.push({...data,source,scores:computeScores(data.kpis)})}state.analyses=analyses;syncAnalysisScores();activePillar='p1';$('loadingState').classList.add('hidden');$('results').classList.remove('hidden');rerender();$('results').scrollIntoView({behavior:'smooth'})}catch(e){$('loadingState').classList.add('hidden');$('errorState').textContent=e.message;$('errorState').classList.remove('hidden')}finally{$('analyzeBtn').disabled=false;$('loadingState').textContent='Analyse wird ausgeführt. Bitte warten.'}}function initPage(){initTheme();initMenu();$('analyzeBtn').addEventListener('click',()=>analyze('input'));$('repoIn').addEventListener('keydown',e=>{if(e.key==='Enter')analyze('input')});$('configBtn').addEventListener('click',()=>toggleConfig());$('saveTokenBtn').addEventListener('click',saveToken);state.visibility=defaultVisibility();$('tokenIn').value=localStorage.getItem('gitSuccessToken')||'';const repoParam=new URLSearchParams(location.search).get('repo');$('repoIn').value=repoParam?`https://github.com/${repoParam}`:(localStorage.getItem('gitSuccessLastRepoInput')||'');loadBenchmarks();if(repoParam)setTimeout(()=>analyze('top100'),250)}initPage();
+      
+    </script>
+  </body>
+
 </html>
