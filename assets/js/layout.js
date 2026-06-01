@@ -14,6 +14,11 @@
     return fileName || 'index.html';
   }
 
+  function isAnalyzerPage() {
+    const fileName = currentFileName();
+    return fileName === 'index.html' || fileName === '' || fileName === 'GitSuccess_';
+  }
+
   function isTeamSubPage() {
     return window.location.pathname.includes('/team/');
   }
@@ -45,9 +50,11 @@
   }
 
   function buildNavigation(items, activePage) {
+    const normalizedActivePage = isAnalyzerPage() ? 'index.html' : activePage;
+
     return items
       .map(item => {
-        const isActive = item.href === activePage;
+        const isActive = item.href === normalizedActivePage;
         const className = isActive ? ' class="active"' : '';
         return `<a${className} href="${prefixPath(item.href)}">${item.label}</a>`;
       })
@@ -101,17 +108,13 @@
   }
 
   function loadAnalyzerExtras() {
-    if (currentFileName() !== 'index.html') return;
+    if (!isAnalyzerPage()) return;
+    if (document.querySelector('script[data-gitsuccess-report]')) return;
 
-    window.addEventListener('load', () => {
-      if (document.querySelector('script[data-gitsuccess-report]')) return;
-
-      const script = document.createElement('script');
-      script.src = scriptPath('assets/js/report.js');
-      script.defer = true;
-      script.dataset.gitsuccessReport = 'true';
-      document.body.appendChild(script);
-    });
+    const script = document.createElement('script');
+    script.src = scriptPath('assets/js/report.js');
+    script.dataset.gitsuccessReport = 'true';
+    document.body.appendChild(script);
   }
 
   async function initLayout() {
