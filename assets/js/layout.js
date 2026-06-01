@@ -107,8 +107,53 @@
     });
   }
 
+  function injectAnalyzerFixes() {
+    if (!isAnalyzerPage()) return;
+    if (document.getElementById('analyzer-visual-fixes')) return;
+
+    const style = document.createElement('style');
+    style.id = 'analyzer-visual-fixes';
+    style.textContent = `
+      .table-scroll {
+        overflow: visible !important;
+      }
+
+      .score-tooltip:hover::after {
+        top: calc(100% + 8px) !important;
+        bottom: auto !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
+        width: min(320px, 80vw) !important;
+        max-width: 320px !important;
+        z-index: 99999 !important;
+      }
+
+      .score-tooltip:hover::before {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 6px solid transparent;
+        border-bottom-color: var(--card);
+        z-index: 100000;
+      }
+
+      #kpiPanel,
+      #kpiPanel .card,
+      #kpiPanel table,
+      #kpiPanel tbody,
+      #kpiPanel tr,
+      #kpiPanel td {
+        overflow: visible !important;
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
   function loadAnalyzerExtras() {
     if (!isAnalyzerPage()) return;
+    injectAnalyzerFixes();
     if (document.querySelector('script[data-gitsuccess-report]')) return;
 
     const script = document.createElement('script');
