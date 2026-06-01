@@ -44,14 +44,7 @@
           <div class="logo">⌘</div>
           <span>GitSuccess</span>
         </div>
-        <nav class="nav">
-          <a href="top100.html">Top-100-Vergleichsgruppe</a>
-          <a href="index.html">Repository Analyzer</a>
-          <a class="active" href="docs.html">Metrik-Dokumentation</a>
-          <a href="api-guide.html">REST-API Guide</a>
-          <a href="about.html">Team</a>
-          <button id="themeBtn" type="button">Dark Mode</button>
-        </nav>
+        <nav class="nav"></nav>
       </div>
 
       <section class="hero">
@@ -69,55 +62,27 @@
           <h2>Aktivität & Community</h2>
           <span class="pill">Gewichtung: 40%</span>
           <p>Bewertet, ob ein Projekt aktiv gepflegt wird und ob mehrere Personen sichtbar beitragen.</p>
-          <div class="metric">
-            <h3>Commit-Aktivität 30 Tage</h3>
-            <p>Misst laufende Entwicklung und Pflege.</p>
-            <div class="formula">Score = min(100, Wert / Median × 100)</div>
-          </div>
-          <div class="metric">
-            <h3>Tage seit letztem Push</h3>
-            <p>Niedrigere Werte sprechen für aktuelle Pflege.</p>
-          </div>
-          <div class="metric">
-            <h3>Contributors</h3>
-            <p>Mehr Beitragende reduzieren organisatorische Abhängigkeiten.</p>
-          </div>
+          <div class="metric"><h3>Commit-Aktivität 30 Tage</h3><p>Misst laufende Entwicklung und Pflege.</p><div class="formula">Score = min(100, Wert / Median × 100)</div></div>
+          <div class="metric"><h3>Tage seit letztem Push</h3><p>Niedrigere Werte sprechen für aktuelle Pflege.</p></div>
+          <div class="metric"><h3>Contributors</h3><p>Mehr Beitragende reduzieren organisatorische Abhängigkeiten.</p></div>
         </article>
 
         <article class="card">
           <h2>Reaktionsfähigkeit & Wartung</h2>
           <span class="pill">Gewichtung: 35%</span>
           <p>Bewertet Release-Rhythmus, Issue-Bearbeitung und operative Wartbarkeit.</p>
-          <div class="metric">
-            <h3>Issue-Schließungsrate</h3>
-            <p>Zeigt aktives Backlog-Management.</p>
-          </div>
-          <div class="metric">
-            <h3>Ø Tage zwischen Releases</h3>
-            <p>Regelmäßige Releases erhöhen Planbarkeit.</p>
-          </div>
-          <div class="metric">
-            <h3>Ø Issue-Schließzeit</h3>
-            <p>Kürzere Zeiten zeigen Reaktionsfähigkeit.</p>
-          </div>
+          <div class="metric"><h3>Issue-Schließungsrate</h3><p>Zeigt aktives Backlog-Management.</p></div>
+          <div class="metric"><h3>Ø Tage zwischen Releases</h3><p>Regelmäßige Releases erhöhen Planbarkeit.</p></div>
+          <div class="metric"><h3>Ø Issue-Schließzeit</h3><p>Kürzere Zeiten zeigen Reaktionsfähigkeit.</p></div>
         </article>
 
         <article class="card">
           <h2>Reichweite & Dokumentation</h2>
           <span class="pill">Gewichtung: 25%</span>
           <p>Bewertet Sichtbarkeit, Dokumentationsqualität und Einstiegshürden.</p>
-          <div class="metric">
-            <h3>Fork-Ratio</h3>
-            <p>Forks deuten auf Nutzungs- oder Beteiligungsinteresse hin.</p>
-          </div>
-          <div class="metric">
-            <h3>Dokumentation</h3>
-            <p>README und CONTRIBUTING bilden die Basis für Onboarding und Zusammenarbeit.</p>
-          </div>
-          <div class="metric">
-            <h3>Stars pro Alterstag</h3>
-            <p>Reichweite wird in Relation zum Projektalter betrachtet.</p>
-          </div>
+          <div class="metric"><h3>Fork-Ratio</h3><p>Forks deuten auf Nutzungs- oder Beteiligungsinteresse hin.</p></div>
+          <div class="metric"><h3>Dokumentation</h3><p>README und CONTRIBUTING bilden die Basis für Onboarding und Zusammenarbeit.</p></div>
+          <div class="metric"><h3>Stars pro Alterstag</h3><p>Reichweite wird in Relation zum Projektalter betrachtet.</p></div>
         </article>
 
         <article class="card wide">
@@ -128,29 +93,6 @@
       </section>
     </div>
 
-    <script>
-      const THEME_KEY = 'gitSuccessTheme';
-
-      function initTheme() {
-        const button = document.getElementById('themeBtn');
-        const saved = localStorage.getItem(THEME_KEY);
-
-        if (saved === 'dark') {
-          document.body.classList.add('dark');
-        }
-
-        if (button) {
-          button.textContent = document.body.classList.contains('dark') ? 'Light Mode' : 'Dark Mode';
-        }
-
-        button?.addEventListener('click', () => {
-          const isDark = document.body.classList.toggle('dark');
-          localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
-          button.textContent = isDark ? 'Light Mode' : 'Dark Mode';
-        });
-      }
-
-      initTheme();
-    </script>
+    <script src="assets/js/layout.js"></script>
   </body>
 </html>
