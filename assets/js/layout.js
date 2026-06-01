@@ -26,6 +26,10 @@
     return isTeamSubPage() ? '../assets/data/navigation.json' : 'assets/data/navigation.json';
   }
 
+  function scriptPath(path) {
+    return isTeamSubPage() ? `../${path}` : path;
+  }
+
   async function loadNavigationItems() {
     try {
       const response = await fetch(navigationJsonPath(), { cache: 'no-cache' });
@@ -96,10 +100,25 @@
     });
   }
 
+  function loadAnalyzerExtras() {
+    if (currentFileName() !== 'index.html') return;
+
+    window.addEventListener('load', () => {
+      if (document.querySelector('script[data-gitsuccess-report]')) return;
+
+      const script = document.createElement('script');
+      script.src = scriptPath('assets/js/report.js');
+      script.defer = true;
+      script.dataset.gitsuccessReport = 'true';
+      document.body.appendChild(script);
+    });
+  }
+
   async function initLayout() {
     await ensureHeader();
     initTheme();
     initMobileMenu();
+    loadAnalyzerExtras();
   }
 
   if (document.readyState === 'loading') {
