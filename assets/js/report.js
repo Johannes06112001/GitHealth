@@ -139,6 +139,48 @@
     `).join('');
   }
 
+  function languageItems() {
+    return window.OpenGitHealthLanguageChart?.getItems?.() || [];
+  }
+
+  function languageSegments(items) {
+    if (window.OpenGitHealthLanguageChart?.segments) return window.OpenGitHealthLanguageChart.segments(items);
+    let start = 0;
+    return items.map(item => { const end = start + item.pct; const part = `${item.color} ${start}% ${end}%`; start = end; return part; }).join(', ');
+  }
+
+  function languagePercent(value) {
+    if (window.OpenGitHealthLanguageChart?.percent) return window.OpenGitHealthLanguageChart.percent(value);
+    return value >= 10 ? value.toFixed(1).replace('.0', '') + '%' : value.toFixed(1) + '%';
+  }
+
+  function languageSection() {
+    const items = languageItems();
+    if (!items.length) {
+      return `
+        <h2>Language Distribution</h2>
+        <div class="note">Für diesen Report konnte keine Sprachverteilung geladen werden. Die Analyse selbst bleibt davon unberührt, weil Software natürlich nie alle Wünsche gleichzeitig erfüllt.</div>
+      `;
+    }
+
+    const top = items[0];
+    return `
+      <h2>Language Distribution</h2>
+      <div class="language-report">
+        <div class="language-donut-report" style="--segments:${languageSegments(items)}">
+          <div><b>${esc(top.name)}</b><span>${languagePercent(top.pct)}</span></div>
+        </div>
+        <div>
+          <p class="muted">Die Sprachverteilung basiert auf der GitHub-Languages-API und zeigt die relativen Code-Anteile im Repository.</p>
+          <table>
+            <tr><th>Sprache</th><th>Anteil</th><th>Visualisierung</th></tr>
+            ${items.map(item => `<tr><td><span class="language-dot" style="background:${item.color}"></span>${esc(item.name)}</td><td>${languagePercent(item.pct)}</td><td><div class="language-bar-report"><i style="width:${item.pct}%;background:${item.color}"></i></div></td></tr>`).join('')}
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
   function kpiRows() {
     return allReportKpis().map(kpi => {
       const current = state.kpis[kpi.id];
@@ -187,7 +229,7 @@
 <html lang="de">
 <head>
   <meta charset="utf-8">
-  <title>GitSuccess Repository Health Report</title>
+  <title>OpenGitHealth Repository Health Report</title>
   <style>
     * { box-sizing: border-box; }
     body { margin: 28px; font-family: Arial, sans-serif; color: #1E293B; line-height: 1.45; background: #fff; }
@@ -219,13 +261,23 @@
     .doc-status { font-weight: 700; }
     .doc-status.ok { color: #166534; }
     .doc-status.missing { color: #9F1239; }
+    .language-report { display: grid; grid-template-columns: 240px 1fr; gap: 18px; align-items: center; }
+    .language-donut-report { width: 210px; height: 210px; border-radius: 50%; background: conic-gradient(var(--segments)); position: relative; display: grid; place-items: center; margin: auto; }
+    .language-donut-report:after { content: ''; position: absolute; inset: 46px; border-radius: 50%; background: white; }
+    .language-donut-report div { position: relative; z-index: 1; text-align: center; }
+    .language-donut-report b { display: block; font-size: 20px; }
+    .language-donut-report span { display: block; font-size: 12px; color: #475569; }
+    .language-dot { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+    .language-bar-report { height: 7px; background: #E2E8F0; border-radius: 999px; overflow: hidden; }
+    .language-bar-report i { display: block; height: 100%; border-radius: 999px; }
     code { background: #F1F5F9; border-radius: 4px; padding: 2px 4px; }
     ul { margin-top: 8px; }
     li { margin-bottom: 8px; }
     .actions { display: flex; gap: 10px; margin: 18px 0 24px; }
     .actions button { border: 0; border-radius: 12px; padding: 11px 16px; background: #5B50D6; color: white; font-weight: 700; cursor: pointer; }
     .actions button.secondary { background: #E2E8F0; color: #1E293B; }
-    @media print { body { margin: 14mm; } .actions { display: none; } h2 { page-break-after: avoid; } .pillar-card, .note { page-break-inside: avoid; } }
+    @media print { body { margin: 14mm; } .actions { display: none; } h2 { page-break-after: avoid; } .pillar-card, .note, .language-report { page-break-inside: avoid; } }
+    @media(max-width:800px){.language-report{grid-template-columns:1fr}}
   </style>
 </head>
 <body>
@@ -234,7 +286,7 @@
     <button class="secondary" type="button" onclick="window.close()">Fenster schließen</button>
   </div>
 
-  <h1>GitSuccess Repository Health Report</h1>
+  <h1>OpenGitHealth Repository Health Report</h1>
   <p class="muted">${esc(meta.fullName)} · erstellt am ${esc(createdAt)} · erstellt auf Basis öffentlich verfügbarer GitHub-Daten</p>
 
   <div class="score">${overall ?? '—'} / 100</div>
@@ -247,6 +299,8 @@
     <tr><th>Stars</th><th>Forks</th><th>Offene Issues</th><th>Projekttage</th><th>Sprache</th><th>Lizenz</th></tr>
     <tr><td>${fmt(meta.stars)}</td><td>${fmt(meta.forks)}</td><td>${fmt(meta.openIssues)}</td><td>${fmt(meta.age)}</td><td>${esc(meta.language || 'Nicht verfügbar')}</td><td>${esc(meta.license || 'Nicht verfügbar')}</td></tr>
   </table>
+
+  ${languageSection()}
 
   <h2>Bewertungssäulen</h2>
   <div class="pillar-grid">${pillarCards()}</div>
