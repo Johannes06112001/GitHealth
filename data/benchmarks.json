@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-06-28T07:18:23.085575+00:00",
+  "generated_at": "2026-06-28T08:46:47.066998+00:00",
   "sample_size": 100,
   "medians": {
-    "commits30": 17,
+    "commits30": 20.5,
     "daysInactive": 1.0,
     "contributors": 98,
     "closeRate": 0.4286,
     "relFreq": 12,
     "avgClose": 0.74,
     "avgComments": 1.18,
-    "fehlerProd": 0.1323,
+    "fehlerProd": 0.125,
     "forkRatio": 0.1401,
-    "starsTage": 63.095
+    "starsTage": 63.084
   },
   "top_languages": [
     [
@@ -27,11 +27,11 @@
       10
     ],
     [
-      "Shell",
+      "Rust",
       6
     ],
     [
-      "Rust",
+      "Shell",
       6
     ],
     [
