@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-07-27T09:32:55.123853+00:00",
+  "generated_at": "2026-07-28T06:08:37.064268+00:00",
   "sample_size": 100,
   "medians": {
-    "commits30": 33,
-    "daysInactive": 1.0,
+    "commits30": 35.0,
+    "daysInactive": 1,
     "contributors": 98,
-    "closeRate": 0.4,
-    "relFreq": 11.965,
-    "avgClose": 0.95,
-    "avgComments": 1,
-    "fehlerProd": 0.1303,
+    "closeRate": 0.3784,
+    "relFreq": 12.845,
+    "avgClose": 0.93,
+    "avgComments": 1.08,
+    "fehlerProd": 0.1182,
     "forkRatio": 0.1392,
-    "starsTage": 68.527
+    "starsTage": 68.543
   },
   "top_languages": [
     [
@@ -31,11 +31,11 @@
       5
     ],
     [
-      "Rust",
+      "C++",
       5
     ],
     [
-      "C++",
+      "Rust",
       5
     ],
     [
