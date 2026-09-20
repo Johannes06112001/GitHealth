@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-20T08:39:47.774622+00:00",
+  "generated_at": "2026-09-20T10:20:53.736126+00:00",
   "sample_size": 100,
   "medians": {
     "commits30": 47.0,
@@ -7,11 +7,11 @@
     "contributors": 98,
     "closeRate": 0.3266,
     "relFreq": 14.515,
-    "avgClose": 0.86,
+    "avgClose": 0.845,
     "avgComments": 1.0,
-    "fehlerProd": 0.0548,
+    "fehlerProd": 0.0479,
     "forkRatio": 0.1396,
-    "starsTage": 86.621
+    "starsTage": 86.6255
   },
   "top_languages": [
     [
