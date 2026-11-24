@@ -1,26 +1,26 @@
 {
-  "generated_at": "2026-11-23T16:52:42.021858+00:00",
+  "generated_at": "2026-11-24T13:43:01.510404+00:00",
   "sample_size": 100,
   "medians": {
-    "commits30": 56.5,
+    "commits30": 57.5,
     "daysInactive": 1,
     "contributors": 98,
-    "closeRate": 0.3333,
+    "closeRate": 0.2923,
     "relFreq": 7.89,
-    "avgClose": 0.65,
-    "avgComments": 0.86,
-    "fehlerProd": 0.0445,
-    "forkRatio": 0.1361,
-    "starsTage": 97.2405
+    "avgClose": 0.5,
+    "avgComments": 0.81,
+    "fehlerProd": 0.0347,
+    "forkRatio": 0.136,
+    "starsTage": 97.242
   },
   "top_languages": [
     [
       "Python",
-      26
+      25
     ],
     [
       "TypeScript",
-      19
+      20
     ],
     [
       "JavaScript",
