@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-11-26T12:27:31.237571+00:00",
+  "generated_at": "2026-11-26T16:03:56.830277+00:00",
   "sample_size": 100,
   "medians": {
     "commits30": 63.0,
     "daysInactive": 1,
     "contributors": 98,
-    "closeRate": 0.2857,
+    "closeRate": 0.3279,
     "relFreq": 7.105,
     "avgClose": 0.5,
     "avgComments": 0.82,
-    "fehlerProd": 0.0333,
+    "fehlerProd": 0.0328,
     "forkRatio": 0.1359,
-    "starsTage": 97.198
+    "starsTage": 97.1985
   },
   "top_languages": [
     [
@@ -27,11 +27,11 @@
       11
     ],
     [
-      "Go",
+      "Rust",
       5
     ],
     [
-      "Rust",
+      "Go",
       5
     ],
     [
